@@ -40,3 +40,10 @@ a.btn {
 a.btn:hover {
     background-color: #ce5856;
 }
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 100px 80px;
+}
