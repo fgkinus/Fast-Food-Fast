@@ -26,3 +26,17 @@ a {
 a:hover {
     opacity: 1;
 }
+
+a.btn {
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    background-color: #e07e7b;
+    opacity: 1;
+    transition: all 400ms;
+}
+
+a.btn:hover {
+    background-color: #ce5856;
+}
