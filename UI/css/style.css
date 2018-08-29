@@ -16,3 +16,13 @@ ul,
 nav {
     list-style: none;
 }
+
+a {
+    text-decoration: none;
+    opacity: 0.75;
+    color: #fff;
+}
+
+a:hover {
+    opacity: 1;
+}
