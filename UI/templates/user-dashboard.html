@@ -10,14 +10,47 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-<header class="heading">
-    <h2><a href="#">Fast-Food-Fast</a></h2>
-    <nav>
-        <!--the <ul> wrapper is ommited to ensere thy stay inline/ horizontally oriented-->
-        <li><a href="#">About</a></li>
-        <li><a href="#">profile</a></li>
-        <li><a href="#">log out</a></li>
-    </nav>
-</header>
+
+<section class="grid" >
+    <header class="heading">
+        <h2><a href="#">Fast-Food-Fast</a></h2>
+        <nav>
+            <!--the <ul> wrapper is ommited to ensere thy stay inline/ horizontally oriented-->
+            <li><a href="#">About</a></li>
+            <li><a href="#">profile</a></li>
+            <li><a href="#">log out</a></li>
+        </nav>
+    </header>
+
+    <!--tab menu-->
+    <div class="tab">
+        <button id="default-tab" class="tablinks" onclick="opentab(event, 'London')">London</button>
+        <button class="tablinks" onclick="opentab(event, 'Paris')">Paris</button>
+        <button class="tablinks" onclick="opentab(event, 'Tokyo')">Tokyo</button>
+    </div>
+    <!--tab contents-->
+    <div id="London" class="tabcontent">
+        <h3>London</h3>
+        <p>London is the capital city of England.</p>
+    </div>
+
+    <div id="Paris" class="tabcontent">
+        <h3>Paris</h3>
+        <p>Paris is the capital of France.</p>
+    </div>
+
+    <div id="Tokyo" class="tabcontent">
+        <h3>Tokyo</h3>
+        <p>Tokyo is the capital of Japan.</p>
+    </div>
+</section>
+
+<footer>
+    <!--reference external javascript files-->
+    <script type="text/javascript" src="../js/main.js" ></script>
+    <script>
+        set_active_tab('default-tab')
+    </script>
+</footer>
 </body>
 </html>
