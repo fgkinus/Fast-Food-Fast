@@ -63,7 +63,7 @@ input[type=checkbox] {
 }
 
 input[type=text] {
-    color: #949494;
+    color: #FFFFFF;
     margin: 0;
     background-color: #373b3d;
     border: 1px solid #373b3d;
@@ -80,7 +80,7 @@ i {
 }
 
 input[type=password] {
-    color: #949494;
+    color: #FFFFFF;
     margin: 0;
     background-color: #373b3d;
     border: 1px solid #373b3d;
@@ -93,7 +93,7 @@ input[type=password]:focus {
 }
 
 input[type=email] {
-    color: #949494;
+    color: #FFFFFF;
     margin: 0;
     background-color: #373b3d;
     border: 1px solid #373b3d;
