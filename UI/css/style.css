@@ -128,7 +128,7 @@ header nav li {
     margin-bottom: 15px;
 }
 
-.content h3 {
+.content  h3 {
     font: 28px "Raleway", sans-serif;
     font-weight: 300;
     text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
@@ -207,4 +207,18 @@ header nav li {
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+    animation: fadeEffect 5s; /* Fading effect takes 5 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.tabcontent h3{
+    font: 28px "Raleway", sans-serif;
+    font-weight: 300;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+    margin-bottom: 5px;
 }
