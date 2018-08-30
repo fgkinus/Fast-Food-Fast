@@ -34,6 +34,9 @@
     <div id="food-items" class="tabcontent">
         <h3>Menu</h3>
         <h4>Select your favourite meal from our large array of delicacies.</h4>
+        <!--a list of all food items-->
+        <img src="../img/fries.jpg">
+        <ul id="food-list"></ul>
     </div>
 
     <!--display previous orders-->
@@ -49,11 +52,21 @@
     </div>
 </section>
 
+<div>
+    <!--this section contains templates of items that will be listed in the tabs.cannot be displayed-->
+    <template>
+        <h5>Fries</h5>
+        <img src="">
+    </template>
+</div>
+
 <footer>
     <!--reference external javascript files-->
     <script type="text/javascript" src="../js/main.js" ></script>
     <!--set default tab to active-->
     <script> set_active_tab('default-tab')</script>
+    <!--display food items-->
+    <script type="text/javascript">showContent("food-list")</script>
 </footer>
 </body>
 </html>
