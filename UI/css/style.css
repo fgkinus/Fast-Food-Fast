@@ -14,7 +14,10 @@ html {
 
 }
 
-ul,
+ul {
+    display: inline; /*display menu items as inline*/
+    float: right;
+}
 nav {
     list-style: none;
 }
