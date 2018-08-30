@@ -169,3 +169,42 @@ header nav li {
         padding: 15px 40px;
     }
 }
+
+/*dashboard formatting*/
+.grid {
+    display: grid;
+}
+
+/*style the tabs to appear in the content section of the dashboard*/
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    /*background-color: #f1f1f1;*/
+}
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: inherit;
+    /*outline: none;*/
+    cursor: pointer;
+    padding: 20px 26px;
+    transition: 0.6s;
+}
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
