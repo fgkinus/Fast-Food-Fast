@@ -155,6 +155,7 @@ input[type=email]:focus {
 
 .remember-me {
     margin: 10px 0;
+    color: #DDD
 }
 
 input[type=submit] {
