@@ -34,7 +34,6 @@
         <h3>Menu</h3>
         <h4>Select your favourite meal from our large array of delicacies.</h4>
         <!--a list of all food items-->
-        <img src="../img/fries.jpg">
         <ul id="food-list"></ul>
     </div>
 
@@ -53,9 +52,20 @@
 
 <div>
     <!--this section contains templates of items that will be listed in the tabs.cannot be displayed-->
-    <template>
-        <h5>Fries</h5>
-        <img src="">
+    <template id = "food-item">
+        <table>
+            <tr>
+                <td><img src=""></td>
+                <td>
+                    <h5>name</h5>
+                    <p>Ksh price</p>
+                    <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point">
+                        <span class="mdc-button__icon material-icons">control_point</span>
+                        <span class="tooltiptext">add to checkout</span>
+                    </button>
+                </td>
+            </tr>
+        </table>
     </template>
 </div>
 
