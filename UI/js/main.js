@@ -82,7 +82,7 @@ function ShowOrders(destination) {
         // assign value
         cols[0].textContent = order.id;
         cols[1].textContent = order.item_id;
-        cols[2].textContent = Object.keys(foodItems)[order.item_id];
+        cols[2].textContent = Object.keys(foodItems)[order.item_id[5]];
         cols[3].textContent = order.quantity;
         cols[4].textContent = order.location;
         cols[5].textContent = order.time;
@@ -109,6 +109,7 @@ function add_to_table(TableID, item, itemID) {
     tr = document.createElement('tr');
     tr.appendChild(item);
     tr.setAttribute("id", itemID);
+    table = table.querySelector("tbody");
     table.appendChild(tr);
 }
 
@@ -175,9 +176,9 @@ function AddOrder(Id) {
     }
 
     let order_id = Orders.length + 1;
-    let item = Id;
 
-    let order = new Order(order_id, item, quantity, location);
+
+    let order = new Order(order_id, Id, quantity, location);
     Orders.push(order);
     return Orders;
 }
