@@ -19,7 +19,18 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-
+<header class="heading">
+    <h2><a href="#">Fast-Food-Fast</a></h2>
+    <nav>
+        <!--the <ul> wrapper is ommited to ensere thy stay inline/ horizontally oriented-->
+        <li class="tooltip">
+            <a href="admin-dashboard.html" class="material-icons" >arrow_back</a>
+            <span class="tooltiptext">Back</span>
+        </li>
+        <li><a href="#">profile</a></li>
+        <li><a href="#">log out</a></li>
+    </nav>
+</header>
 <section class="content">
     <div class="container-register" id="profile-container">
         <div id="title tooltip">
@@ -28,7 +39,7 @@
 
         </div>
 
-        <form>
+        <form action="admin-dashboard.html">
             <div class="input">
                 <div class="input-addon">
                     <i class="material-icons">input</i>
@@ -62,7 +73,7 @@
             <div class="clearfix"></div>
 
             <div class="input tooltip">
-                <span class="tooltiptext">temporary password ord for admin to be changed</span>
+                <span class="tooltiptext">temporary password  for admin to be changed</span>
                 <div class="input-addon">
                     <i class="material-icons">vpn_key</i>
                 </div>
@@ -71,7 +82,7 @@
             </div>
             <div class="clearfix"></div>
 
-            <input type="submit" value="Register"/>
+            <input  type="submit" value="Register"/>
         </form>
     </div>
 </section>
