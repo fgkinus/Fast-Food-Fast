@@ -14,13 +14,13 @@
 <header class="heading">
     <h2><a href="#">Fast-Food-Fast</a></h2>
     <nav>
-        <li><a href="#">Sign up</a></li>
+        <li><a href=" registration.html">Sign up</a></li>
     </nav>
 </header>
 
 <section class="content">
     <div class="container-login">
-        <form>
+        <form action="user-dashboard.html">
             <div class="input">
                 <div class="input-addon">
                     <i class="material-icons">face</i>
@@ -34,17 +34,23 @@
                 <div class="input-addon">
                     <i class="material-icons">vpn_key</i>
                 </div>
-                <input id="password" placeholder="Password" type="password" required class="validate" autocomplete="off">
+                <input id="password" placeholder="Password" type="password" required class="validate"
+                       autocomplete="off">
             </div>
 
             <div class="remember-me">
                 <input type="checkbox">
-                <span >Remember Me</span>
+                <span>Remember Me</span>
             </div>
 
-            <input type="submit" value="Log In" />
-        </form>
+            <input type="submit" value="Log In"/>
 
+        </form>
+        <a  href="admin-dashboard.html">
+            <button  class="tooltip" >sign in as admin
+                <span class="tooltiptext"> temporary button for demonstration</span>
+            </button>
+        </a>
         <div class="forgot-password">
             <a href="#">Forgot your password?</a>
         </div>
@@ -54,7 +60,9 @@
 
         <div class="register">
             Don't have an account yet?
-            <a href="#"><button id="register-link">Register here</button></a>
+            <a href="registration.html">
+                <button id="register-link">Register here</button>
+            </a>
         </div>
 
     </div>
