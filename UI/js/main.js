@@ -65,6 +65,38 @@ function showContent(destination) {
     // let clon = temp.content.cloneNode(true)
 }
 
+function showFoodlist(destination) {
+    //get the template element:
+    let temp = document.querySelector("#food-item");
+
+    // items
+    let items = create_items(foodItems);
+    let keys = Object.keys(items);
+    //for each item in image folder
+    for (let i = 0; i < keys.length; i++) {
+        //get the element from the template:
+        let clone = document.importNode(temp.content, true);
+        // create a new node based on the item
+        let image = clone.querySelector("img");
+        image.src = items[keys[i]].image;
+
+        let name = clone.querySelector("h5");
+        name.textContent = items[keys[i]].name;
+
+        let cost = clone.querySelector("p");
+        cost.textContent = items[keys[i]].price;
+
+        let button = clone.querySelector("button");
+        button.setAttribute("id", 'item-' + i);
+        //append item to list
+        add_to_list(destination, clone, 'item-' + i)
+
+        // document.body.appendChild(image);
+
+    }
+    // let clon = temp.content.cloneNode(true)
+}
+
 // an array of all orders
 let Orders = [];
 
@@ -112,6 +144,9 @@ function add_to_table(TableID, item, itemID) {
     table = table.querySelector("tbody");
     table.appendChild(tr);
 }
+
+
+
 
 
 // food object constructor
