@@ -68,6 +68,7 @@ img {
 /*Header Styles*/
 
 header {
+    grid-area: header;
     position: absolute;
     width: 100%;
     display: flex;
@@ -110,8 +111,12 @@ header nav li {
     }
 }
 
+
+
+
 .content {
     position: relative;
+    grid-area: content;
     justify-content: center;
     text-align: center;
     min-height: 100vh;
@@ -127,7 +132,7 @@ header nav li {
     background-size: cover;
     z-index: -1;
     background-image: url("../img/fast food.jpeg");
-    background-color: #80a3db;
+    background-color: #949494;
 }
 
 .content h1 {
