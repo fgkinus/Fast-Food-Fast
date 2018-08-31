@@ -53,6 +53,9 @@ function showContent(destination) {
 
         let cost = clone.querySelector("p");
         cost.textContent = items[keys[i]].price;
+
+        let button = clone.querySelector("button");
+        button.setAttribute("id", 'item-' + i);
         //append item to list
         add_to_list(destination, clone, 'item-' + i)
 
@@ -69,7 +72,7 @@ function ShowOrders(destination) {
     let temp = document.querySelector("#order");
     // items
     for (let i = 0; i < Orders.length; i++) {
-        let  order = Orders[i];
+        let order = Orders[i];
 
         //get the element from the template:
         let clone = document.importNode(temp.content, true);
@@ -81,10 +84,10 @@ function ShowOrders(destination) {
         cols[1].textContent = order.item_id;
         cols[2].textContent = Object.keys(foodItems)[order.item_id];
         cols[3].textContent = order.quantity;
-        cols[4].textContent  =order.location;
+        cols[4].textContent = order.location;
         cols[5].textContent = order.time;
 
-        add_to_table(destination,clone,'order-'+i);
+        add_to_table(destination, clone, 'order-' + i);
 
     }
 
@@ -99,6 +102,7 @@ function add_to_list(ListID, item, itemID) {
     li.setAttribute("id", itemID);
     ul.appendChild(li);
 }
+
 function add_to_table(TableID, item, itemID) {
     let table, tr;
     table = document.getElementById(TableID);
@@ -118,7 +122,7 @@ function FoodItem(id, name, price, image_url) {
 }
 
 // Order object constructor
-function Order(id, item_ID, quntity, location) {
+function Order(id, item_ID, quantity, location) {
     this.id = id;
     this.item_id = item_ID;
     this.quantity = quantity;
@@ -147,6 +151,38 @@ function create_items(items_list) {
     return items;
 }
 
+// add orders to the Orders array
+function AddOrder(Id) {
+    let location;
+    // prompt for location
+    let quantity = prompt("Please enter your order quantity", '1');
+    // validate input
+    if (isNullOrWhitespace(quantity) || isNaN(parseInt(quantity))) {
+        alert("please enter a valid quantity!!");
+        return;
+    }
 
-// test function
-console.log(create_items(foodItems));
+    // parse to integer
+    quantity = parseInt(quantity);
+    // COLLECT DELIVERY LOCATION
+    if (quantity >= 1 || !isNaN(quantity)) {
+        location = prompt("Where will the delivery be made?");
+    }
+    // validate input
+    if (isNullOrWhitespace(location)) {
+        alert("enter a valid location!!");
+        return;
+    }
+
+    let order_id = Orders.length + 1;
+    let item = Id;
+
+    let order = new Order(order_id, item, quantity, location);
+    Orders.push(order);
+    return Orders;
+}
+
+// checks that input is Null or whitespace
+function isNullOrWhitespace(input) {
+    return !input || !input.trim();
+}
