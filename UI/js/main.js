@@ -35,17 +35,25 @@ function showContent(destination) {
     let path  = '../img/';
 
     //get the template element:
-    let temp = document.getElementsByTagName("template")[0];
-    //get the img element from the template:
-    item = temp.content.querySelector("img");
+    let temp = document.querySelector("#food-item");
+
+        // temp.content.querySelector("img");
 
     //for each item in image folder
     for (let i=0;i<foodItems.length;i++){
+        //get the element from the template:
+        let item = document.importNode(temp.content,true);
         // create a new node based on the item
-        let image = document.importNode(item,true);
+        let image = item.querySelector("img");
         image.src =  path+foodItems[i]+'.jpg';
+
+        let name= item.querySelector("h5");
+        name.textContent = foodItems[i];
+
+        let cost = item.querySelector("p");
+        // cost.textContent  = "";
         //append item to list
-        add_to_list(destination,image,'item-'+i)
+        add_to_list(destination,item,'item-'+i)
 
         // document.body.appendChild(image);
 
