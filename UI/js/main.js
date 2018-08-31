@@ -34,8 +34,6 @@ var foodItems = {
 
 // load templates to make them visible
 function showContent(destination) {
-    let path = '../img/';
-
     //get the template element:
     let temp = document.querySelector("#food-item");
 
@@ -54,7 +52,7 @@ function showContent(destination) {
         name.textContent = items[keys[i]].name;
 
         let cost = clone.querySelector("p");
-        cost.textContent  = items[keys[i]].price;
+        cost.textContent = items[keys[i]].price;
         //append item to list
         add_to_list(destination, clone, 'item-' + i)
 
@@ -62,6 +60,34 @@ function showContent(destination) {
 
     }
     // let clon = temp.content.cloneNode(true)
+}
+
+// an array of all orders
+let Orders = [];
+
+function ShowOrders(destination) {
+    let temp = document.querySelector("#order");
+    // items
+    for (let i = 0; i < Orders.length; i++) {
+        let  order = Orders[i];
+
+        //get the element from the template:
+        let clone = document.importNode(temp.content, true);
+        // get all table columns
+        let cols = clone.querySelectorAll("td");
+
+        // assign value
+        cols[0].textContent = order.id;
+        cols[1].textContent = order.item_id;
+        cols[2].textContent = Object.keys(foodItems)[order.item_id];
+        cols[3].textContent = order.quantity;
+        cols[4].textContent  =order.location;
+        cols[5].textContent = order.time;
+
+        add_to_table(destination,clone,'order-'+i);
+
+    }
+
 }
 
 // append items to list
@@ -73,6 +99,15 @@ function add_to_list(ListID, item, itemID) {
     li.setAttribute("id", itemID);
     ul.appendChild(li);
 }
+function add_to_table(TableID, item, itemID) {
+    let table, tr;
+    table = document.getElementById(TableID);
+    tr = document.createElement('tr');
+    tr.appendChild(item);
+    tr.setAttribute("id", itemID);
+    table.appendChild(tr);
+}
+
 
 // food object constructor
 function FoodItem(id, name, price, image_url) {
