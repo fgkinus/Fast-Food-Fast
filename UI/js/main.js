@@ -48,7 +48,7 @@ function showContent(destination) {
         let image = clone.querySelector("img");
         image.src = items[keys[i]].image;
 
-        let name = clone.querySelector("h3");
+        let name = clone.querySelector("h5");
         name.textContent = items[keys[i]].name;
 
         let cost = clone.querySelector("p");
@@ -120,6 +120,10 @@ function ShowOrders(destination) {
         cols[3].textContent = order.quantity;
         cols[4].textContent = order.location;
         cols[5].textContent = order.time;
+
+        btn = document.createElement('button');
+        btn.setAttribute("class","btn" );
+        cols[6].appendChild(btn);
 
         add_to_table(destination, clone, 'order-' + i);
     }
