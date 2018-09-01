@@ -9,7 +9,7 @@
     <!--<link rel="stylesheet" href="../css/login-registration.css">-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body>
+<body class="bg2">
 
 <header class="heading">
     <h2><a href="#">Fast-Food-Fast</a></h2>
@@ -20,7 +20,8 @@
         <li><a href="landing.html">log out</a></li>
     </nav>
 </header>
-<section class="grid content">
+
+<section>
     <!--tab menu-->
     <div class="tab">
         <button id="default-tab" class="tab_titles" onclick="openTab(event, 'food-items');showContent('food-list')">
@@ -31,38 +32,56 @@
     </div>
     <!--tab contents-->
 
-    <!--food items displays a list of food items-->
+    <!--sectionfood items displays a list of food items&ndash;&gt;-->
     <div id="food-items" class="tabcontent">
         <h3>Menu</h3>
         <h4>Select your favourite meal from our large array of delicacies.</h4>
         <!--a list of all food items-->
-        <ul id="food-list"></ul>
+        <!--<ul id="food-list"></ul>-->
+        <div class="container" id="food-list">
+
+        </div>
     </div>
 
     <!--display previous orders-->
     <div id="order-history" class="tabcontent">
         <h3>Previous Orders</h3>
         <h4>Review Your historical orders</h4>
+        <table id="List-prev-orders">
+            <thead>
+            <th>order id</th>
+            <th>order item</th>
+            <th>order name</th>
+            <th>order quantity</th>
+            <th>location</th>
+            <th>Time</th>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 
     <!--display a list of all orders before submitting-->
     <div id="checkout" class="tabcontent">
         <h3>Checkout</h3>
+        <a href="#" class="btn ">check out</a>
         <h4>all new orders you make appear here</h4>
         <table id="List-orders">
             <thead>
-                <th>order id</th>
-                <th>order item</th>
-                <th>order name</th>
-                <th>order quantity</th>
-                <th>location</th>
-                <th>Time</th>
+            <th>order id</th>
+            <th>order item</th>
+            <th>order name</th>
+            <th>order quantity</th>
+            <th>location</th>
+            <th>Time</th>
+            <th>cancel</th>
             </thead>
             <tbody></tbody>
         </table>
+
     </div>
 </section>
 
+<!--templates-->
 <div>
     <!--this section contains templates of items that will be listed in the tabs.cannot be displayed-->
     <template id="food-item">
@@ -84,13 +103,27 @@
 
     <!--orders template-->
     <template id="order">
-                <td>order_id</td>
-                <td>order_item</td>
-                <td>order_name</td>
-                <td>order_qty</td>
-                <td>location</td>
-                <td>time</td>
-              </template>
+        <td>order_id</td>
+        <td>order_item</td>
+        <td>order_name</td>
+        <td>order_qty</td>
+        <td>location</td>
+        <td>time</td>
+        <td>cancel</td>
+    </template>
+
+    <template id="food-item2">
+        <div class="galleryItem">
+            <img src="..." alt="item"/>
+            <h5>Name</h5>
+            <a href="#"><p>Price</p></a>
+            <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
+                    onclick="AddOrder(this.id)">
+                <i class="material-icons mdc-button__icon" aria-hidden="true">control_point</i>
+                <span class="tooltiptext">add to checkout</span>
+            </button>
+        </div>
+    </template>
 </div>
 
 <footer>
