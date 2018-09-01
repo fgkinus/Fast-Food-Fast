@@ -35,7 +35,7 @@ var foodItems = {
 // load templates to make them visible
 function showContent(destination) {
     //get the template element:
-    let temp = document.querySelector("#food-item");
+    let temp = document.querySelector("#food-item2");
 
     // items
     let items = create_items(foodItems);
@@ -48,7 +48,7 @@ function showContent(destination) {
         let image = clone.querySelector("img");
         image.src = items[keys[i]].image;
 
-        let name = clone.querySelector("h5");
+        let name = clone.querySelector("h3");
         name.textContent = items[keys[i]].name;
 
         let cost = clone.querySelector("p");
@@ -57,7 +57,9 @@ function showContent(destination) {
         let button = clone.querySelector("button");
         button.setAttribute("id", 'item-' + i);
         //append item to list
-        add_to_list(destination, clone, 'item-' + i)
+        // add_to_list(destination, clone, 'item-' + i);
+
+        add_to_div(destination, clone, 'item-' + i);
 
         // document.body.appendChild(image);
 
@@ -80,7 +82,7 @@ function showFoodlist(destination) {
         let image = clone.querySelector("img");
         image.src = items[keys[i]].image;
 
-        let name = clone.querySelector("h5");
+        let name = clone.querySelector("h3");
         name.textContent = items[keys[i]].name;
 
         let cost = clone.querySelector("p");
@@ -89,7 +91,7 @@ function showFoodlist(destination) {
         let button = clone.querySelector("button");
         button.setAttribute("id", 'item-' + i);
         //append item to list
-        add_to_list(destination, clone, 'item-' + i)
+        add_to_list(destination, clone, 'item-' + i);
 
         // document.body.appendChild(image);
 
@@ -120,7 +122,6 @@ function ShowOrders(destination) {
         cols[5].textContent = order.time;
 
         add_to_table(destination, clone, 'order-' + i);
-
     }
 
 }
@@ -145,8 +146,14 @@ function add_to_table(TableID, item, itemID) {
     table.appendChild(tr);
 }
 
-
-
+function add_to_div(DivID, item, itemID) {
+    let div1, div2;
+    div1 = document.getElementById(DivID);
+    div2 = document.createElement('div');
+    div2.appendChild(item);
+    div2.setAttribute("id", itemID);
+    div1.append(div2);
+}
 
 
 // food object constructor
