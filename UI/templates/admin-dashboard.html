@@ -11,150 +11,197 @@
 </head>
 
 <body >
-<header class="heading">
-    <h2><a href="#">Fast-Food-Fast</a></h2>
-    <nav>
-        <!--the <ul> wrapper is ommited to ensere thy stay inline/ horizontally oriented-->
-        <li><a href="register-admin.html">Add admin</a></li>
-        <li><a href="#">profile</a></li>
-        <li><a href="landing.html">log out</a></li>
-    </nav>
-</header>
-<section class=" content">
-    <!--tab menu-->
-    <div class="tab">
-        <button id="default-tab" class="tab_titles"
-                onclick="openTab(event, 'food-items-list');showContent('food-list')">
-            Food items
-        </button>
-        <button class="tab_titles" onclick="openTab(event, 'manage-orders');">Manage Orders</button>
-    </div>
 
-    <div id="food-items-list" class="tabcontent">
-        <h3>Menu</h3>
+<div class="bg2">
+    <header class="heading">
+        <h2><a href="#">Fast-Food-Fast</a></h2>
         <nav>
-            <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                    onclick="">
-                <span class="mdc-button__icon material-icons">add</span>
-                <span class="tooltiptext">add new item</span>
-            </button>
+            <!--the <ul> wrapper is ommited to ensere thy stay inline/ horizontally oriented-->
+            <li><a href="register-admin.html">Add admin</a></li>
+            <li><a href="#">profile</a></li>
+            <li><a href="landing.html">log out</a></li>
         </nav>
-        <table>
-            <thead>
-            <th>item id</th>
-            <th>image</th>
-            <th>name</th>
-            <th>price</th>
-            <th>edit</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><img src="../img/fries.jpg"></td>
-                    <td>fries</td>
-                    <td>Ksh 300</td>
-                    <td>
-                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                                onclick="">
-                            <span class="mdc-button__icon material-icons">edit</span>
-                            <span class="tooltiptext">edit item</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><img src="../img/fries.jpg"></td>
-                    <td>fries</td>
-                    <td>Ksh 300</td>
-                    <td>
-                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                                onclick="">
-                            <span class="mdc-button__icon material-icons">edit</span>
-                            <span class="tooltiptext">edit item</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><img src="../img/fries.jpg"></td>
-                    <td>fries</td>
-                    <td>Ksh 300</td>
-                    <td>
-                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                                onclick="">
-                            <span class="mdc-button__icon material-icons">edit</span>
-                            <span class="tooltiptext">edit item</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><img src="../img/fries.jpg"></td>
-                    <td>fries</td>
-                    <td>Ksh 300</td>
-                    <td>
-                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                                onclick="">
-                            <span class="mdc-button__icon material-icons">edit</span>
-                            <span class="tooltiptext">edit item</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><img src="../img/fries.jpg"></td>
-                    <td>fries</td>
-                    <td>Ksh 300</td>
-                    <td>
-                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                                onclick="">
-                            <span class="mdc-button__icon material-icons">edit</span>
-                            <span class="tooltiptext">edit item</span>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    </header>
+    <section class=" content">
+        <!--tab menu-->
+        <div class="tab">
+            <button id="default-tab" class="tab_titles"
+                    onclick="openTab(event, 'food-items-list');showContent('food-list')">
+                Food items
+            </button>
+            <button class="tab_titles" onclick="openTab(event, 'manage-orders');">Manage Orders</button>
+        </div>
 
-        <!--a list of all food items-->
-        <ul id="food-list"></ul>
+        <div id="food-items-list" class="tabcontent">
+            <h3>Menu</h3>
+            <nav>
+                <button class="btn tooltip" aria-label="control_point"
+                        onclick="pop_up('popup')">
+                    <span class="material-icons">add</span>
+                    <span class="tooltiptext">add new item</span>
+                </button>
+            </nav>
+            <table>
+                <thead>
+                <th>item id</th>
+                <th>image</th>
+                <th>name</th>
+                <th>price</th>
+                <th>edit</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><img src="../img/fries.jpg"></td>
+                    <td>fries</td>
+                    <td>Ksh 300</td>
+                    <td>
+                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
+                                onclick="">
+                            <span class="mdc-button__icon material-icons">edit</span>
+                            <span class="tooltiptext">edit item</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><img src="../img/fries.jpg"></td>
+                    <td>fries</td>
+                    <td>Ksh 300</td>
+                    <td>
+                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
+                                onclick="">
+                            <span class="mdc-button__icon material-icons">edit</span>
+                            <span class="tooltiptext">edit item</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><img src="../img/fries.jpg"></td>
+                    <td>fries</td>
+                    <td>Ksh 300</td>
+                    <td>
+                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
+                                onclick="">
+                            <span class="mdc-button__icon material-icons">edit</span>
+                            <span class="tooltiptext">edit item</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><img src="../img/fries.jpg"></td>
+                    <td>fries</td>
+                    <td>Ksh 300</td>
+                    <td>
+                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
+                                onclick="">
+                            <span class="mdc-button__icon material-icons">edit</span>
+                            <span class="tooltiptext">edit item</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><img src="../img/fries.jpg"></td>
+                    <td>fries</td>
+                    <td>Ksh 300</td>
+                    <td>
+                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
+                                onclick="">
+                            <span class="mdc-button__icon material-icons">edit</span>
+                            <span class="tooltiptext">edit item</span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--a list of all food items-->
+            <ul id="food-list"></ul>
+        </div>
+
+        <!--display previous orders-->
+        <div id="manage-orders" class="tabcontent">
+            <h3>Previous Orders</h3>
+            <h4>Review all orders</h4>
+            <table>
+                <thead>
+                <th>order-id</th>
+                <th>order-item</th>
+                <th>order-quantity</th>
+                <th>order-location</th>
+                <th>order-time</th>
+                <th>aceept/reject</th>
+                <th>completed</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>item-2</td>
+                    <td>5</td>
+                    <td>Thika</td>
+                    <td onload="Date()"></td>
+                    <td>
+                        <form>
+                            <input type="radio" name="status" value="accept" checked> accept<br>
+                            <input type="radio" name="status" value="reject"> reject<br>
+                            <input type="radio" name="status" value="pending"> pending
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+</div>
+
+<div class="modal" id="popup">
+    <div class="container-login modal-content" >
+        <div id="title">
+            <i class="material-icons lock">cloud_upload</i>  add new menu item
+            <button class="material-icons close btn cancelbtn tooltip"
+             onclick="close_pop_up('popup')">
+                close
+                <span class="tooltiptext">cancel</span>
+            </button>
+        </div>
+        <form action="#">
+            <div class="input">
+                <div class="input-addon">
+                    <i class="material-icons">input</i>
+                </div>
+                <input id="item-name" placeholder="name" type="text" required class="validate" autocomplete="off">
+            </div>
+            <div class="clearfix"></div>
+            <div class="input">
+                <div class="input-addon">
+                    <i class="material-icons">input</i>
+                </div>
+                <input id="price" placeholder="price" type="text" required class="validate"
+                       autocomplete="off">
+            </div>
+            <div class="clearfix"></div>
+            <div class="input">
+                <div class="input-addon">
+                    <i class="material-icons">input</i>
+                </div>
+                <div class="upload-btn-wrapper">
+                    <button class="btn">Upload an image file</button>
+                    <input type="file" name="myfile" />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="remember-me"></div>
+            <div class="remember-me"></div>
+            <div class="remember-me"></div>
+            <input type="submit" value="Add"/>
+        </form>
     </div>
+</div>
 
-    <!--display previous orders-->
-    <div id="manage-orders" class="tabcontent">
-        <h3>Previous Orders</h3>
-        <h4>Review all orders</h4>
-        <table>
-            <thead>
-            <th>order-id</th>
-            <th>order-item</th>
-            <th>order-quantity</th>
-            <th>order-location</th>
-            <th>order-time</th>
-            <th>aceept/reject</th>
-            <th>completed</th>
-            </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>item-2</td>
-                <td>5</td>
-                <td>Thika</td>
-                <td onload="Date()"></td>
-                <td>
-                    <form>
-                        <input type="radio" name="status" value="accept" checked> accept<br>
-                        <input type="radio" name="status" value="reject"> reject<br>
-                        <input type="radio" name="status" value="pending"> pending
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-</section>
-
+<!--templates-->
 <div>
     <template id="MenuItem">
         <td>menu_id</td>
@@ -170,6 +217,7 @@
     </template>
 </div>
 
+<!--footer details and scripts-->
 <footer>
     <!--reference external javascript files-->
     <script type="text/javascript" src="../js/main.js"></script>
