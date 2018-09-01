@@ -233,3 +233,15 @@ function AddOrder(Id) {
 function isNullOrWhitespace(input) {
     return !input || !input.trim();
 }
+
+// modal pop up
+function pop_up(Id) {
+    let item = document.getElementById(Id);
+    item.style.display = "block";
+}
+
+// close popup
+function close_pop_up(ID) {
+    let item = document.getElementById(ID);
+    item.style.display = "none";
+}
