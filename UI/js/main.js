@@ -69,7 +69,7 @@ function showContent(destination) {
 
 function showFoodlist(destination) {
     //get the template element:
-    let temp = document.querySelector("#food-item");
+    let temp = document.querySelector("#MenuItem");
 
     // items
     let items = create_items(foodItems);
@@ -79,19 +79,26 @@ function showFoodlist(destination) {
         //get the element from the template:
         let clone = document.importNode(temp.content, true);
         // create a new node based on the item
-        let image = clone.querySelector("img");
-        image.src = items[keys[i]].image;
+        let cols = clone.querySelectorAll("td");
 
-        let name = clone.querySelector("h3");
+        cols[0].textContent = i;
+
+        let image = document.createElement('img');
+        image.src = items[keys[i]].image;
+        cols[1].appendChild(image);
+
+        let name = cols[2];
         name.textContent = items[keys[i]].name;
 
-        let cost = clone.querySelector("p");
+        let cost = cols[3];
         cost.textContent = items[keys[i]].price;
 
-        let button = clone.querySelector("button");
+        let button = document.createElement("button");
         button.setAttribute("id", 'item-' + i);
+        button.setAttribute('onClick','pop_up("popup2")');
+        cols[4].appendChild(button);
         //append item to list
-        add_to_list(destination, clone, 'item-' + i);
+        add_to_table(destination, clone, 'item-' + i);
 
         // document.body.appendChild(image);
 

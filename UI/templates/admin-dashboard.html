@@ -26,7 +26,7 @@
         <!--tab menu-->
         <div class="tab">
             <button id="default-tab" class="tab_titles"
-                    onclick="openTab(event, 'food-items-list');showContent('food-list')">
+                    onclick="openTab(event, 'food-items-list'); showFoodlist('food-items')">
                 Food items
             </button>
             <button class="tab_titles" onclick="openTab(event, 'manage-orders');">Manage Orders</button>
@@ -41,7 +41,7 @@
                     <span class="tooltiptext">add new item</span>
                 </button>
             </nav>
-            <table>
+            <table id="food-items">
                 <thead>
                 <th>item id</th>
                 <th>image</th>
@@ -50,75 +50,11 @@
                 <th>edit</th>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><img src="../img/fries.jpg"></td>
-                    <td>fries</td>
-                    <td>Ksh 300</td>
-                    <td>
-                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                                onclick="">
-                            <span class="mdc-button__icon material-icons">edit</span>
-                            <span class="tooltiptext">edit item</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><img src="../img/fries.jpg"></td>
-                    <td>fries</td>
-                    <td>Ksh 300</td>
-                    <td>
-                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                                onclick="">
-                            <span class="mdc-button__icon material-icons">edit</span>
-                            <span class="tooltiptext">edit item</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><img src="../img/fries.jpg"></td>
-                    <td>fries</td>
-                    <td>Ksh 300</td>
-                    <td>
-                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                                onclick="">
-                            <span class="mdc-button__icon material-icons">edit</span>
-                            <span class="tooltiptext">edit item</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><img src="../img/fries.jpg"></td>
-                    <td>fries</td>
-                    <td>Ksh 300</td>
-                    <td>
-                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                                onclick="">
-                            <span class="mdc-button__icon material-icons">edit</span>
-                            <span class="tooltiptext">edit item</span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><img src="../img/fries.jpg"></td>
-                    <td>fries</td>
-                    <td>Ksh 300</td>
-                    <td>
-                        <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                                onclick="">
-                            <span class="mdc-button__icon material-icons">edit</span>
-                            <span class="tooltiptext">edit item</span>
-                        </button>
-                    </td>
-                </tr>
+
                 </tbody>
             </table>
             <!--a list of all food items-->
-            <ul id="food-list"></ul>
+            <!--<ul id="food-list"></ul>-->
         </div>
 
         <!--display previous orders-->
@@ -157,6 +93,7 @@
     </section>
 </div>
 
+<!--popups-->
 <div class="modal" id="popup">
     <div class="container-login modal-content" >
         <div id="title">
@@ -200,16 +137,58 @@
         </form>
     </div>
 </div>
-
+<div class="modal" id="popup2">
+    <div class="container-login modal-content" >
+        <div id="title2">
+            <i class="material-icons lock">note_add</i> edit entry
+            <button class="material-icons close btn cancelbtn tooltip"
+                    onclick="close_pop_up('popup2')">
+                close
+                <span class="tooltiptext">cancel</span>
+            </button>
+        </div>
+        <form action="#">
+            <div class="input">
+                <div class="input-addon">
+                    <i class="material-icons">input</i>
+                </div>
+                <input id="item-name2" placeholder="name" type="text" required class="validate" autocomplete="off">
+            </div>
+            <div class="clearfix"></div>
+            <div class="input">
+                <div class="input-addon">
+                    <i class="material-icons">input</i>
+                </div>
+                <input id="price2" placeholder="price" type="text" required class="validate"
+                       autocomplete="off">
+            </div>
+            <div class="clearfix"></div>
+            <div class="input">
+                <div class="input-addon">
+                    <i class="material-icons">input</i>
+                </div>
+                <div class="upload-btn-wrapper">
+                    <button class="btn">Upload an image file</button>
+                    <input type="file" name="myfile" />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="remember-me"></div>
+            <div class="remember-me"></div>
+            <div class="remember-me"></div>
+            <input type="submit" value="Edit"/>
+        </form>
+    </div>
+</div>
 <!--templates-->
 <div>
     <template id="MenuItem">
-        <td>menu_id</td>
-        <td>item_name</td>
+        <td>item_id</td>
+        <td>image</td>
+        <td>name</td>
         <td>price</td>
         <td>
-            <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                    onclick="">
+            <button class="btn tooltip" aria-label="control_point"  onclick="pop_up('popup2')">
                 <span class="mdc-button__icon material-icons">edit</span>
                 <span class="tooltiptext">edit</span>
             </button>
