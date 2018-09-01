@@ -107,6 +107,19 @@ input[type=email]:focus {
     border: 1px solid #373b3d;
 }
 
+input[type=file]{
+    color: #FFFFFF;
+    margin: 0;
+    background-color: #373b3d;
+    border: 1px solid #373b3d;
+    padding: 6px 0px;
+    border-radius: 3px;
+}
+input[type=file]:focus {
+    border: 1px solid #373b3d;
+}
+
+
 .forgot-password {
     position: relative;
     bottom: 0%;
