@@ -10,8 +10,21 @@ admin = []
 class User:
     """A user class definition"""
 
-    def __init__(self, username, firstname, secondname, surname, password, email):
+    def __init__(self):
         """initialise user class"""
+        self.username = None
+        self.firstname = None
+        self.secondname = None
+        self.surname = None
+        self.password = None
+        self.email = None
+        self.image = None
+        self.ID = None
+        self.__isAdmin = False
+
+        self.created = datetime.now()
+
+    def add_user(self, username, firstname, secondname, surname, password, email):
         self.username = username
         self.firstname = firstname
         self.secondname = secondname
@@ -19,10 +32,9 @@ class User:
         self.password = self.generate_hash(password)
         self.email = email
         self.image = None
-        self.ID = self.__set_id()
-        self.__isAdmin = False
-
         self.created = datetime.now()
+        self.ID = self.__set_id()
+        return self
 
     def __set_id(self):
         """assign user id incrementaly"""
@@ -53,15 +65,38 @@ class User:
                 user = self
                 return
 
+    def get_user(self, email, password):
+        """fetch user details"""
+        count = 0
+        # return user if present
+        for user in users:
+            if user.email == email and self.verify_hash(password, user.password):
+                count += 1
+                return user
+
+        # return false if credentials not present
+        if count == 0:
+            return False
+
 
 class Admin(User):
     """An admin user is a User"""
 
-    def __init__(self, username, firstname, secondname, surname, password, email):
-        User.__init__(self, username=username, firstname=firstname, secondname=secondname, surname=surname,
-                      password=password, email=email)
-        self.ID = self.__set_id()
+    def __init__(self):
+        User.__init__(self)
         self.__isAdmin = True
+
+    def add_user(self, username, firstname, secondname, surname, password, email):
+        self.username = username
+        self.firstname = firstname
+        self.secondname = secondname
+        self.surname = surname
+        self.password = self.generate_hash(password)
+        self.email = email
+        self.image = None
+        self.created = datetime.now()
+        self.ID = self.__set_id()
+        return self
 
     def get_admin_status(self):
         return self.__isAdmin
@@ -78,3 +113,16 @@ class Admin(User):
             if user.ID == self.ID:
                 user = self
                 return
+
+    def get_user(self, email, password):
+        """fetch admin details"""
+        count = 0
+        # return user if present
+        for user in admin:
+            if user.email == email and self.verify_hash(password, user.password):
+                count += 1
+                return user
+
+            # return false if credentials not present
+            if count == 0:
+                return False
