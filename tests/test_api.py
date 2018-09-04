@@ -1,10 +1,19 @@
+import os
+
 import pytest
 from flask import Flask
 
-from app.Models import API, Api
+from app import create_app
+from app.Models import API
 
 
 class TestAPI(object):
+    def test_create_app(self):
+        """test application factory"""
+        app = create_app(__name__, 'testing')
+        app2 = Flask(__name__)
+        assert isinstance(app, type(app2))
+
     def test_type(self):
         """test api initialisation"""
         app = Flask(__name__)
