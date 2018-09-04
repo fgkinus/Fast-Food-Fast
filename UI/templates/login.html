@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fast Food Fast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/login-registration.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="bg">
+
+<header class="heading">
+    <h2><a href="#">Fast-Food-Fast</a></h2>
+    <nav>
+        <li><a href=" registration.html">Sign up</a></li>
+    </nav>
+</header>
+
+<section class="content">
+    <div class="container-login">
+        <form action="user-dashboard.html">
+            <div class="input">
+                <div class="input-addon">
+                    <i class="material-icons">face</i>
+                </div>
+                <input id="username" placeholder="Username" type="text" required class="validate" autocomplete="off">
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="input">
+                <div class="input-addon">
+                    <i class="material-icons">vpn_key</i>
+                </div>
+                <input id="password" placeholder="Password" type="password" required class="validate"
+                       autocomplete="off">
+            </div>
+
+            <div class="remember-me">
+                <input type="checkbox">
+                <span>Remember Me</span>
+            </div>
+
+            <input type="submit" value="Log In"/>
+
+        </form>
+
+        <a  href="admin-dashboard.html">
+            <button  class="tooltip btn" >sign in as admin
+                <span class="tooltiptext"> temporary button for demonstration</span>
+            </button>
+        </a>
+        <div class="forgot-password">
+            <a href="#">Forgot your password?</a>
+        </div>
+        <div class="privacy">
+            <a href="#">Privacy Policy</a>
+        </div>
+
+        <div class="register">
+            Don't have an account yet?
+            <a href="registration.html">
+                <button id="register-link">Register here</button>
+            </a>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
