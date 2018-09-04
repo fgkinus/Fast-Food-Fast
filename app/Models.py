@@ -1,31 +1,29 @@
-from flask import Flask
 from flask_restplus import Api
 
-from config import APP_CONFIG, basedir
 
-
-class App:
+class API:
     """Initialize the app object and the associated API"""
     app = None
     api = None
 
-    def __init__(self, name, config_name='development'):
+    def __init__(self, app, **kwargs):
         """Initialize the object"""
-        self.app = self.__create_app(name, config_name)
-        self.__create_api()
+        self.app = app
+        self.__create_api(**kwargs)
 
-    @staticmethod
-    def __create_app(name, config_name):
-        """create an instance of the flask app object"""
-        app = Flask(name)
-        app.config.from_object(APP_CONFIG[config_name])
-        app.config.from_pyfile(basedir, 'config.py')
-        return app
-
-    def __create_api(self):
+    def __create_api(self, **kwargs):
         """initialize an instance of the flask rest plus API"""
-        self.api = Api(self.app, version='1.0',
-                       title='API')
+        self.api = Api(self.app)
+        self.set_attr(**kwargs)
+
+    def set_attr(self, **kwargs):
+        # dynamicaly set class attributes
+        if kwargs:
+            for key, value in kwargs.items():
+                try:
+                    setattr(self.api, key, value)
+                except:
+                    self.app.logger.info("attribute could not be set")
 
     def register_namespace(self, name_space, path):
         """recognise url endpoints"""
