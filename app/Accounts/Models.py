@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 
 from passlib.hash import pbkdf2_sha256 as sha256
 

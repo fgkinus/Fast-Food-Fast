@@ -28,6 +28,7 @@ class API:
                     except Exception as ex:
                         self.app.logger.info("attribute could not be set")
 
-    def register_namespace(self, name_space, path):
+    def register_namespace(self):
         """recognise url endpoints"""
-        self.api.add_namespace(name_space, path=path)
+        from app.Accounts.Views import namespace as auth_ns
+        self.api.add_namespace(auth_ns, path='/api/v1')
