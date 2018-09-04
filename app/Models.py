@@ -20,10 +20,13 @@ class API:
         # dynamicaly set class attributes
         if kwargs:
             for key, value in kwargs.items():
-                try:
-                    setattr(self.api, key, value)
-                except:
-                    self.app.logger.info("attribute could not be set")
+                if not hasattr(self.api, key):
+                    raise Exception("attribute %s not defined", key)
+                else:
+                    try:
+                        setattr(self.api, key, value)
+                    except Exception as ex:
+                        self.app.logger.info("attribute could not be set")
 
     def register_namespace(self, name_space, path):
         """recognise url endpoints"""
