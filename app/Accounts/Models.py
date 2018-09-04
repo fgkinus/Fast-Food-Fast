@@ -47,6 +47,12 @@ class User:
         """validate passwords against existing hashes"""
         return sha256.verify(password, hash)
 
+    def update_user_list(self):
+        for user in users:
+            if user.ID == self.ID:
+                user = self
+                return
+
 
 class Admin(User):
     """An admin user is a User"""
@@ -65,3 +71,10 @@ class Admin(User):
         number = number + 1
         admin.append(self)
         return number
+
+    def update_user_list(self):
+        """update the user list on updation of user attributes"""
+        for user in admin:
+            if user.ID == self.ID:
+                user = self
+                return
