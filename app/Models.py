@@ -1,3 +1,4 @@
+from flask_jwt_extended import JWTManager
 from flask_restplus import Api
 
 
@@ -5,11 +6,14 @@ class API:
     """Initialize the app object and the associated API"""
     app = None
     api = None
+    jwt = None
 
-    def __init__(self, app, **kwargs):
+    def __init__(self, app, jwt, **kwargs):
         """Initialize the object"""
         self.app = app
+        self.jwt = jwt
         self.__create_api(**kwargs)
+        jwt = self.__init_jwt()
 
     def __create_api(self, **kwargs):
         """initialize an instance of the flask rest plus API"""
@@ -28,7 +32,29 @@ class API:
                     except Exception as ex:
                         self.app.logger.info("attribute could not be set")
 
-    def register_namespace(self):
+    def register_namespace(self, namespace, path):
         """recognise url endpoints"""
-        from app.Accounts.Views import namespace as auth_ns
-        self.api.add_namespace(auth_ns, path='/api/v1')
+        self.api.add_namespace(namespace, path)
+
+    def __init_jwt(self):
+        self.jwt.init_app(self.app)
+        return self.jwt
+
+
+class URLS:
+    """a class for handling url routing"""
+
+    def __init__(self, api, urls):
+        # initialize the class
+        self.api = api
+        self.urls = urls
+        self.__register()
+
+    def __register(self):
+        # Iteratively register urls
+        for url in self.urls.items():
+            self.api.register_namespace(namespace=url[0], path=url[1])
+
+    def get_api(self):
+        """return the api object"""
+        return self.api
