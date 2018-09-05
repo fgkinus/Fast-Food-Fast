@@ -1,6 +1,6 @@
 from flask import jsonify
 from flask_jwt_extended import create_access_token
-from flask_restplus import Resource, reqparse, Namespace
+from flask_restplus import Resource, reqparse, Namespace, inputs
 
 # define a namespace for authentication and registration of users
 from app.Accounts import Models
@@ -120,7 +120,7 @@ class LoginUsers(Resource):
     email = None
     password = None
     request_parser = reqparse.RequestParser()
-    request_parser.add_argument('email', help='This field cannot be blank', required=True)
+    request_parser.add_argument('email', help='This field cannot be blank', required=True, type=inputs.email(check=True))
     request_parser.add_argument('password', help='This field cannot be blank', required=True)
 
     def add_req_parsers(self):
@@ -162,6 +162,3 @@ class LoginUsers(Resource):
 
             else:
                 return jsonify(mes="None")
-
-
-
