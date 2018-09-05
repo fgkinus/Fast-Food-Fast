@@ -4,54 +4,25 @@ from flask_restplus import Resource, reqparse, Namespace, inputs
 
 # define a namespace for authentication and registration of users
 from app.Accounts import Models
+from .decorators import *
 
-# Create a function that will be called whenever create_access_token
-from functools import wraps
-
-from flask import jsonify
-from flask_jwt_extended import verify_jwt_in_request, get_jwt_claims
-
-from run import jwt
-
-
-# is used. It will take whatever object is passed into the
-# create_access_token method, and lets us define what custom claims
-# should be added to the access token.
-@jwt.user_claims_loader
-def add_claims_to_access_token(user):
-    return {'admin': user.get_admin_status()}
-
-
-# Create a function that will be called whenever create_access_token
-# is used. It will take whatever object is passed into the
-# create_access_token method, and lets us define what the identity
-# of the access token should be.
-@jwt.user_identity_loader
-def user_identity_lookup(user):
-    return user.username
-
-
-def admin_required(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        verify_jwt_in_request()
-        claims = get_jwt_claims()
-        if claims['admin'] is False:
-            return jsonify(msg="Admin Users only!!!"), 401
-        else:
-            return fn(*args, **kwargs)
-
-    return wrapper
-
-
-# api name space
 namespace = Namespace('Auth', description='user accounts authentication and registration')
 
 
 # register new user
 @namespace.route('/register-user', endpoint="add-new-user")
 class UserRegistration(Resource):
+    # request parser
     request_parser = reqparse.RequestParser()
+    request_parser.add_argument('username', help='This field cannot be blank', required=True)
+    request_parser.add_argument('first_name', help='This field cannot be blank', required=True)
+    request_parser.add_argument('second_name', help='This field cannot be blank', required=True)
+    request_parser.add_argument('email', help='This field cannot be blank', required=True,
+                                type=inputs.email(check=True))
+    request_parser.add_argument('password', help='This field cannot be blank', required=True)
+    request_parser.add_argument('surname', help='This field cannot be blank', required=True)
+
+    # model attributes
     username = None
     first_name = None
     second_name = None
@@ -59,6 +30,7 @@ class UserRegistration(Resource):
     password = None
     surname = None
 
+    @namespace.expect(request_parser)
     def post(self):
         """add new admin user"""
         # initialise the request parser
@@ -78,7 +50,8 @@ class UserRegistration(Resource):
         self.request_parser.add_argument('username', help='This field cannot be blank', required=True)
         self.request_parser.add_argument('first_name', help='This field cannot be blank', required=True)
         self.request_parser.add_argument('second_name', help='This field cannot be blank', required=True)
-        self.request_parser.add_argument('email', help='This field cannot be blank', required=True)
+        self.request_parser.add_argument('email', help='This field cannot be blank', required=True,
+                                         type=inputs.email(check=True))
         self.request_parser.add_argument('password', help='This field cannot be blank', required=True)
         self.request_parser.add_argument('surname', help='This field cannot be blank', required=True)
 
@@ -97,7 +70,16 @@ class UserRegistration(Resource):
 class AdminRegistration(UserRegistration):
     """admin registration viewset"""
     request_parser = reqparse.RequestParser()
+    request_parser.add_argument('username', help='This field cannot be blank', required=True)
+    request_parser.add_argument('first_name', help='This field cannot be blank', required=True)
+    request_parser.add_argument('second_name', help='This field cannot be blank', required=True)
+    request_parser.add_argument('email', help='This field cannot be blank', required=True,
+                                type=inputs.email(check=True))
+    request_parser.add_argument('password', help='This field cannot be blank', required=True)
+    request_parser.add_argument('surname', help='This field cannot be blank', required=True)
 
+    # request_parser = reqparse.RequestParser()
+    @namespace.expect(request_parser)
     def post(self):
         """add new admin user"""
         # initialise the request parser
@@ -109,6 +91,7 @@ class AdminRegistration(UserRegistration):
                                         self.email)
 
         return {
+            'id': admin.ID,
             'new-user': data
         }
 
@@ -120,7 +103,8 @@ class LoginUsers(Resource):
     email = None
     password = None
     request_parser = reqparse.RequestParser()
-    request_parser.add_argument('email', help='This field cannot be blank', required=True, type=inputs.email(check=True))
+    request_parser.add_argument('email', help='This field cannot be blank', required=True,
+                                type=inputs.email(check=True))
     request_parser.add_argument('password', help='This field cannot be blank', required=True)
 
     def add_req_parsers(self):
@@ -152,13 +136,19 @@ class LoginUsers(Resource):
             # if user is a normal user authenticate
             if user is not False:
                 access_token = create_access_token(identity=user)
-                ret = {'access_token': access_token}
+                ret = {'access_token': access_token, 'details': dict(
+                    username=user.username,
+                    email=user.email
+                )}
                 return jsonify(ret)
 
             elif admin is not False:
                 access_token = create_access_token(identity=admin)
-                ret = {'access_token': access_token}
-                return jsonify(mes=ret)
+                ret = {'access_token': access_token, 'details': dict(
+                    username=admin.username,
+                    email=admin.email
+                )}
+                return jsonify(ret)
 
             else:
                 return jsonify(mes="None")
