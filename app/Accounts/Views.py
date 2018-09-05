@@ -80,6 +80,7 @@ class AdminRegistration(UserRegistration):
 
     # request_parser = reqparse.RequestParser()
     @namespace.expect(request_parser)
+    @admin_required
     def post(self):
         """add new admin user"""
         # initialise the request parser
