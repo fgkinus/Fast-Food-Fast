@@ -72,3 +72,11 @@ class TestAccounts(object):
         for u in Models.users:
             if u.ID == user.ID:
                 assert u.surname == 'surname'
+
+    def test_email_validation(self):
+        email = 'test@emai.com'
+        assert Models.User().validate_email(email) is True
+
+    def test_email_validation_admin(self):
+        email = 'testemai.com'
+        assert Models.Admin().validate_email(email) is False
