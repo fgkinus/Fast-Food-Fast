@@ -4,7 +4,7 @@ from functools import wraps
 from flask import jsonify
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_claims
 
-from run import jwt
+from app import jwt
 
 
 # is used. It will take whatever object is passed into the
