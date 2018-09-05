@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 from passlib.hash import pbkdf2_sha256 as sha256
@@ -58,6 +59,13 @@ class User:
     def verify_hash(password, hash):
         """validate passwords against existing hashes"""
         return sha256.verify(password, hash)
+
+    @staticmethod
+    def validate_email(email):
+        if len(email) > 5:
+            if re.match("^.+@([?)[a-zA-Z0-9-.]+.([a-zA-Z]{2,3}|[0-9]{1,3})(]?))$", email) is not None:
+                return True
+        return False
 
     def update_user_list(self):
         for user in users:
