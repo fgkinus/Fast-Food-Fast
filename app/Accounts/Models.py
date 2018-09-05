@@ -123,6 +123,6 @@ class Admin(User):
                 count += 1
                 return user
 
-            # return false if credentials not present
-            if count == 0:
-                return False
+        # return false if credentials not present
+        if count == 0:
+            return False

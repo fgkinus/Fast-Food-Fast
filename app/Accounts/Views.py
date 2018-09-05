@@ -1,8 +1,50 @@
+from flask import jsonify
+from flask_jwt_extended import create_access_token
 from flask_restplus import Resource, reqparse, Namespace
 
 # define a namespace for authentication and registration of users
 from app.Accounts import Models
 
+# Create a function that will be called whenever create_access_token
+from functools import wraps
+
+from flask import jsonify
+from flask_jwt_extended import verify_jwt_in_request, get_jwt_claims
+
+from run import jwt
+
+
+# is used. It will take whatever object is passed into the
+# create_access_token method, and lets us define what custom claims
+# should be added to the access token.
+@jwt.user_claims_loader
+def add_claims_to_access_token(user):
+    return {'admin': user.get_admin_status()}
+
+
+# Create a function that will be called whenever create_access_token
+# is used. It will take whatever object is passed into the
+# create_access_token method, and lets us define what the identity
+# of the access token should be.
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user.username
+
+
+def admin_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        verify_jwt_in_request()
+        claims = get_jwt_claims()
+        if claims['admin'] is False:
+            return jsonify(msg="Admin Users only!!!"), 401
+        else:
+            return fn(*args, **kwargs)
+
+    return wrapper
+
+
+# api name space
 namespace = Namespace('Auth', description='user accounts authentication and registration')
 
 
@@ -28,6 +70,7 @@ class UserRegistration(Resource):
                                       self.email)
 
         return {
+            'id': user.ID,
             'new-user': data
         }
 
@@ -97,15 +140,28 @@ class LoginUsers(Resource):
         data = self.request_parser.parse_args()  # parse user input
         self.fetch_user_details(data=data)
         # search users
-        user = Models.User().get_user(email=self.email, password=self.password) or Models.admin().get_user(
-            email=self.email,
-            password=self.password)
+        user = Models.User().get_user(email=self.email, password=self.password)
+        admin = Models.Admin().get_user(email=self.email, password=self.password)
 
-        if user is False:
+        # alert if user is not found
+        if user is False and admin is False:
             return {
                        'message': "wrong user or password"
                    }, 401
         else:
-            return {
-                       'welcome': data
-                   }, 200
+            # if user is a normal user authenticate
+            if user is not False:
+                access_token = create_access_token(identity=user)
+                ret = {'access_token': access_token}
+                return jsonify(ret)
+
+            elif admin is not False:
+                access_token = create_access_token(identity=admin)
+                ret = {'access_token': access_token}
+                return jsonify(mes=ret)
+
+            else:
+                return jsonify(mes="None")
+
+
+
