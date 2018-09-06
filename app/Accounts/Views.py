@@ -6,7 +6,6 @@ from flask_restplus import Resource, reqparse, Namespace, inputs
 from app.Accounts import Models
 from .decorators import *
 
-namespace = Namespace('Auth', description='user accounts authentication and registration')
 
 
 # register new user

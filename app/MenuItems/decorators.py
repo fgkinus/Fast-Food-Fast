@@ -9,7 +9,8 @@ from jwt import ExpiredSignature
 
 from app import jwt
 
-namespace = Namespace('Auth', description='user accounts authentication and registration')
+namespace = Namespace('Menu', description='Menu item related operations')
+
 
 # is used. It will take whatever object is passed into the
 # create_access_token method, and lets us define what custom claims
@@ -40,6 +41,7 @@ def admin_required(fn):
 
     return wrapper
 
+
 # error handlers
 @namespace.errorhandler(NoAuthorizationError)
 def handle_no_auth_exception(error):
@@ -50,4 +52,3 @@ def handle_no_auth_exception(error):
 @namespace.errorhandler(ExpiredSignature)
 def handle_expired_token(error):
     return {'message': 'authentication token provided is expired'}, 401
-
