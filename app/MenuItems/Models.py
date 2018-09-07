@@ -18,12 +18,13 @@ class MenuItem:
 
     def create_menu_item(self, name, image, price, owner):
         """CReate menu item"""
-        self.ID = self.__set_id()
+
         self.name = name
         self.image = image
         self.price = price
         self.owner = owner
         self.added = dt.datetime.now()
+        self.ID = self.__set_id()
 
     def get_menu_item(self):
         return self
@@ -33,9 +34,9 @@ class MenuItem:
         return menuitems
 
     @staticmethod
-    def get_specific_menu_item(id):
+    def get_specific_menu_item(id_no):
         for item in menuitems:
-            if item.ID == id:
+            if item.ID == id_no:
                 return item
 
         return False
@@ -49,6 +50,7 @@ class MenuItem:
 
 
 class MenuItemSchema(Schema):
+    ID = fields.Int()
     name = fields.Str()
     image = fields.Str()
     price = fields.Float()
