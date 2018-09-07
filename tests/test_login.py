@@ -5,7 +5,6 @@ from tests.conftest import json_of_response
 
 
 class TestLogin(object):
-
     """Test case for user and admin users"""
 
     def test_user_login(self, test_client):
