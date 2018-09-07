@@ -7,7 +7,7 @@ from app.MenuItems.Models import MenuItem, MenuItemSchema
 from .decorators import *
 
 
-@namespace.route('/items', endpoint='Get Menu items')
+@namespace.route('/items', endpoint='Get-Menu-items')
 class ViewMenuItems(Resource):
     """A viewset for menu items"""
     schema = MenuItemSchema()
@@ -21,7 +21,7 @@ class ViewMenuItems(Resource):
         return serialized
 
 
-@namespace.route('/items/<id>', endpoint='get a specific menu item ')
+@namespace.route('/items/<id>', endpoint='get-a-specific-menu-item ')
 class ViewMenuItem(Resource):
     """get specific ride detail"""
 
