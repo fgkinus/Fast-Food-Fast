@@ -18,8 +18,7 @@ class ViewMenuOrderss(Resource):
         order_items = self.schema.dump(orders, many=True)
         return order_items
 
-    # @admin_required
-    @namespace.expect(schema)
+    @admin_required
     def post(self):
         data = self.parser.parse_args()
         orders = Orders().get_all_orders()

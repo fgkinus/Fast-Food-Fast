@@ -9,9 +9,23 @@ To run this project,first install the requirements
 
 `pip install -t requirements.txt`
 
-Then crete an environment configuration file __.env__. in the environmenet file add:
+Then create an environment configuration file __.env__. in the environmenet file add:
 
 `APP_SETTINGS = 'development' `
 
-or alternatively consider the other development scopes in `config.py`.
+or alternatively consider the other development scopes in as specified in `config.py`.
+
+to test the application use `py.test` and make sure that __pytest.ini__ contains all environment variables 
+in the __.env__ file eg.
+
+
+`
+[pytest]
+env = 
+    APP_SETTINGS = 'testing'
+    SECRET ='''
+` 
+
+####find the application on heroku at : 
+https://fast-food-really-fast.herokuapp.com/
 
