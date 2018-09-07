@@ -32,3 +32,4 @@ urllib3==1.23
 Werkzeug==0.14.1
 marshmallow
 pytest-env
+gunicorn
