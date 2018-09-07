@@ -7,4 +7,5 @@ before_script:
   - export SECRET="$pbkdf2-sha256$29000$I.T8f8/ZG8M4J0QIwTgHIA$.9wCvRZECxd7/yvHttEgoHzpvgjdhjizq5ySewKfeQc"
   - export APP_SETTINGS="testing"
 script: py.test
+after_success: coveralls
 
