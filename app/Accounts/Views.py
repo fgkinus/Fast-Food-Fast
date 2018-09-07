@@ -7,7 +7,6 @@ from app.Accounts import Models
 from .decorators import *
 
 
-
 # register new user
 @namespace.route('/register-user', endpoint="add-new-user")
 class UserRegistration(Resource):
@@ -123,6 +122,10 @@ class LoginUsers(Resource):
         self.add_req_parsers()
         data = self.request_parser.parse_args()  # parse user input
         self.fetch_user_details(data=data)
+
+        user = Models.Admin().add_user(username='testadmin', firstname='firstname', surname='sir', secondname='second',
+                                       password='pass',
+                                       email='testadmin@test.com')
         # search users
         user = Models.User().get_user(email=self.email, password=self.password)
         admin = Models.Admin().get_user(email=self.email, password=self.password)
