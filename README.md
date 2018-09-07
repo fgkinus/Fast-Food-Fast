@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/fgkinus/Fast-Food-Fast.svg?branch=feature%2Forders)](https://travis-ci.org/fgkinus/Fast-Food-Fast)
+
 # Fast-Food-Fast
 A restaurant fast food delivery service
 
