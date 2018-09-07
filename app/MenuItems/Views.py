@@ -18,5 +18,22 @@ class ViewMenuItems(Resource):
         items = MenuItem().get_all_menu_items()
         serialized = MenuItemSchema().dump(items, many=True)
 
-        ret = {'items': serialized}
         return serialized
+
+
+@namespace.route('/items/<id>', endpoint='get a specific menu item ')
+class ViewMenuItem(Resource):
+    """get specific ride detail"""
+
+    @jwt_required
+    @namespace.param(name='id', description="The identity of te menu item")
+    def get(self, id):
+        """get item"""
+
+        item = MenuItem().get_specific_menu_item(int(id))
+        if item is False:
+            ret = {'message': 'item not found'}
+            return ret, 200
+        else:
+            serialized = MenuItemSchema().dump(item)
+            return serialized
