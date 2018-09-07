@@ -9,7 +9,7 @@ from jwt import ExpiredSignature
 
 from app import jwt
 
-namespace = Namespace('Menu', description='Menu item related operations')
+namespace = Namespace('Orders', description='Orders related operations')
 
 
 # is used. It will take whatever object is passed into the

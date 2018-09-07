@@ -8,7 +8,7 @@ from .decorators import *
 
 
 @namespace.route('/', endpoint='Get-Order-items')
-class ViewMenuOrders(Resource):
+class ViewMenuOrderss(Resource):
     """A viewset for Order items"""
     schema = OrderSchema()
     parser = RequestParser()
@@ -20,7 +20,7 @@ class ViewMenuOrders(Resource):
         return order_items
 
     # @admin_required
-    # @namespace.expect(schema.dump(Orders()))
+    @namespace.expect(schema)
     def post(self):
         data = self.parser.parse_args()
         orders = Orders().get_all_orders()
