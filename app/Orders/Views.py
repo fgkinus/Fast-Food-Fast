@@ -1,18 +1,23 @@
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restplus import Resource
 from flask_restplus.reqparse import RequestParser
 
+from app.MenuItems.Models import MenuItemSchema
 from .Models import Orders, OrderSchema
 from .decorators import *
 
 
 @namespace.route('/', endpoint='Get-Order-items')
-class ViewMenuOrderss(Resource):
+class ViewMenuOrders(Resource):
     """A viewset for Order items"""
     schema = OrderSchema()
     parser = RequestParser()
+    parser.add_argument('item', required=True, type=int, help="item cannot be blank")
+    parser.add_argument('quantity', required=True, type=int, help="item cannot be blank")
+    parser.add_argument('location', required=True, type=str, help="item cannot be blank")
+    parser.add_argument('owner', required=False, type=int)
 
-    @admin_required
+    @jwt_required
     def get(self):
         orders = Orders().get_all_orders()
         order_items = self.schema.dump(orders, many=True)
@@ -21,9 +26,15 @@ class ViewMenuOrderss(Resource):
     @admin_required
     def post(self):
         data = self.parser.parse_args()
-        orders = Orders().get_all_orders()
-        order_items = self.schema.dump(orders, many=True)
-        return order_items
+        data['owner'] = get_jwt_identity()
+        dump = self.schema.dump(data)
+
+        # add now order to the orders
+        dump = dump[0]
+        order = Orders().create_order(dump['item'], dump['quantity'], dump['location'], dump['owner'])
+        order_serialized = self.schema.dump(order)
+        order_serialized[1]['item'] = MenuItemSchema().dump(order.item)
+        return jsonify(order_serialized)
 
 
 @namespace.route('/<id>', endpoint='get-a-specific-order-item ')
