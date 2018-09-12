@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/fgkinus/Fast-Food-Fast.svg?branch=feature%2Forders)](https://travis-ci.org/fgkinus/Fast-Food-Fast)
-[![Coverage Status](https://coveralls.io/repos/github/fgkinus/Fast-Food-Fast/badge.svg?branch=master)](https://coveralls.io/github/fgkinus/Fast-Food-Fast?branch=feature/orders)
-
+[![Coverage Status](https://coveralls.io/repos/github/fgkinus/Fast-Food-Fast/badge.svg?branch=feature%2Forders)](https://coveralls.io/github/fgkinus/Fast-Food-Fast?branch=feature%2Forders)
 # Fast-Food-Fast
 A restaurant fast food delivery service
 
