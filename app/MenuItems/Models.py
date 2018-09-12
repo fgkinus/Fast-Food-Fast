@@ -35,7 +35,9 @@ class MenuItem:
 
     @staticmethod
     def get_specific_menu_item(id_no):
+        """verify item id number exist iteratively else false"""
         for item in menuitems:
+            # print(item.ID)
             if item.ID == id_no:
                 return item
 
@@ -47,6 +49,13 @@ class MenuItem:
         number = number + 1
         menuitems.append(self)
         return number
+
+    @staticmethod
+    def create_sample_menu_items():
+        if len(menuitems) < 1:
+            MenuItem().create_menu_item('fries', './images/fries.jpg', 200, 'sys')
+            MenuItem().create_menu_item('burger', './images/burger.jpg', 300, 'sys')
+            MenuItem().create_menu_item('sandwich', './images/sandwich.jpg', 600, 'sys')
 
 
 class MenuItemSchema(Schema):
