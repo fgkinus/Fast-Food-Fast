@@ -30,6 +30,7 @@ class ViewMenuOrders(Resource):
         return jsonify(order_items)
 
     @admin_required
+    @namespace.expect(parser)
     def post(self):
         data = self.parser.parse_args()
         data['owner'] = get_jwt_identity()
