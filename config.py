@@ -25,6 +25,7 @@ class TestingConfig(Config):
 
     TESTING = True
     DATABASE_URL = os.getenv('TESTING_DB_URL')
+    JWT_REFRESH_TOKEN_EXPIRES = False
 
 
 class StagingConfig(Config):
