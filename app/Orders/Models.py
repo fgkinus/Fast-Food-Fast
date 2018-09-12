@@ -19,6 +19,7 @@ class Orders:
         self.created = None
         self.modified = None
         self.status = None
+        MenuItem().create_sample_menu_items()
 
     @staticmethod
     def __set_id():
@@ -39,6 +40,7 @@ class Orders:
         self.ID = self.__set_id()
         self.__set_amount()
         orders.append(self)
+        return self
 
     @staticmethod
     def __get_item(item):
@@ -52,6 +54,11 @@ class Orders:
         self.amount = self.item.price * self.quantity
         return self.amount
 
+    def set_quantity(self, qty):
+        """modify the quantity"""
+        self.quantity = qty
+        self.__set_amount()
+
     @staticmethod
     def get_all_orders():
         return orders
@@ -63,14 +70,15 @@ class Orders:
                 return order
         return False
 
-    def save_changes(self, item):
-        it = self.get_order(item.ID)
+    def save_changes(self):
+        it = self.get_order(self.ID)
         self.modified = dt.datetime.now()
         it = self
+        return it
 
     def set_status(self, status):
         self.status = status
-        self.save_changes(self)
+        self.save_changes()
         return self
 
 
