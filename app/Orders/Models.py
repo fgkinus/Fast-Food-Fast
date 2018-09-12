@@ -87,7 +87,7 @@ class OrderSchema(Schema):
     item = fields.Int()
     quantity = fields.Int()
     amount = fields.Float()
-    status = fields.Float()
+    status = fields.Str()
     owner = fields.Str()
     location = fields.Str()
     created = fields.Date()
