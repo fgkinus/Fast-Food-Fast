@@ -22,3 +22,17 @@ class TestOrders(object):
         if length > 0:
             assert isinstance(order[length - 1], Models.Orders)
         assert length == len(order)
+
+    def test_set_status(self):
+        order = Models.Orders().create_order(item=1, quantity=2, location='juja', owner='test')
+        assert order.status is "Pending"
+        order.set_status('Canceled')
+        assert order.status is "Canceled"
+
+    def test_save_changes_to_orders(self):
+        order = Models.Orders().get_order(1)
+        order.set_quantity(5)
+        order.save_changes()
+        order = Models.Orders().get_order(1)
+        assert order.quantity == 5
+        assert order.amount == order.item.price * 5
