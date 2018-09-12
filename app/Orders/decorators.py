@@ -35,7 +35,7 @@ def admin_required(fn):
         verify_jwt_in_request()
         claims = get_jwt_claims()
         if claims['admin'] is False:
-            return jsonify(msg="Admin Users only!!!"), 401
+            return dict(msg="Admin Users only!!!"), 403
         else:
             return fn(*args, **kwargs)
 
