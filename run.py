@@ -7,7 +7,7 @@ from app.urls import urls
 # import configuration setting
 config_name = os.getenv('APP_SETTINGS')
 
-# inititlizre the app object
+# initialize the app object
 app = create_app(__name__, config_name)
 app.config['JWT_SECRET_KEY'] = os.getenv('SECRET')
 
