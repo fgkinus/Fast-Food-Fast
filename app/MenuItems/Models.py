@@ -69,6 +69,13 @@ class MenuItem:
                 abort(400, "The item you tried to add already exists")
                 raise AlreadyExists("The item you tried to add already exists")
 
+    def delete_menu_item(self, ID):
+        item = self.get_specific_menu_item(ID)
+        if item is not False:
+            menuitems.remove(item)
+            return item
+        return False
+
 
 class MenuItemSchema(Schema):
     ID = fields.Int()
