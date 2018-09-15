@@ -5,9 +5,10 @@ from flask import jsonify
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_claims
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from flask_restplus import Namespace
-from jwt import ExpiredSignature
+from jwt import ExpiredSignature, InvalidSignatureError
 
 from app import jwt
+from app.Exceptions import AlreadyExists
 
 namespace = Namespace('Menu', description='Menu item related operations')
 
@@ -42,13 +43,24 @@ def admin_required(fn):
     return wrapper
 
 
-# error handlers
-@namespace.errorhandler(NoAuthorizationError)
-def handle_no_auth_exception(error):
-    """Handle ethe jwt required exception when none s provided"""
-    return {'message': 'No authentication token provided'}, 401
-
-
-@namespace.errorhandler(ExpiredSignature)
-def handle_expired_token(error):
-    return {'message': 'authentication token provided is expired'}, 401
+# # error handlers
+# @namespace.errorhandler(NoAuthorizationError)
+# def handle_no_auth_exception(error):
+#     """Handle ethe jwt required exception when none s provided"""
+#     return {'message': 'No authentication token provided'}, 401
+#
+#
+# @namespace.errorhandler(ExpiredSignature)
+# def handle_expired_token(error):
+#     return {'message': 'authentication token provided is expired'}, 401
+#
+#
+# @namespace.errorhandler(InvalidSignatureError)
+# def handle_expired_token(error):
+#     return {'message': 'authentication token provided is invalid'}, 401
+#
+#
+# @namespace.errorhandler(AlreadyExists)
+# def handle_already_exists_exception(error):
+#     """Handle handle the already exists error"""
+#     return {'message': "item already exists"}, 400
