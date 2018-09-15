@@ -1,5 +1,8 @@
+from flask_restplus import abort
 from marshmallow import Schema, fields
 import datetime as dt
+
+from app.Exceptions import AlreadyExists
 
 menuitems = []
 
@@ -24,7 +27,9 @@ class MenuItem:
         self.price = price
         self.owner = owner
         self.added = dt.datetime.now()
+        self.check_already_exists()
         self.ID = self.__set_id()
+        return self
 
     def get_menu_item(self):
         return self
@@ -56,6 +61,13 @@ class MenuItem:
             MenuItem().create_menu_item('fries', './images/fries.jpg', 200, 'sys')
             MenuItem().create_menu_item('burger', './images/burger.jpg', 300, 'sys')
             MenuItem().create_menu_item('sandwich', './images/sandwich.jpg', 600, 'sys')
+
+    def check_already_exists(self):
+        """Check if name already exists and throw exception"""
+        for item in menuitems:
+            if self.name == item.name:
+                abort(400, "The item you tried to add already exists")
+                raise AlreadyExists("The item you tried to add already exists")
 
 
 class MenuItemSchema(Schema):
