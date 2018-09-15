@@ -35,6 +35,7 @@ class API:
     def register_namespace(self, namespace, path):
         """recognise url endpoints"""
         self.api.add_namespace(namespace, path)
+        return self.api
 
     def __init_jwt(self):
         self.jwt.init_app(self.app)

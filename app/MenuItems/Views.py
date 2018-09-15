@@ -2,10 +2,13 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restplus import Resource
 from flask_restplus.reqparse import RequestParser
 
-from app.ExceptionHandlers import ExceptionHandler
 from app.MenuItems.Models import MenuItem, MenuItemSchema
-from .decorators import *
+from app.Accounts.decorators import *
 
+# initialize a namespace object
+namespace = Namespace('Menu', description='Menu item related operations')
+
+# initialize a request parser for the menu item basic info
 parser = RequestParser()
 parser.add_argument('name', required=True, help="the name of the item is required")
 parser.add_argument('price', required=True, help="the name of the item is required")
@@ -17,7 +20,6 @@ class ViewMenuItems(Resource):
     """A viewset for menu items"""
     schema = MenuItemSchema()
 
-    @jwt_required
     def get(self):
         MenuItem().create_sample_menu_items()
         items = MenuItem().get_all_menu_items()
@@ -42,6 +44,7 @@ class ViewMenuItems(Resource):
 @namespace.route('/items/<id>', endpoint='get-a-specific-menu-item ')
 class ViewMenuItem(Resource):
     """get specific ride detail"""
+    schema = MenuItemSchema()
 
     @jwt_required
     @namespace.param(name='id', description="The identity of te menu item")
@@ -55,3 +58,15 @@ class ViewMenuItem(Resource):
         else:
             serialized = MenuItemSchema().dump(item)
             return serialized
+
+    @admin_required
+    @namespace.param(name='id', description='the id of the item to delete')
+    def delete(self, id):
+        """delete a menu entry if admin"""
+        item = MenuItem().delete_menu_item(id)
+        user = get_jwt_identity()
+        ret = dict(
+            message="item deleted by {0}".format(user),
+            item=self.schema.dump(item)
+        )
+        return ret, 204
