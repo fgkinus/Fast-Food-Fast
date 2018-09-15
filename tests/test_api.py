@@ -17,10 +17,14 @@ class TestAPI(object):
     def test_type(self):
         """test api initialisation"""
         app = Flask(__name__)
-        api = API(app, jwt)
+        api = API(app, jwt, version="", title="", description="")
 
         assert api is not None
         assert hasattr(api, 'app')
+        assert isinstance(api, API)
+        assert api.api.version == ""
+        assert api.api.title == ""
+        assert api.api.description == ""
 
     def test_set_attr(self):
         """test attribute seeting function"""
@@ -34,7 +38,12 @@ class TestAPI(object):
         app = Flask(__name__)
         api = API(app, jwt)
 
+        api.set_attr(version="v1", description='the api description')
+
         assert hasattr(api.app, 'not_exist') is False
         # test exception
         with pytest.raises(Exception, message="attribute not_exist not defined", ):
             api.set_attr(not_exist="unknown")
+
+        assert api.api.version == "v1"
+        assert api.api.description == "the api description"
