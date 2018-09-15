@@ -8,6 +8,7 @@ from flask_restplus import Namespace
 from jwt import ExpiredSignature
 
 from app import jwt
+from app.Exceptions import AlreadyExists
 
 namespace = Namespace('Auth', description='user accounts authentication and registration')
 
@@ -52,3 +53,15 @@ def handle_no_auth_exception(error):
 @namespace.errorhandler(ExpiredSignature)
 def handle_expired_token(error):
     return {'message': 'authentication token provided is expired'}, 401
+
+
+@namespace.errorhandler(AlreadyExists)
+def handle_already_exists_exception(error):
+    """Handle handle the already exists error"""
+    return {'message': error.message}, getattr(error, 'code', 500)
+
+
+@namespace.errorhandler
+def default_error_handler(error):
+    """Default error handler"""
+    return {'message': str(error)}, getattr(error, 'code', 500)
