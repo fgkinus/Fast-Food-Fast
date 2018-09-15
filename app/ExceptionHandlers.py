@@ -31,8 +31,6 @@ class ExceptionHandler:
 
     @staticmethod
     @namespace.errorhandler(AlreadyExists)
-    def handle_no_auth_exception(error):
+    def handle_already_exists_exception(error):
         """Handle handle the already exists error"""
         return {'message': error.message}, getattr(error, 'code', 500)
-
-    

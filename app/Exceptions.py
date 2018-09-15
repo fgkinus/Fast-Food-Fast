@@ -1,11 +1,11 @@
 """This file contains all custom exceptions that will be thrown in the application"""
 
 
-class AlreadyExists(Exception):
-    """handle item already exist already"""
+class SystemException(Exception):
+    """Base exception for all custom Exceptions"""
+    pass
 
-    def __init__(self):
-        """
-        Initialise the exception
-        """
-        Exception.__init__(self, "The item you tried to add already exists")
+
+class AlreadyExists(SystemException):
+    """handle item already exist already"""
+    pass
