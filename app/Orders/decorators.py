@@ -10,8 +10,6 @@ from jwt import ExpiredSignature
 from app import jwt
 from app.Exceptions import AlreadyExists
 
-namespace = Namespace('Orders', description='Orders related operations')
-
 
 # is used. It will take whatever object is passed into the
 # create_access_token method, and lets us define what custom claims
@@ -41,7 +39,6 @@ def admin_required(fn):
             return fn(*args, **kwargs)
 
     return wrapper
-
 
 # # error handlers
 # @namespace.errorhandler(NoAuthorizationError)

@@ -1,9 +1,5 @@
-from flask_jwt_extended import create_access_token
-
-from app.Accounts.Models import Admin
 from app.MenuItems.Models import MenuItem
 from app.Orders import Models
-from app.Orders.decorators import *
 from tests.conftest import json_of_response
 
 

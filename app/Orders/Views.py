@@ -4,7 +4,9 @@ from flask_restplus.reqparse import RequestParser
 
 from app.MenuItems.Models import MenuItemSchema
 from .Models import Orders, OrderSchema
-from .decorators import *
+from app.Accounts.decorators import *
+
+namespace = Namespace('Orders', description='Orders related operations')
 
 
 @namespace.route('/', endpoint='Get-Order-items')
