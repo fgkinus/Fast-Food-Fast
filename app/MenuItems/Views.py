@@ -17,10 +17,11 @@ parser.add_argument('image', required=False, help="Please provide an image")
 
 @namespace.route('/items', endpoint='Get-Menu-items')
 class ViewMenuItems(Resource):
-    """A viewset for menu items"""
+    """A view-set for menu items"""
     schema = MenuItemSchema()
 
     def get(self):
+        """fetch all menu items"""
         MenuItem().create_sample_menu_items()
         items = MenuItem().get_all_menu_items()
         serialized = MenuItemSchema().dump(items, many=True)
@@ -50,7 +51,6 @@ class ViewMenuItem(Resource):
     @namespace.param(name='id', description="The identity of te menu item")
     def get(self, id):
         """get item"""
-
         item = MenuItem().get_specific_menu_item(int(id))
         if item is False:
             ret = {'message': 'item not found'}

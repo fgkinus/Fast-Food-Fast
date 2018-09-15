@@ -10,4 +10,3 @@ script:
 - py.test
 - coverage
 after_success: coveralls
-

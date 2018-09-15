@@ -21,7 +21,7 @@ class API:
         self.set_attr(**kwargs)
 
     def set_attr(self, **kwargs):
-        # dynamicaly set class attributes
+        # dynamically set class attributes
         if kwargs:
             for key, value in kwargs.items():
                 if not hasattr(self.api, key):
