@@ -20,7 +20,7 @@ class MenuItem:
         self.Modified = None
 
     def create_menu_item(self, name, image, price, owner):
-        """CReate menu item"""
+        """Create menu item"""
 
         self.name = name
         self.image = image
@@ -46,7 +46,7 @@ class MenuItem:
             if item.ID == id_no:
                 return item
 
-        return False
+        abort(400, "item not found")
 
     def __set_id(self):
         """assign user id incrementaly"""
@@ -70,11 +70,34 @@ class MenuItem:
                 raise AlreadyExists("The item you tried to add already exists")
 
     def delete_menu_item(self, ID):
+        """a method to delete a menu item from the list"""
         item = self.get_specific_menu_item(ID)
         if item is not False:
             menuitems.remove(item)
             return item
         return False
+
+    def __set_attr(self, changes):
+        # dynamically set class attributes
+        for key in changes:
+            if not hasattr(self, key):
+                abort(400, "Attribute {0} not found".format(key))
+            else:
+                try:
+                    setattr(self, key, changes[key])
+                except AttributeError:
+                    abort(400, "Attribute {0} could not be set".format(key))
+
+    def save_changes(self, changes):
+        """save changes to Menu item"""
+        if isinstance(changes, dict):
+            # set the attributes
+            self.__set_attr(changes)
+            # set the value for modified
+            self.Modified = dt.datetime.now()
+
+            # item = self.get_specific_menu_item(self.ID)
+            # item = self
 
 
 class MenuItemSchema(Schema):
