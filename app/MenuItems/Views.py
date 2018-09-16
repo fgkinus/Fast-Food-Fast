@@ -15,7 +15,7 @@ parser.add_argument('price', required=True, help="the name of the item is requir
 parser.add_argument('image', required=False, help="Please provide an image")
 
 
-@namespace.route('/items', endpoint='Get-Menu-items')
+@namespace.route('/items', endpoint='add-view-Menu-items')
 class ViewMenuItems(Resource):
     """A view-set for menu items"""
     schema = MenuItemSchema()
@@ -24,13 +24,15 @@ class ViewMenuItems(Resource):
         """fetch all menu items"""
         MenuItem().create_sample_menu_items()
         items = MenuItem().get_all_menu_items()
-        serialized = MenuItemSchema().dump(items, many=True)
+        serialized = self.schema.dump(items, many=True)
 
         return serialized
 
     @admin_required
+    @namespace.expect(parser)
     def post(self):
         """add item only if you are an admin"""
+
         data = parser.parse_args()
         owner = get_jwt_identity()
         item = MenuItem().create_menu_item(data['name'], data['image'], data['price'], owner)
@@ -48,16 +50,12 @@ class ViewMenuItem(Resource):
     schema = MenuItemSchema()
 
     @jwt_required
-    @namespace.param(name='id', description="The identity of te menu item")
+    @namespace.param(name='id', description="The identity of the menu item to get")
     def get(self, id):
         """get item"""
         item = MenuItem().get_specific_menu_item(int(id))
-        if item is False:
-            ret = {'message': 'item not found'}
-            return ret, 200
-        else:
-            serialized = MenuItemSchema().dump(item)
-            return serialized
+        serialized = MenuItemSchema().dump(item)
+        return serialized
 
     @admin_required
     @namespace.param(name='id', description='the id of the item to delete')
@@ -70,3 +68,15 @@ class ViewMenuItem(Resource):
             item=self.schema.dump(item)
         )
         return ret, 204
+
+    @admin_required
+    @namespace.param(name='id', description='the id of the item to edit')
+    def put(self, id):
+        """edit a menu item if you are an admin"""
+        data = parser.parse_args()
+        item = MenuItem().get_specific_menu_item(id_no=int(id))
+        changes = dict(data)
+        # apply the changes
+        item.save_changes(changes=changes)
+
+        return self.schema.dump(item)
