@@ -5,7 +5,7 @@ from flask import jsonify
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_claims
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from flask_restplus import Namespace
-from jwt import ExpiredSignature
+from jwt import ExpiredSignature, InvalidSignatureError
 
 from app import jwt
 from app.Exceptions import AlreadyExists
@@ -36,7 +36,7 @@ def admin_required(fn):
         verify_jwt_in_request()
         claims = get_jwt_claims()
         if claims['admin'] is False:
-            return jsonify(msg="Admin Users only!!!"), 401
+            return {'msg': "Admin Users only!!!"}, 401
         else:
             return fn(*args, **kwargs)
 
@@ -53,6 +53,11 @@ def handle_no_auth_exception(error):
 @namespace.errorhandler(ExpiredSignature)
 def handle_expired_token(error):
     return {'message': 'authentication token provided is expired'}, 401
+
+
+@namespace.errorhandler(InvalidSignatureError)
+def handle_expired_token(error):
+    return {'message': 'authentication token provided is invalid'}, 401
 
 
 @namespace.errorhandler(AlreadyExists)
