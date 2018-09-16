@@ -32,7 +32,6 @@ class UserRegistration(Resource):
     def post(self):
         """add new admin user"""
         # initialise the request parser
-        self.add_req_parsers()
         data = self.request_parser.parse_args()  # parse user input
         self.fetch_user_details(data=data)
         # create admin object
@@ -43,15 +42,6 @@ class UserRegistration(Resource):
             'id': user.ID,
             'new-user': data
         }
-
-    def add_req_parsers(self):
-        self.request_parser.add_argument('username', help='This field cannot be blank', required=True)
-        self.request_parser.add_argument('first_name', help='This field cannot be blank', required=True)
-        self.request_parser.add_argument('second_name', help='This field cannot be blank', required=True)
-        self.request_parser.add_argument('email', help='This field cannot be blank', required=True,
-                                         type=inputs.email(check=True))
-        self.request_parser.add_argument('password', help='This field cannot be blank', required=True)
-        self.request_parser.add_argument('surname', help='This field cannot be blank', required=True)
 
     def fetch_user_details(self, data):
         """get parsed user details"""
