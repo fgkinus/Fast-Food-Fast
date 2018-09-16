@@ -1,5 +1,7 @@
 from flask_jwt_extended import JWTManager
-from flask_restplus import Api
+from flask_restplus import Api, abort
+
+from app.Exceptions import AttributeNotFound
 
 
 class API:
@@ -25,12 +27,14 @@ class API:
         if kwargs:
             for key, value in kwargs.items():
                 if not hasattr(self.api, key):
-                    raise Exception("attribute %s not defined", key)
+                    self.app.logger.info("attribute could not be set")
+                    raise AttributeNotFound("attribute %s not defined", key)
                 else:
                     try:
                         setattr(self.api, key, value)
-                    except Exception as ex:
+                    except AttributeError:
                         self.app.logger.info("attribute could not be set")
+                        abort(500, "Could not set the attribute {0}".format(key))
 
     def register_namespace(self, namespace, path):
         """recognise url endpoints"""
