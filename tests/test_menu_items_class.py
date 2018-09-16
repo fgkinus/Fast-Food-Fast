@@ -45,4 +45,28 @@ class TestMenuItems(object):
         ID = len(Models.menuitems)
         item = Models.MenuItem().delete_menu_item(ID)
         assert item.ID == ID
-        assert Models.MenuItem().get_specific_menu_item(ID) is False
+        with pytest.raises(BadRequest):
+            Models.MenuItem().get_specific_menu_item(ID)
+
+    def test_make_changes(self):
+        ID = len(Models.menuitems)
+        item = Models.MenuItem().get_specific_menu_item(ID)
+        changes = dict(
+            name='changed item',
+            price=500
+        )
+        item.save_changes(changes)
+
+        assert item.price == 500
+        assert item.Modified is not None
+
+    def test_make_nonexistent_changes(self):
+        ID = len(Models.menuitems)
+        item = Models.MenuItem().get_specific_menu_item(ID)
+        changes = dict(
+            name='changed item',
+            price=500,
+            attribute=""
+        )
+        with pytest.raises(BadRequest):
+            item.save_changes(changes)
