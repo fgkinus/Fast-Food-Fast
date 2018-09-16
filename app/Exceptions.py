@@ -9,3 +9,8 @@ class SystemException(Exception):
 class AlreadyExists(SystemException):
     """handle item already exist already"""
     pass
+
+
+class AttributeNotFound(SystemException):
+    """An exception thrown when setting an undefined exception"""
+    pass
