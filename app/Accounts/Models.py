@@ -4,8 +4,9 @@ from datetime import datetime
 from passlib.hash import pbkdf2_sha256 as sha256
 
 # a list of the users in the temporary database
-users = []
-admin = []
+users = []  # a list of all users
+admin = []  # a list of all system admins
+blacklist = set()  # a set data structure meant to hold  unique logged out token tokens
 
 
 class User:

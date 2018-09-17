@@ -1,9 +1,10 @@
 from flask import jsonify
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required, get_current_user, get_jwt_identity, get_raw_jwt
 from flask_restplus import Resource, reqparse, Namespace, inputs
 
 # define a namespace for authentication and registration of users
 from app.Accounts import Models
+from app.Accounts.Models import blacklist
 from .decorators import *
 
 
@@ -145,3 +146,17 @@ class LoginUsers(Resource):
 
             else:
                 return jsonify(mes="None")
+
+
+@namespace.route('/logout', endpoint='Logout')
+class LogOut(Resource):
+    """A view to handle all logout requests"""
+
+    @jwt_required
+    def post(self):
+        # get the current user
+        user = get_jwt_identity()
+        token = get_raw_jwt()['jti']
+        blacklist.add(token)
+        mes = dict(message="Good bye {0} and hast a la vista!!!".format(user))
+        return mes, 200
