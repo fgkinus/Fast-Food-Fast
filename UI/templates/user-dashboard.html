@@ -89,7 +89,7 @@
             <tr>
                 <td><img src=""></td>
                 <td>
-                    <h5>name</h5>
+                    <h3>name</h3>
                     <p>Ksh price</p>
                     <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
                             onclick="AddOrder(this.id)">
@@ -113,15 +113,19 @@
     </template>
 
     <template id="food-item2">
-        <div class="galleryItem">
+        <div class="thumbnail">
             <img src="..." alt="item"/>
-            <h5>Name</h5>
-            <a href="#"><p>Price</p></a>
-            <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                    onclick="AddOrder(this.id)">
-                <i class="material-icons mdc-button__icon" aria-hidden="true">control_point</i>
+            <div id="details" class="tooltip inline" onclick="AddOrder(this.id)">
+                <h5>Name</h5>
+                <span class="inline">
+                    <h6>price:</h6>
+                    <p>Price</p>
+                </span>
                 <span class="tooltiptext">add to checkout</span>
-            </button>
+                <!--<button></button>-->
+            </div>
+
+
         </div>
     </template>
 </div>
