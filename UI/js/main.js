@@ -34,6 +34,8 @@ var foodItems = {
 
 // load templates to make them visible
 function showContent(destination) {
+    // empty the destination oject
+    destination.innerHTML = "";
     //get the template element:
     let temp = document.querySelector("#food-item2");
 
@@ -250,5 +252,6 @@ function pop_up(Id) {
 // close popup
 function close_pop_up(ID) {
     let item = document.getElementById(ID);
+    item.innerHTML = '';
     item.style.display = "none";
 }

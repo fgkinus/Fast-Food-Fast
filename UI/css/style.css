@@ -518,3 +518,19 @@ th {
     max-width: 220px;
     margin: 1em;
 }
+
+/*handle styling for menu items in landing page*/
+#title {
+    position: relative;
+    background-color: #4CAF50;
+    width: 100%;
+    padding: 20px 0px;
+    border-radius: 0.35em;
+    font-size: 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+#popup-list #popup-list-content {
+    background-color: #f1f1f1;
+}
