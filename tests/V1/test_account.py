@@ -1,4 +1,4 @@
-from app.Accounts import Models
+from app.V1.Accounts import Models
 from passlib.hash import pbkdf2_sha256 as sha256
 
 
@@ -8,64 +8,68 @@ class TestAccounts(object):
     def test_user_create(self):
         user = Models.User().add_user(username='test', firstname='firstname', surname='sir', secondname='second',
                                       password='pass',
-                                      email='test@test.com')
+                                      email='test11@test.com')
         assert user.username == 'test'
         assert hasattr(user, 'password') is True
 
     def test_admin_create(self):
-        user = Models.Admin().add_user(username='test-admin', firstname='firstname', surname='sir', secondname='second',
+        user = Models.Admin().add_user(username='test-admin1', firstname='firstname', surname='sir',
+                                       secondname='second',
                                        password='pass',
-                                       email='test@admin.com')
-        assert user.username == 'test-admin'
+                                       email='test@admin1.com')
+        assert user.username == 'test-admin1'
         assert hasattr(user, 'password') is True
         assert hasattr(user, 'email') is True
 
     def test_password_encryption(self):
         user = Models.User().add_user(username='test', firstname='firstname', surname='sir', secondname='second',
                                       password='pass',
-                                      email='test@test.com')
-        assert user.password != 'pass'
+                                      email='test@test2.com')
+        assert user.verify_hash(password='pass', hash=user.password)
 
     def test_password_decryption(self):
-        user = Models.Admin().add_user(username='test-admin', firstname='firstname', surname='sir', secondname='second',
+        user = Models.Admin().add_user(username='test-admin3', firstname='firstname', surname='sir',
+                                       secondname='second',
                                        password='pass',
-                                       email='test@admin.com')
+                                       email='test@admin3.com')
 
         assert sha256.verify('pass', user.password)
 
     def test_user_is_not_admin(self):
-        user = Models.User().add_user(username='test', firstname='firstname', surname='sir', secondname='second',
+        user = Models.User().add_user(username='test4', firstname='firstname', surname='sir', secondname='second',
                                       password='pass',
-                                      email='test@test.com')
+                                      email='test@test4.com')
 
         assert user.get_admin_status() is False
 
     def test_admin_is_admin(self):
-        user = Models.Admin().add_user(username='test-admin', firstname='firstname', surname='sir', secondname='second',
+        user = Models.Admin().add_user(username='test-admin5', firstname='firstname', surname='sir',
+                                       secondname='second',
                                        password='pass',
-                                       email='test@admin.com')
+                                       email='test@admin5.com')
         assert user.get_admin_status() is True
 
     def test_set_user_id_method(self):
         number = len(Models.users)
-        user = Models.User().add_user(username='test-admin', firstname='firstname', surname='sir', secondname='second',
+        user = Models.User().add_user(username='test-admin6', firstname='firstname', surname='sir', secondname='second',
                                       password='pass',
-                                      email='test@admin.com')
+                                      email='test6@admin.com')
         assert user.ID == number + 1
         assert len(Models.users) == user.ID
 
     def test_set_admin_id_method(self):
         number = len(Models.admin)
-        user = Models.Admin().add_user(username='test-admin', firstname='firstname', surname='sir', secondname='second',
+        user = Models.Admin().add_user(username='test-admin7', firstname='firstname', surname='sir',
+                                       secondname='second',
                                        password='pass',
-                                       email='test@admin.com')
+                                       email='test@admin7.com')
         assert user.ID == number + 1
         assert len(Models.admin) == user.ID
 
     def test_update_user_details(self):
-        user = Models.User().add_user(username='test-admin', firstname='firstname', surname='sir', secondname='second',
+        user = Models.User().add_user(username='test-admin8', firstname='firstname', surname='sir', secondname='second',
                                       password='pass',
-                                      email='test@admin.com')
+                                      email='test@admin8.com')
         user.surname = 'surname'
         user.update_user_list()
 

@@ -1,6 +1,6 @@
-from app.Accounts.Views import namespace as auth_ns
-from app.MenuItems.Views import namespace as menu_ns
-from app.Orders.Views import namespace as order_ns
+from app.V1.Accounts.Views import namespace as auth_ns
+from app.V1.MenuItems.Views import namespace as menu_ns
+from app.V1.Orders.Views import namespace as order_ns
 
 # A dictionary of key value pairs of namespace and path
 urls = {

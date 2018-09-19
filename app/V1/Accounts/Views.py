@@ -1,9 +1,8 @@
-from flask import jsonify
 from flask_jwt_extended import create_access_token
-from flask_restplus import Resource, reqparse, Namespace, inputs
+from flask_restplus import Resource, reqparse, inputs
 
 # define a namespace for authentication and registration of users
-from app.Accounts import Models
+from app.V1.Accounts import Models
 from .decorators import *
 
 
@@ -56,7 +55,7 @@ class UserRegistration(Resource):
 # register new admin
 @namespace.route('/register-admin', endpoint="add-new-admin")
 class AdminRegistration(UserRegistration):
-    """admin registration viewset"""
+    """admin registration view set"""
     request_parser = reqparse.RequestParser()
     request_parser.add_argument('username', help='This field cannot be blank', required=True)
     request_parser.add_argument('first_name', help='This field cannot be blank', required=True)
@@ -72,7 +71,7 @@ class AdminRegistration(UserRegistration):
     def post(self):
         """add new admin user"""
         # initialise the request parser
-        self.add_req_parsers()
+
         data = self.request_parser.parse_args()  # parse user input
         self.fetch_user_details(data=data)
         # create admin object
@@ -113,9 +112,9 @@ class LoginUsers(Resource):
         data = self.request_parser.parse_args()  # parse user input
         self.fetch_user_details(data=data)
 
-        user = Models.Admin().add_user(username='testadmin', firstname='firstname', surname='sir', secondname='second',
-                                       password='pass',
-                                       email='testadmin@test.com')
+        # user = Models.Admin().add_user(username='testadmin', firstname='firstname', surname='sir', secondname='second',
+        #                                password='pass',
+        #                                email='testadmin@test.com')
         # search users
         user = Models.User().get_user(email=self.email, password=self.password)
         admin = Models.Admin().get_user(email=self.email, password=self.password)

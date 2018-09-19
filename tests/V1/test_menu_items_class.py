@@ -1,9 +1,8 @@
 import pytest
 from werkzeug.exceptions import BadRequest
 
-from app.Exceptions import AlreadyExists
-from app.MenuItems import Models
-from app.MenuItems.Models import menuitems, MenuItem
+from app.V1.MenuItems import Models
+from app.V1.MenuItems.Models import menuitems, MenuItem
 
 
 class TestMenuItems(object):

@@ -1,7 +1,5 @@
-from flask_jwt_extended import create_access_token
-
-from app.Accounts import Models
-from tests.conftest import json_of_response
+from app.V1.Accounts import Models
+from tests.V1.conftest import json_of_response
 
 
 class TestLogin(object):
@@ -11,10 +9,10 @@ class TestLogin(object):
         # sample user
         user = Models.User().add_user(username='testuser', firstname='firstname', surname='sir', secondname='second',
                                       password='pass',
-                                      email='test@test.com')
+                                      email='testuser@test.com')
         response = test_client.post('/api/v1/login',
                                     data=dict(
-                                        email='test@test.com',
+                                        email='testuser@test.com',
                                         password='pass'
                                     ))
 
@@ -29,10 +27,10 @@ class TestLogin(object):
         # sample user
         user = Models.Admin().add_user(username='testadmin', firstname='firstname', surname='sir', secondname='second',
                                        password='pass',
-                                       email='test@test.com')
+                                       email='tester@test.com')
         response = test_client.post('/api/v1/login',
                                     data=dict(
-                                        email='test@test.com',
+                                        email='tester@test.com',
                                         password='pass'
                                     ))
 

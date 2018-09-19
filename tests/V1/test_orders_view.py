@@ -1,4 +1,4 @@
-from tests.conftest import json_of_response
+from tests.V1.conftest import json_of_response
 
 
 class TestOrdersViews(object):

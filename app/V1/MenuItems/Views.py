@@ -2,8 +2,8 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restplus import Resource
 from flask_restplus.reqparse import RequestParser
 
-from app.MenuItems.Models import MenuItem, MenuItemSchema
-from app.Accounts.decorators import *
+from app.V1.MenuItems.Models import MenuItem, MenuItemSchema
+from app.V1.Accounts.decorators import *
 
 # initialize a namespace object
 namespace = Namespace('Menu', description='Menu item related operations')

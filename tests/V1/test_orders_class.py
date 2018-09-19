@@ -1,6 +1,5 @@
-from app.MenuItems.Models import MenuItem
-from app.Orders import Models
-from tests.conftest import json_of_response
+from app.V1.MenuItems.Models import MenuItem
+from app.V1.Orders import Models
 
 
 class TestOrders(object):

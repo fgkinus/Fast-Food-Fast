@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 
+from flask_restplus import abort
 from passlib.hash import pbkdf2_sha256 as sha256
 
 # a list of the users in the temporary database
@@ -32,13 +33,15 @@ class User:
         self.surname = surname
         self.password = self.generate_hash(password)
         self.email = email
+        self.check_exist(users, email)
         self.image = None
         self.created = datetime.now()
         self.ID = self.__set_id()
+
         return self
 
     def __set_id(self):
-        """assign user id incrementaly"""
+        """assign user id incrementally"""
         number = len(users)
         number = number + 1
         users.append(self)
@@ -86,6 +89,13 @@ class User:
         if count == 0:
             return False
 
+    @staticmethod
+    def check_exist(source, email):
+        """check for redundancies"""
+        for user in source:
+            if user.email == email:
+                abort(401, "Email address already exists")
+
 
 class Admin(User):
     """An admin user is a User"""
@@ -104,6 +114,8 @@ class Admin(User):
         self.image = None
         self.created = datetime.now()
         self.ID = self.__set_id()
+        self.check_exist(admin, email)
+        admin.append(self)
         return self
 
     def get_admin_status(self):
@@ -112,7 +124,6 @@ class Admin(User):
     def __set_id(self):
         number = len(admin)
         number = number + 1
-        admin.append(self)
         return number
 
     def update_user_list(self):
@@ -120,7 +131,7 @@ class Admin(User):
         for user in admin:
             if user.ID == self.ID:
                 user = self
-                return
+                return user
 
     def get_user(self, email, password):
         """fetch admin details"""

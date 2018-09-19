@@ -3,7 +3,7 @@ import os
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
-from config import APP_CONFIG, basedir
+from instance.config import APP_CONFIG, basedir
 
 jwt = JWTManager()
 

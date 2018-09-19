@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields
 import datetime as dt
 
-from app.MenuItems.Models import MenuItem
+from app.V1.MenuItems.Models import MenuItem
 
 orders = []
 
