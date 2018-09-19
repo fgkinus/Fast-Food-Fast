@@ -21,14 +21,16 @@ class ViewMenuOrders(Resource):
 
     @jwt_required
     def get(self):
-        """fetch all orders"""
+        """fetch all orders and create a copy"""
         orders = Orders().get_all_orders()
+        temp = orders.copy()
 
         # add items to the serialized output
-        for order in orders:
-            order.item = order.item.ID
+        for order in temp:
+            if not isinstance(order.item, int):
+                order.item = order.item.ID
 
-        order_items = self.schema.dump(orders, many=True)
+        order_items = self.schema.dump(temp, many=True)
         return jsonify(order_items)
 
     @admin_required
