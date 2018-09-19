@@ -60,6 +60,12 @@ def handle_expired_token(error):
     return {'message': 'authentication token provided is invalid'}, 401
 
 
+@namespace.errorhandler(LookupError)
+def handle_expired_look_up_error(error):
+    """To allow for a custom message, status 200 is used instead of 204"""
+    return {'message': 'The item you are looking was not found'}, 200
+
+
 @namespace.errorhandler(AlreadyExists)
 def handle_already_exists_exception(error):
     """Handle handle the already exists error"""
