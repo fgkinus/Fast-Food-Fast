@@ -1,3 +1,4 @@
+from flask_restplus import abort
 from marshmallow import Schema, fields
 import datetime as dt
 
@@ -68,7 +69,7 @@ class Orders:
         for order in orders:
             if order.ID == order_id:
                 return order
-        return False
+        abort(204, "The specified order item does not Exist!!")
 
     def save_changes(self):
         it = self.get_order(self.ID)
