@@ -61,7 +61,7 @@ class ViewMenuItem(Resource):
     @namespace.param(name='id', description='the id of the item to delete')
     def delete(self, id):
         """delete a menu entry if admin"""
-        item = MenuItem().delete_menu_item(id)
+        item = MenuItem().delete_menu_item(int(id))
         user = get_jwt_identity()
         ret = dict(
             message="item deleted by {0}".format(user),
