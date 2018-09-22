@@ -1,3 +1,6 @@
+import pytest
+from werkzeug.exceptions import Unauthorized
+
 from app.V1.MenuItems.Models import MenuItem
 from app.V1.Orders import Models
 
@@ -37,4 +40,17 @@ class TestOrders(object):
         assert order.quantity == 5
         assert order.amount == order.item.price * 5
 
+    def test_check_order_id(self):
+        """Test username verification"""
+        order = Models.Orders().get_order(len(Models.orders))
+        assert order.verify_owner('test')
+        with pytest.raises(Unauthorized):
+            order.verify_owner('vvv')
 
+    def test_delete_order(self):
+        """delete item and check for it"""
+        ID = len(Models.orders)
+        order = Models.Orders().get_order(ID)
+        order.delete_order()
+        with pytest.raises(LookupError):
+            order.get_order(ID)

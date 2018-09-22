@@ -18,6 +18,7 @@ class DevelopmentConfig(Config):
     """Development configuration"""
 
     DEBUG = True
+    JWT_ACCESS_TOKEN_EXPIRES = False
 
 
 class TestingConfig(Config):

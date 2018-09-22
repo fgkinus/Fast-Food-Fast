@@ -58,4 +58,4 @@ class TestMenuItemsView(object):
         """remove a menu item"""
         ID = len(menuitems)
         response = test_client.delete(urls[menu_ns] + '/items/{0}'.format(ID), headers=create_admin_token)
-        assert response.status_code == 400
+        assert response.status_code == 204
