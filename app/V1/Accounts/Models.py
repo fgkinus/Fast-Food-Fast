@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 
 from flask_restplus import abort
+from marshmallow import Schema, fields
 from passlib.hash import pbkdf2_sha256 as sha256
 
 # a list of the users in the temporary database
@@ -96,6 +97,14 @@ class User:
             if user.email == email:
                 abort(401, "Email address already exists")
 
+    @staticmethod
+    def get_profile(username):
+        """get details of currently authenticated users"""
+        for user in users:
+            if user.username == username:
+                return user
+            abort(401, "The user details were not found")
+
 
 class Admin(User):
     """An admin user is a User"""
@@ -145,3 +154,22 @@ class Admin(User):
         # return false if credentials not present
         if count == 0:
             return False
+
+    @staticmethod
+    def get_profile(username):
+        """get details of currently authenticated users"""
+        for user in admin:
+            if user.username == username:
+                return user
+        return False
+
+
+class UserSchema(Schema):
+    """parse the user details for normal and admin users"""
+    username = fields.Str()
+    firstname = fields.Str()
+    secondname = fields.Str()
+    surname = fields.Str()
+    email = fields.Str()
+    image = fields.Str()
+    created = fields.Date()

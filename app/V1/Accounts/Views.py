@@ -1,8 +1,9 @@
-from flask_jwt_extended import create_access_token
-from flask_restplus import Resource, reqparse, inputs
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, get_current_user
+from flask_restplus import Resource, reqparse, inputs, abort
 
 # define a namespace for authentication and registration of users
 from app.V1.Accounts import Models
+from app.V1.Accounts.Models import users
 from .decorators import *
 
 
@@ -112,10 +113,6 @@ class LoginUsers(Resource):
         data = self.request_parser.parse_args()  # parse user input
         self.fetch_user_details(data=data)
 
-        # user = Models.Admin().add_user(username='testadmin', firstname='firstname', surname='sir', secondname='second',
-        #                                password='pass',
-        #                                email='testadmin@test.com')
-        # search users
         user = Models.User().get_user(email=self.email, password=self.password)
         admin = Models.Admin().get_user(email=self.email, password=self.password)
 
@@ -144,3 +141,24 @@ class LoginUsers(Resource):
 
             else:
                 return jsonify(mes="None")
+
+
+@namespace.route('/profile', endpoint='USer profile details')
+class UserProfile(Resource):
+    """View and edit user profiles"""
+
+    @jwt_required
+    def get(self):
+        current_user = get_jwt_identity()
+        user = Models.User().get_profile(current_user)
+        admin = Models.Admin().get_profile(current_user)
+
+        if user is not False:
+            pass
+        elif admin is not False:
+            user = admin
+        else:
+            abort(401, "user details not found")
+
+        user = Models.UserSchema().dump(user)
+        return user
