@@ -3,13 +3,12 @@ python:
 - 3.6.3
 install: pip install -r requirements.txt
 services: postgresql
-addons:
-  -postgresql:"9.6"
+addons: postgresql:"9.6"
 before_script:
-- psql -c 'create database DB;' -U postgres
-- export FLASK_APP="run.py"
-- export SECRET="$pbkdf2-sha256$29000$I.T8f8/ZG8M4J0QIwTgHIA$.9wCvRZECxd7/yvHttEgoHzpvgjdhjizq5ySewKfeQc"
-- export APP_SETTINGS="development"
+  - psql -c 'create database DB;' -U postgres
+  - export FLASK_APP="run.py"
+  - export SECRET="$pbkdf2-sha256$29000$I.T8f8/ZG8M4J0QIwTgHIA$.9wCvRZECxd7/yvHttEgoHzpvgjdhjizq5ySewKfeQc"
+  - export APP_SETTINGS="development"
 script:
 - py.test --cov-report term-missing  --cov tests/
 after_success: coveralls
