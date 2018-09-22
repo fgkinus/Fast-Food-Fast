@@ -5,6 +5,7 @@ from werkzeug.exceptions import InternalServerError
 from app.V2.Database import Database
 from app.V2.queries import connection
 
+print(connection)
 DB = Database(connection)
 
 
