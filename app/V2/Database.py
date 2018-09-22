@@ -33,13 +33,13 @@ class Database(object):
         if isinstance(self.cursor, psycopg2.extensions.cursor):
             self.cursor.close()
 
-    @staticmethod
-    def query_file_reader(filename):
+    def query_file_reader(self, filename):
         path = os.path.join(queries, filename)
         # try to read the sql file
         try:
             fd = open(path, 'r')
         except FileNotFoundError:
+            self.logger.error("could not read query file {0}".format(filename))
             abort(500, "Error reading database files")
 
         #  now read the file
@@ -54,7 +54,8 @@ class Database(object):
     def run_queries(self, query):
         # cur = self.set_cursor()
         for command in query:
-            self.query_db(query=command)
+            if len(command):
+                self.query_db(query=command)
 
     def query_db(self, query):
         """
@@ -68,6 +69,29 @@ class Database(object):
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 try:
                     cur.execute(query)
-                    self.logger.debug("query successful: {0}".format(query))
+                    self.logger.info("query successful: {0}".format(query))
                 except psycopg2.DatabaseError as er:
-                    logging.debug("error {0} executing query {1}".format(er, query))
+                    logging.error("error --{0}-- executing query --{1}--".format(er, query))
+
+    def query_db_with_results(self, query):
+        """
+        a custom function to run any valid SQL query provided a connection object is provided.
+        If a transaction fails , its rolled back and cursors are not blocked.
+        The function returns a a result set that is formatted as a dict
+        :param query:
+        :return result:
+        """
+        conn = self.conn
+        with conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                try:
+                    cur.execute(query)
+                    self.logger.info("query successful: {0}".format(query))
+                except psycopg2.DatabaseError as er:
+                    logging.error("error --{0}-- while executing command --{1}--".format(er, query))
+                    abort(500, "Sorry, your request could not processed. Please contact the admin for assistance")
+                try:
+                    result = cur.fetchall()
+                    return result
+                except:
+                    logging.error("could not fetch the result set")
