@@ -2,7 +2,7 @@ from flask_jwt_extended import get_jwt_identity
 
 from app.V1.MenuItems.Models import menuitems
 from app.urls import urls, menu_ns
-from tests.V1.conftest import json_of_response
+from tests.conftest import json_of_response
 
 
 class TestMenuItemsView(object):
