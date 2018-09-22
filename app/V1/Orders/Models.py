@@ -77,10 +77,36 @@ class Orders:
         it = self
         return it
 
+    def register_changes(self, changes):
+        """register new changes and apply them"""
+        for change in changes.keys():
+            if changes[change] is not None:
+                if hasattr(self, change):
+                    setattr(self, change, changes[change])
+            else:
+                print("no changs")
+        self.save_changes()
+
     def set_status(self, status):
         self.status = status
         self.save_changes()
         return self
+
+    def verify_owner(self, username):
+        if self.owner == username:
+            return True
+        else:
+            print(self.owner)
+            abort(401, "Unauthorised operation. You are not allowed to modify this order!!")
+
+    def delete_order(self):
+        """Get and remove order from list
+        """
+        order = self.get_order(self.ID)
+        try:
+            orders.remove(order)
+        except Exception:
+            abort(500, "Could not remove entry")
 
 
 class OrderSchema(Schema):

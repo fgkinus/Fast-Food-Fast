@@ -2,7 +2,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restplus import Resource
 from flask_restplus.reqparse import RequestParser
 
-from app.V1.MenuItems.Models import MenuItemSchema
+from app.V1.MenuItems.Models import MenuItemSchema, MenuItem
 from .Models import Orders, OrderSchema
 from app.V1.Accounts.decorators import *
 
@@ -51,6 +51,12 @@ class ViewMenuOrders(Resource):
 @namespace.route('/<id>', endpoint='get-a-specific-order-item ')
 class ViewMenuOrderItem(Resource):
     """get specific ride detail"""
+    parser = RequestParser()
+    parser.add_argument('item', required=False, type=int, help="item cannot be blank")
+    parser.add_argument('quantity', required=False, type=int, help="item cannot be blank")
+    parser.add_argument('location', required=False, type=str, help="item cannot be blank")
+
+    # parser.add_argument('owner', required=False, type=int)
 
     # @admin_required
     @namespace.param(name='id', description="The identity of the order")
@@ -59,22 +65,33 @@ class ViewMenuOrderItem(Resource):
         schema = OrderSchema()
 
         item = Orders.get_order(int(id))
-        if item is False:
-            ret = {'message': 'item not found'}
-            return ret, 200
-        else:
-            serialized = schema.dump(item)
-            return serialized
+
+        serialized = schema.dump(item)
+        return serialized
 
     @namespace.param(name='id', description="modify the order")
+    @namespace.expect(parser)
     def patch(self, id):
         """get item"""
         schema = OrderSchema()
+        data = self.parser.parse_args()
 
+        # check that item change has been done
+        if isinstance(data['item'], int):
+            data['item'] = MenuItem().get_specific_menu_item(data['item'])
+        # get a menu item
         item = Orders.get_order(int(id))
-        if item is False:
-            ret = {'message': 'item not found'}
-            return ret, 200
-        else:
-            serialized = schema.dump(item)
-            return serialized
+        # register the changes
+        item.register_changes(data)
+        # serialize the input
+        serialized = schema.dump(item)
+        return serialized
+
+    @namespace.param(name='id', description="Delete the Order")
+    @jwt_required
+    def delete(self, id):
+        user = get_jwt_identity()
+        item = Orders.get_order(int(id))
+        if item.verify_owner(user):
+            item.delete_order()
+            return dict(message="Order Item deleted")
