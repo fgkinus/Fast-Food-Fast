@@ -14,7 +14,7 @@ script:
 after_success: coveralls
 deploy:
   provider: heroku
-  api_key: ee30eced-8d0c-4b57-8834-460fed098c4a
+  api_key: 18481de2-d646-41df-96f2-ba23197c3daa
   app: Fast-Food-Fast
   on:
     repo: fgkinus/Fast-Food-Fast
