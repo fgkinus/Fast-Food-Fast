@@ -4,17 +4,19 @@ python:
 install: pip install -r requirements.txt
 services: postgresql
 before_script:
-  - psql -c 'create database fast_food_fast;' -U postgres
-  - psql -c "select table_name from information_schema.tables where table_schema = 'public';"
-  - export FLASK_APP="run.py"
-  - export SECRET="$pbkdf2-sha256$29000$I.T8f8/ZG8M4J0QIwTgHIA$.9wCvRZECxd7/yvHttEgoHzpvgjdhjizq5ySewKfeQc"
-  - export APP_SETTINGS="development"
+- psql -c 'create database fast_food_fast;' -U postgres
+- psql -c "select table_name from information_schema.tables where table_schema = 'public';"
+- export FLASK_APP="run.py"
+- export SECRET="$pbkdf2-sha256$29000$I.T8f8/ZG8M4J0QIwTgHIA$.9wCvRZECxd7/yvHttEgoHzpvgjdhjizq5ySewKfeQc"
+- export APP_SETTINGS="development"
 script:
 - py.test --cov-report term-missing  --cov tests/
 after_success: coveralls
 deploy:
   provider: heroku
   api_key:
-    secure: ZPehm5Yobo0KZK+1POourAziPSXbWktkUOiMLI3T6KY3TDBb7YZqdiWRP8vgi8uNIYFZt80fKx6gk8kfiwIcTN3v/S4eP2jctd1WJDGE/dro7sgep6ggepUB53fjhGefLXggN9Hywdv3WDvw1cfcOqY62G0wZiqEg4dKOlg5v+ydKQk5u7Xxi4gGPrss13n8MsxvEiiO66p0bEcVjMBBZTq0ocQbRmB9epwqrz8B2g3KNzcZdtFIZv8gyLhw6JpEvugLoKyd924VH1ZVtA0BytVs9tkKzrtALE38dplUbIeWo+C5ZxvVVjA833uKPguxSpp+3SHofi+9DJEbl16wwAySmA1xcDEbStnZcoRRQtn8Widvey3fJB7wb6Dh25YrIQLX8qqeOdUYOU+ODz9jtZ/WMqRRk83xoJy0oI0zPh8W/zDyYISni2hd4GXFP1+ynKKk6BO6wntMtOvC7LrAja+3SyDdq0jEdk4MwwwKQ51OQepPD4MCqdbxYNT7GrwjyRbrzYJQXU0aT54EqP9PXDO3f9wSEkulVrZw+bFeGSQPqxxcnOh7Rg8vMnRg2RpzKXaYneQWmisIC8qJDTjbr8gQlg/d43vrhHKAxVOn2Ka9Llcpi4DFVsqQY2PGTAeqKdGlylDkrNmc7jpBnDBq6iBcde9z6Zslhgxri4ouB+U=
+    secure: XggREYh2H0iCymzgRn2YOowxu76ZyYTL++nNjXB9GGTtHrgHfn2CWmWQG3Zdmebw7YmGDzS3HG40f5z61kQxAsvtqfDK60gM2+NdIaE9uL7MMPmaAaF8AJkcjCxL3txiUuYQDbs7Dyv9TwytZ1nkMFL6506wZx7unv5yaLkUH3yoLet6hlhm4Oh/YGtmE/Rz1uru3AVs4oeMrI9lFaAjusm/Q7OPy/MnqJrVYyhaMotO5ELoj1my/aaVGhUbZ/oTh/hsVEjm+kGVKGxcsRdDfuhQEfBNdpmtq1qP5eQwtq2SoBfMtVqgVIAZr/DcCKYm4+xo3foKwHVN79l4QcW1UprS9SoyLj0zx7TiESl/JzNmeabkT9/Xf2qGQC3w8m/EXA3+iPknCawW3ZYIPcQJL2rFLMorlfsfoPwwzqQhwmQpqI54F2WMOc44/n8t3Oq3+O4xSpIEjH17qpzfJ3vs7WdX2lVchP/ZZhtERjMbwZir79MM70UXCNttx3M1Ykrc/SHF/ylWAwyoOFCBhuEWUJLAWo/5biQwxyOj+0+OSDF5fpAQkmeItCF8to1JYvaVkqtBY94U1khumrf+Mn1BFF8PM949JKhrW0HaLy6AYn5fp9eretfWHH+A+qdTtogEP2C8LctWp+VxOyzhnvA20Q+pT0yOAsONpMdRLAUY7NY=
+  app: Fast-Food-Fast
   on:
-    all_branches: true
+    repo: fgkinus/Fast-Food-Fast
+    branch: feature/API-V2
