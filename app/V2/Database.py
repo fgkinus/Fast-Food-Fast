@@ -1,11 +1,14 @@
 import logging
+import subprocess
 
+import connection_url
 import psycopg2
+import pandas as pd
 from flask_restplus import abort
 from psycopg2.extras import RealDictCursor
 
 from app.Exceptions import StoredProcedureError
-from app.V2.queries import queries, os
+from app.V2.queries import queries, os, URL
 from instance.logging import Logging
 
 
@@ -23,6 +26,8 @@ class Database(object):
         """initialize the db with all its tables"""
         init_queries = self.query_file_reader('creation_script.sql')
         self.run_queries(init_queries)
+        self.run_shell_script('procedures.sql')
+
         self.logger.info("The database tables have been successfully initialised")
         return self
 
@@ -111,3 +116,17 @@ class Database(object):
             return result
         except StoredProcedureError:
             self.logger.error("procedure call failed : {0}".format(procedure))
+
+    def run_shell_script(self, file):
+        """
+        run an sql script from the console
+        :param file:
+        :return None:
+        """
+        path = os.path.join(queries, file)
+        url = connection_url.config(URL)
+        self.logger.info("Initialising file execution...")
+        script = ['psql', '-h', url['HOST'], '-U', url['USER'], '-d', url['NAME'], '-p', str(url['PORT']), '-f', path]
+        self.logger.debug(''.join(script))
+        subprocess.call(script, shell=True)
+        self.logger.info("The procedures have been setup")
