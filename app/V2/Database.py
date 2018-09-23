@@ -3,7 +3,6 @@ import subprocess
 
 import connection_url
 import psycopg2
-import pandas as pd
 from flask_restplus import abort
 from psycopg2.extras import RealDictCursor
 
