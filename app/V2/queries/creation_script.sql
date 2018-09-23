@@ -12,8 +12,7 @@ create table if not exists tbl_users
   isadmin    boolean default false not null
 );
 
-alter table tbl_users
-  owner to postgres;
+
 
 create unique index if not exists tbl_users_username_uindex
   on tbl_users (username);
@@ -36,8 +35,7 @@ create table if not exists tbl_menuitems
     on update cascade on delete cascade
 );
 
-alter table tbl_menuitems
-  owner to postgres;
+
 
 create unique index if not exists tbl_menuitems_id_uindex
   on tbl_menuitems (id);
@@ -63,8 +61,7 @@ create table if not exists tbl_orders
   modified timestamp
 );
 
-alter table tbl_orders
-  owner to postgres;
+
 
 create unique index if not exists tbl_orders_id_uindex
   on tbl_orders (id);
@@ -79,8 +76,7 @@ create table if not exists tbl_ref_status
   modified    timestamp
 );
 
-alter table tbl_ref_status
-  owner to postgres;
+
 
 create unique index if not exists tbl_ref_status_id_uindex
   on tbl_ref_status (id);
@@ -106,8 +102,6 @@ create table if not exists tbl_order_status
     on update cascade on delete cascade
 );
 
-alter table tbl_order_status
-  owner to postgres;
 
 create unique index if not exists tbl_order_status_id_uindex
   on tbl_order_status (id);
@@ -126,8 +120,6 @@ create table if not exists tbl_user_images
   created    timestamp default now()
 );
 
-alter table tbl_user_images
-  owner to postgres;
 
 create unique index if not exists tbl_user_images_id_uindex
   on tbl_user_images (id);
@@ -145,8 +137,6 @@ create table if not exists tbl_menuitem_images
   created timestamp default now()
 );
 
-alter table tbl_menuitem_images
-  owner to postgres;
 
 create unique index if not exists tbl_menuitem_images_id_uindex
   on tbl_menuitem_images (id);

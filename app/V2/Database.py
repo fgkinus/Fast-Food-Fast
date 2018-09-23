@@ -16,7 +16,7 @@ class Database(object):
         self.cursor = self.conn.cursor(cursor_factory=RealDictCursor)
 
         # set up the logger
-        self.logger = Logging().get_logger("Database")
+        self.logger = Logging().get_logger(__name__)
 
     def init_db(self):
         """initialize the db with all its tables"""

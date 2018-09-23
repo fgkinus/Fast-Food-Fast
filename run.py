@@ -1,13 +1,14 @@
 import os
 
+import coloredlogs
+
 from app import create_app, jwt
 from app.Models import API, URLS
 from app.urls import urls
-from app.V2.Database import Database
-from app.V2.queries import connection
+from app.V2 import DB
 
-# initialize the database
-Database(connection).init_db()
+# configure logging globally
+coloredlogs.install()
 
 # import configuration setting
 config_name = os.getenv('APP_SETTINGS')
