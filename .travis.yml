@@ -14,8 +14,7 @@ script:
 after_success: coveralls
 deploy:
   provider: heroku
-  api_key:
-    secure: XggREYh2H0iCymzgRn2YOowxu76ZyYTL++nNjXB9GGTtHrgHfn2CWmWQG3Zdmebw7YmGDzS3HG40f5z61kQxAsvtqfDK60gM2+NdIaE9uL7MMPmaAaF8AJkcjCxL3txiUuYQDbs7Dyv9TwytZ1nkMFL6506wZx7unv5yaLkUH3yoLet6hlhm4Oh/YGtmE/Rz1uru3AVs4oeMrI9lFaAjusm/Q7OPy/MnqJrVYyhaMotO5ELoj1my/aaVGhUbZ/oTh/hsVEjm+kGVKGxcsRdDfuhQEfBNdpmtq1qP5eQwtq2SoBfMtVqgVIAZr/DcCKYm4+xo3foKwHVN79l4QcW1UprS9SoyLj0zx7TiESl/JzNmeabkT9/Xf2qGQC3w8m/EXA3+iPknCawW3ZYIPcQJL2rFLMorlfsfoPwwzqQhwmQpqI54F2WMOc44/n8t3Oq3+O4xSpIEjH17qpzfJ3vs7WdX2lVchP/ZZhtERjMbwZir79MM70UXCNttx3M1Ykrc/SHF/ylWAwyoOFCBhuEWUJLAWo/5biQwxyOj+0+OSDF5fpAQkmeItCF8to1JYvaVkqtBY94U1khumrf+Mn1BFF8PM949JKhrW0HaLy6AYn5fp9eretfWHH+A+qdTtogEP2C8LctWp+VxOyzhnvA20Q+pT0yOAsONpMdRLAUY7NY=
+  api_key: ee30eced-8d0c-4b57-8834-460fed098c4a
   app: Fast-Food-Fast
   on:
     repo: fgkinus/Fast-Food-Fast
