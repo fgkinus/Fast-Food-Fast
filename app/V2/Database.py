@@ -4,6 +4,7 @@ import psycopg2
 from flask_restplus import abort
 from psycopg2.extras import RealDictCursor
 
+from app.Exceptions import StoredProcedureError
 from app.V2.queries import queries, os
 from instance.logging import Logging
 
@@ -23,6 +24,7 @@ class Database(object):
         init_queries = self.query_file_reader('creation_script.sql')
         self.run_queries(init_queries)
         self.logger.info("The database tables have been successfully initialised")
+        return self
 
     def set_cursor(self):
         self.close_cursor()
@@ -95,3 +97,17 @@ class Database(object):
                     return result
                 except:
                     logging.error("could not fetch the result set")
+
+    def execute_procedures(self, procedure, params=()):
+        """
+        a function to execute stored procedures
+        :return result set:
+        """
+        self.set_cursor()
+        try:
+            self.cursor.callproc(procedure, params)
+            result = self.cursor.fetchall()
+            self.logger.info("procedure successfully called:{0}".format(procedure))
+            return result
+        except StoredProcedureError:
+            self.logger.error("procedure call failed : {0}".format(procedure))

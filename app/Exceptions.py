@@ -14,3 +14,8 @@ class AlreadyExists(SystemException):
 class AttributeNotFound(SystemException):
     """An exception thrown when setting an undefined exception"""
     pass
+
+
+class StoredProcedureError(SystemException):
+    """an exception raised when a stored procedure exception occur"""
+    pass

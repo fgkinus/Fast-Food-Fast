@@ -5,7 +5,7 @@ import coloredlogs
 from app import create_app, jwt
 from app.Models import API, URLS
 from app.urls import urls
-from app.V2 import DB
+from app.V2 import DB  # this import initialises the DB connection
 
 # configure logging globally
 coloredlogs.install()
