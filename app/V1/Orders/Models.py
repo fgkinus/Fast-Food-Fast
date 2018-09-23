@@ -108,6 +108,21 @@ class Orders:
         except Exception:
             abort(500, "Could not remove entry")
 
+    @staticmethod
+    def order_history(username):
+        """
+        display order history for a given user
+        :param username:
+        :return :history
+        """
+        history = list()
+        for order in orders:
+            if order.owner == username:
+                history.append(order)
+        if len(history) == 0:
+            abort(204, "No historical orders available.please add more orders")
+        return history
+
 
 class OrderSchema(Schema):
     ID = fields.Int()

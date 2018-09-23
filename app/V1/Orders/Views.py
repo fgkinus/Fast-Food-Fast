@@ -95,3 +95,26 @@ class ViewMenuOrderItem(Resource):
         if item.verify_owner(user):
             item.delete_order()
             return dict(message="Order Item deleted")
+
+
+@namespace.route('/history', endpoint="get-historical-orders")
+class HistoricalOrders(Resource):
+    """View historical orders"""
+
+    @jwt_required
+    def get(self):
+        """
+        A method to display order history
+        :return history:
+        """
+        user = get_jwt_identity()
+        history = Orders().order_history(user)
+        temp = history.copy()
+
+        # add items to the serialized output
+        for order in temp:
+            if not isinstance(order.item, int):
+                order.item = order.item.ID
+
+        history_items = OrderSchema().dump(history, many=True)
+        return history_items
