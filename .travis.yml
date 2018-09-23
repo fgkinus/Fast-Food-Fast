@@ -15,7 +15,7 @@ after_success: coveralls
 deploy:
   provider: heroku
   api_key: 18481de2-d646-41df-96f2-ba23197c3daa
-  app: Fast-Food-Fast
+  app: fast-food-really-fast
   on:
     repo: fgkinus/Fast-Food-Fast
     branch: feature/API-V2
