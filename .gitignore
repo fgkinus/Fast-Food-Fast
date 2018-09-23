@@ -103,8 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-
+#ignore the IDE config files
 .idea/
 
-
-/
+#ignore local log files
+instance/logs/
