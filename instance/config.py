@@ -1,4 +1,5 @@
 import os
+from logging.config import dictConfig
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -17,6 +18,7 @@ class DevelopmentConfig(Config):
     """Development configuration"""
 
     DEBUG = True
+    JWT_ACCESS_TOKEN_EXPIRES = False
 
 
 class TestingConfig(Config):
@@ -24,6 +26,7 @@ class TestingConfig(Config):
 
     TESTING = True
     DATABASE_URL = os.getenv('TESTING_DB_URL')
+    JWT_REFRESH_TOKEN_EXPIRES = False
 
 
 class StagingConfig(Config):
@@ -46,3 +49,20 @@ APP_CONFIG = {
     'staging': StagingConfig,
     'production': ProductionConfig,
 }
+
+# logging configuration
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+    }},
+    'handlers': {'wsgi': {
+        'class': 'logging.StreamHandler',
+        'stream': 'ext://flask.logging.wsgi_errors_stream',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'INFO',
+        'handlers': ['wsgi']
+    }
+})
