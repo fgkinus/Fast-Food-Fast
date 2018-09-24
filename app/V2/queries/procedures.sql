@@ -1,3 +1,7 @@
+-----------------------------------------------------------------------------------------------------------------
+--user related operations
+-----------------------------------------------------------------------------------------------------------------
+
 -- users table related operations;
 -- list all users
 CREATE OR REPLACE FUNCTION get_users2()
@@ -172,10 +176,172 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
 -- select * from modify_user(3, 'tash', 'francis', 'gitau', 'kinuthia', 'fgkinus@gmail.com', 'pass', FALSE);
 
+-----------------------------------------------------------------------------------------------------------------
+-- Menu items related operations
+-----------------------------------------------------------------------------------------------------------------
+
+-- list all menu items
+CREATE OR REPLACE FUNCTION get_menu_items()
+  RETURNS setof tbl_menuitems AS $$
+DECLARE
+  rReturn tbl_menuitems;
+BEGIN
+  for rReturn in
+  SELECT * FROM tbl_menuitems -- Open a cursor
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+--select * from get_menu_items();
+
+--get menu item by id
+CREATE OR REPLACE FUNCTION get_menu_item_by_id(
+item_id int
+)
+  RETURNS setof tbl_menuitems AS $$
+DECLARE
+  rReturn tbl_menuitems;
+BEGIN
+  for rReturn in
+  SELECT * FROM tbl_menuitems where id=item_id-- Open a cursor
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+-- select * from get_menu_item_by_id(2);
+
+-- get menu item by name
+CREATE OR REPLACE FUNCTION get_menu_item_by_name(
+item_name varchar
+)
+  RETURNS setof tbl_menuitems AS $$
+DECLARE
+  rReturn tbl_menuitems;
+BEGIN
+  for rReturn in
+  SELECT * FROM tbl_menuitems where name=item_name
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+--select * from get_menu_item_by_name('Fries');
+
+-- ADD MENU ITEMS
+CREATE OR REPLACE FUNCTION add_menu_item(
+  item_name  varchar,
+  item_price DOUBLE PRECISION,
+  item_owner int
+)
+  RETURNS setof tbl_menuitems AS $$
+DECLARE
+  rReturn tbl_menuitems;
+BEGIN
+  for rReturn in
+
+  INSERT INTO tbl_menuitems (name, price, owner) VALUES (item_name, item_price, item_owner)
+  RETURNING *
 
 
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+-- SELECT * FROM add_menu_item('Fries',450,1 );
+
+--Edit Menu Items
+CREATE OR REPLACE FUNCTION edit_menu_item(
+  item_id    int,
+  item_name  varchar,
+  item_price DOUBLE PRECISION,
+  item_owner int
+)
+  RETURNS setof tbl_menuitems AS $$
+DECLARE
+  rReturn tbl_menuitems;
+BEGIN
+  for rReturn in
+
+  UPDATE tbl_menuitems
+  SET name = item_name, price = item_price, owner = item_owner, modified = now()
+  WHERE id = item_id
+  RETURNING *
+
+
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+--select * from edit_menu_item(item_id := 1,item_name :=  'Burger',item_price :=  350,item_owner :=  1);
+
+--Delete a menu items
+CREATE OR REPLACE FUNCTION delete_menu_item(
+item_id int
+)
+  RETURNS setof tbl_menuitems AS $$
+DECLARE
+  rReturn tbl_menuitems;
+BEGIN
+  for rReturn in
+
+  DELETE FROM tbl_menuitems WHERE id = item_id RETURNING *
+
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+-- SELECT * FROM delete_menu_item(2);
+
+-----------------------------------------------------------------------------------------------------------------
+-- orders related OPERATIONS
+-----------------------------------------------------------------------------------------------------------------
+
+-- list all orders
+CREATE OR REPLACE FUNCTION get_order_items()
+  RETURNS setof tbl_orders AS $$
+DECLARE
+  rReturn tbl_orders;
+BEGIN
+  for rReturn in
+  SELECT * FROM tbl_orders -- Open a cursor
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+
+--get menu item by id
+CREATE OR REPLACE FUNCTION get_order_item_by_id(
+item_id int
+)
+  RETURNS setof tbl_orders AS $$
+DECLARE
+  rReturn tbl_menuitems;
+BEGIN
+  for rReturn in
+  SELECT * FROM tbl_menuitems where id=item_id-- Open a cursor
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+-- select * from get_menu_item_by_id(2);
+
+-- add order item
 
 
