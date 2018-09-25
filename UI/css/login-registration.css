@@ -12,6 +12,7 @@
     box-shadow: 0 3px 10px 0 #9FAAA7;
     text-align: center;
     font-size: large;
+    color: #F6F6F2;
 }
 
 .container-register {
@@ -27,6 +28,7 @@
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
     text-align: center;
     font-size: large;
+    color: #F6F6F2;
 }
 
 #title {
@@ -109,7 +111,7 @@ input[type=email]:focus {
 }
 
 input[type=file]{
-    color: #F6F7F3;
+    color: #FFFFFF;
     margin: 0;
     background-color: #373b3d;
     border: 1px solid #373b3d;
@@ -174,8 +176,8 @@ input[type=file]:focus {
 
 input[type=submit] {
     padding: 6px 25px;
-    background: #373E4A;
-    color: #C1C3C6;
+    background: #C2A766;
+    color: #FFFFFF;
     font-weight: bold;
     border: 0 none;
     cursor: pointer;
@@ -197,8 +199,8 @@ input[type=submit] {
 .register-link {
     margin-top: 10px;
     padding: 6px 25px;
-    background: #373E4A;
-    color: #C1C3C6;
+    background: #e07e7b;
+    color: #FFFFFF;
     font-weight: bold;
     border: 0 none;
     cursor: pointer;
