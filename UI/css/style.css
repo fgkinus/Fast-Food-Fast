@@ -315,9 +315,8 @@ margin-bottom: 5px;
     top: 100%;
     left: 50%;
     margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
+    border: 5px solid transparent;
+    border-top-color: #555;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
@@ -545,3 +544,5 @@ th {
     height: 50px;
     width: 140px;
 }
+
+/*modify how input prompts look*/
