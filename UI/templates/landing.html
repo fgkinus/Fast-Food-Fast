@@ -6,27 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="application/javascript" src="../js/main.js"></script>
 </head>
-<body class="bg">
-    <header class="heading">
-        <h2><a href="#">Fast-Food-Fast</a></h2>
-        <nav>
-            <li><a href="#">About</a></li>
-            <li><a href="login.html">log in</a></li>
-            <li><a href="registration.html">Sign up</a></li>
-        </nav>
-    </header>
-    <section class="content" >
-        <!--<div class="background-image"></div>-->
-        <div class="hero-content-area">
-            <h1>Fast-Food-Fast</h1>
-            <h3>Get your fast food faster than ever before!!</h3>
-            <hv>Try us out now</hv>
-            <a href="registration.html" class="btn">Register</a>
+<body class="bg" onload="showContent('food-list')">
+<header class="heading">
+    <h2><a href="#" >Fast-Food-Fast</a></h2>
+    <nav>
+        <!--<li><a href="registration.h</a></li>-->
+        <li><a href=" login.html">log in</a></li>
+        <li><a href="registration.html">Sign up</a></li>
+    </nav>
+</header>
+<section class="content">
+    <!--<div class="background-image"></div>-->
+    <div class="hero-content-area">
+        <h1>Fast-Food-Fast</h1>
+        <h3>Get your fast food faster than ever before!!</h3>
+        <h4>Try us out now</h4>
+        <a href="#" onclick="pop_up('popup-list')" class="btn">our Menu</a>
+    </div>
+</section>
+
+<!--a modal containing the menu list-->
+<div class="modal" id="popup-list">
+    <div id="popup-list-content" class="container-login modal-content tabcontent" >
+        <div id="title">
+            <i class="material-icons lock">shopping_cart</i> Menu Items List
+            <button class="material-icons close btn cancelbtn tooltip"
+                    onclick="close_pop_up('popup-list');">
+                close
+                <span class="tooltiptext">cancel</span>
+            </button>
         </div>
-    </section>
+        <div>
+            <div>
+                <div class="container" id="food-list">
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!--define template-->
+<template id="food-item2">
+    <div class="thumbnail">
+        <img src="..." alt="item"/>
+        <div id="details" class="tooltip inline" onclick="AddOrder(this.id)">
+            <h5>Name</h5>
+            <span class="inline">
+                    <h6>price:</h6>
+                    <p>Price</p>
+                </span>
+            <span class="tooltiptext">
+                <i class="material-icons lock">shopping_cart</i>
+                add to checkout
+            </span>
+            <!--<button></button>-->
+        </div>
 
 
+    </div>
+</template>
 
 </body>
 </html>

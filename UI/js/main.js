@@ -28,12 +28,13 @@ function set_active_tab(ID) {
 
 // a list of all food items
 var foodItems = {
-    "burgerFriesSoda": 2000, "drumsticks": 350, 'fries': 200, "meatballs": 350, "pie": 900, "pizza": 1500, "rools": 750,
-    "sandwich": 150, "vege_burger": 250
+    "BurgerFriesSoda": 2000, "Drumsticks": 350, 'Fries': 200, "Meatballs": 350, "Pie": 900, "Pizza": 1500, "Rools": 750,
+    "Sandwich": 150, "Vege_burger": 250
 };
 
 // load templates to make them visible
 function showContent(destination) {
+    // empty the destination object
     //get the template element:
     let temp = document.querySelector("#food-item2");
 
@@ -54,7 +55,7 @@ function showContent(destination) {
         let cost = clone.querySelector("p");
         cost.textContent = items[keys[i]].price;
 
-        let button = clone.querySelector("button");
+        let button = clone.querySelector("#details");
         button.setAttribute("id", 'item-' + i);
         //append item to list
         // add_to_list(destination, clone, 'item-' + i);
@@ -95,7 +96,7 @@ function showFoodlist(destination) {
 
         let button = document.createElement("button");
         button.setAttribute("id", 'item-' + i);
-        button.setAttribute('onClick','pop_up("popup2")');
+        button.setAttribute('onClick', 'pop_up("popup2")');
         cols[4].appendChild(button);
         //append item to list
         add_to_table(destination, clone, 'item-' + i);
@@ -129,7 +130,7 @@ function ShowOrders(destination) {
         cols[5].textContent = order.time;
 
         btn = document.createElement('button');
-        btn.setAttribute("class","btn" );
+        btn.setAttribute("class", "btn");
         cols[6].appendChild(btn);
 
         add_to_table(destination, clone, 'order-' + i);
