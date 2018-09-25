@@ -16,7 +16,7 @@
     <header class="heading">
         <h2><a href="#">Fast-Food-Fast</a></h2>
         <nav>
-            <!--the <ul> wrapper is ommited to ensere thy stay inline/ horizontally oriented-->
+            <!--the <ul> wrapper is omitted to ensure thy stay inline/ horizontally oriented-->
             <li><a href="register-admin.html">Add admin</a></li>
             <li><a href="#">profile</a></li>
             <li><a href="landing.html">log out</a></li>
@@ -33,61 +33,63 @@
         </div>
 
         <div id="food-items-list" class="tabcontent">
-            <h3>Menu</h3>
-            <nav>
+            <div>
+                <h3>Menu</h3>
                 <button class="btn tooltip" aria-label="control_point"
                         onclick="pop_up('popup')">
                     <span class="material-icons">add</span>
                     <span class="tooltiptext">add new item</span>
                 </button>
-            </nav>
-            <table id="food-items">
-                <thead>
-                <th>item id</th>
-                <th>image</th>
-                <th>name</th>
-                <th>price</th>
-                <th>edit</th>
-                </thead>
-                <tbody>
+                <table id="food-items">
+                    <thead>
+                    <th>item id</th>
+                    <th>image</th>
+                    <th>name</th>
+                    <th>price</th>
+                    <th>edit</th>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
             <!--a list of all food items-->
             <!--<ul id="food-list"></ul>-->
         </div>
 
         <!--display previous orders-->
         <div id="manage-orders" class="tabcontent">
-            <h3>Previous Orders</h3>
-            <h4>Review all orders</h4>
-            <table>
-                <thead>
-                <th>order-id</th>
-                <th>order-item</th>
-                <th>order-quantity</th>
-                <th>order-location</th>
-                <th>order-time</th>
-                <th>aceept/reject</th>
-                <th>completed</th>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>item-2</td>
-                    <td>5</td>
-                    <td>Thika</td>
-                    <td onload="Date()"></td>
-                    <td>
-                        <form>
-                            <input type="radio" name="status" value="accept" checked> accept<br>
-                            <input type="radio" name="status" value="reject"> reject<br>
-                            <input type="radio" name="status" value="pending"> pending
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div>
+                <h3>Previous Orders</h3>
+                <h4>Review all orders</h4>
+                <table>
+                    <thead>
+                    <th>order-id</th>
+                    <th>order-item</th>
+                    <th>order-quantity</th>
+                    <th>order-location</th>
+                    <th>order-time</th>
+                    <th>aceept/reject</th>
+                    <th>completed</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>item-2</td>
+                        <td>5</td>
+                        <td>Thika</td>
+                        <td onload="Date()"></td>
+                        <td>
+                            <form>
+                                <input type="radio" name="status" value="accept" checked> accept<br>
+                                <input type="radio" name="status" value="reject"> reject<br>
+                                <input type="radio" name="status" value="pending"> pending
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </section>
@@ -95,7 +97,7 @@
 
 <!--popups-->
 <div class="modal" id="popup">
-    <div class="container-login modal-content" >
+    <div class="container-register modal-content" >
         <div id="title">
             <i class="material-icons lock">cloud_upload</i>  add new menu item
             <button class="material-icons close btn cancelbtn tooltip"
