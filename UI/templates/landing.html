@@ -9,11 +9,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script type="application/javascript" src="../js/main.js"></script>
 </head>
-<body class="bg">
+<body class="bg" onload="showContent('food-list')">
 <header class="heading">
-    <h2><a href="#">Fast-Food-Fast</a></h2>
+    <h2><a href="#" >Fast-Food-Fast</a></h2>
     <nav>
-        <li><a href="#" onclick="pop_up('popup-list')">Menu Items</a></li>
+        <!--<li><a href="registration.h</a></li>-->
         <li><a href=" login.html">log in</a></li>
         <li><a href="registration.html">Sign up</a></li>
     </nav>
@@ -24,22 +24,26 @@
         <h1>Fast-Food-Fast</h1>
         <h3>Get your fast food faster than ever before!!</h3>
         <hv>Try us out now</hv>
-        <a href="registration.html" class="btn">Register</a>
+        <a href="#" onclick="pop_up('popup-list')" class="btn">our Menu</a>
     </div>
 </section>
 
 <!--a modal containing the menu list-->
 <div class="modal" id="popup-list">
-    <div id="popup-list-content" class="container-login modal-content">
+    <div id="popup-list-content" class="container-login modal-content tabcontent" >
         <div id="title">
             <i class="material-icons lock">shopping_cart</i> Menu Items List
             <button class="material-icons close btn cancelbtn tooltip"
-                    onclick="close_pop_up('popup-list');showContent('food-list')">
+                    onclick="close_pop_up('popup-list');">
                 close
                 <span class="tooltiptext">cancel</span>
             </button>
         </div>
-        <div class="container" id="food-list">
+        <div>
+            <div>
+                <div class="container" id="food-list">
+            </div>
+        </div>
         </div>
     </div>
 </div>
