@@ -166,10 +166,14 @@ class Admin(User):
 
 class UserSchema(Schema):
     """parse the user details for normal and admin users"""
+    id = fields.Int(dump_only=True)
     username = fields.Str()
     firstname = fields.Str()
     secondname = fields.Str()
     surname = fields.Str()
     email = fields.Str()
     image = fields.Str()
-    created = fields.Date()
+    created = fields.Date(dump_only=True)
+
+    class Meta:
+        strict = True

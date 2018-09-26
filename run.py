@@ -1,12 +1,19 @@
 import os
-import subprocess
 
 import coloredlogs
 
 from app import create_app, jwt
 from app.Models import API, URLS
-from app.urls import urls
-from app.V2 import DB  # this import initialises the DB connection
+from app.V2.queries import connection
+from app.V2.Database import Database
+from app.urls import urls_v1, urls_v2
+from dotenv import load_dotenv  # import the environment files
+
+# load external configurations
+load_dotenv(verbose=True)
+
+# initialise the DB
+Database(conn=connection).init_db()
 
 # configure logging globally
 coloredlogs.install()
@@ -19,13 +26,13 @@ app = create_app(__name__, config_name)
 app.config['JWT_SECRET_KEY'] = os.getenv('SECRET')
 
 # initialize the api object
-api = API(app, jwt, version='1.0', title='Fast-Food-Fast API',
+api = API(app, jwt, version='2.0', title='Fast-Food-Fast API',
           description="A food delivery service application API")
 
-# register urls
-api = URLS(api, urls).get_api()
+# register urls_v1
+api = URLS(api, urls_v2).get_api()
 
 app = api.app
 
 if __name__ == '__main__':
-    api.app.run()
+    app.run()

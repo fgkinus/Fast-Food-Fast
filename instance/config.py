@@ -1,5 +1,4 @@
 import os
-from logging.config import dictConfig
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 

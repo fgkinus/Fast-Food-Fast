@@ -6,7 +6,7 @@ from flask_jwt_extended import create_access_token
 from app import create_app, jwt
 from app.V1.Accounts.Models import Admin, User
 from app.Models import API, URLS
-from app.urls import urls
+from app.urls import urls_v1
 
 # CREATE TESTS
 ADMIN = Admin().add_user(username='testadmin', firstname='firstname', surname='sir', secondname='second',
@@ -23,7 +23,7 @@ def test_client():
     app = create_app(__name__, 'testing')
     app.config['JWT_SECRET_KEY'] = app.config['SECRET']
     api = API(app, jwt)
-    api = URLS(api, urls=urls).get_api()
+    api = URLS(api, urls=urls_v1).get_api()
 
     client = api.app.test_client()
     ctx = api.app.app_context()

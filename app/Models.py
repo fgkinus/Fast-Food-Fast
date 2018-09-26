@@ -56,7 +56,7 @@ class URLS:
         self.__register()
 
     def __register(self):
-        # Iteratively register urls
+        # Iteratively register urls_v1
         for url in self.urls.items():
             self.api.register_namespace(namespace=url[0], path=url[1])
 

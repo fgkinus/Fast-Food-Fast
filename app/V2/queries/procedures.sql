@@ -324,24 +324,107 @@ END;
 $$
 LANGUAGE plpgsql;
 
---get menu item by id
+--get order item by id
 CREATE OR REPLACE FUNCTION get_order_item_by_id(
 item_id int
 )
   RETURNS setof tbl_orders AS $$
 DECLARE
-  rReturn tbl_menuitems;
+  rReturn tbl_orders;
 BEGIN
   for rReturn in
-  SELECT * FROM tbl_menuitems where id=item_id-- Open a cursor
+  SELECT * FROM tbl_orders where id=item_id-- Open a cursor
   loop
     return next rReturn;
   end loop;
 END;
 $$
 LANGUAGE plpgsql;
--- select * from get_menu_item_by_id(2);
+
+
+CREATE OR REPLACE FUNCTION get_order_item_by_user_id(
+user_id int
+)
+  RETURNS setof tbl_orders AS $$
+DECLARE
+  rReturn tbl_orders;
+BEGIN
+  for rReturn in
+  SELECT * FROM tbl_orders where "user"=user_id-- Open a cursor
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
 
 -- add order item
+CREATE OR REPLACE FUNCTION add_order_item(
+  order_item  int,
+  order_quantity int,
+  order_owner int
+)
+  RETURNS setof tbl_orders AS $$
+DECLARE
+  rReturn tbl_orders;
+BEGIN
+  for rReturn in
 
+  INSERT INTO tbl_orders ("user",item,quantity) VALUES (order_owner,order_item,order_quantity)
+  RETURNING *
+
+
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+
+--Delete a menu items
+CREATE OR REPLACE FUNCTION delete_order_item(
+order_id int
+)
+  RETURNS setof tbl_orders AS $$
+DECLARE
+  rReturn tbl_orders;
+BEGIN
+  for rReturn in
+
+  DELETE FROM tbl_orders WHERE id = order_id RETURNING *
+
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+-- SELECT * FROM delete_menu_item(2);
+
+--Edit Menu Items
+-- add order item
+CREATE OR REPLACE FUNCTION edit_order_item(
+  order_id int,
+  order_item  int,
+  order_quantity int,
+  order_owner int
+)
+  RETURNS setof tbl_orders AS $$
+DECLARE
+  rReturn tbl_orders;
+BEGIN
+  for rReturn in
+
+  UPDATE tbl_orders
+  SET "user"=order_owner,item=order_item,quantity =order_quantity, modified = now()
+  WHERE id = order_id
+  RETURNING *
+
+
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
 

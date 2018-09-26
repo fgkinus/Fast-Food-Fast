@@ -7,6 +7,7 @@ from flask_restplus import abort
 from psycopg2.extras import RealDictCursor
 
 from app.Exceptions import StoredProcedureError
+from app.V2 import DB
 from app.V2.queries import queries, os, URL
 from instance.logging import Logging
 
@@ -20,15 +21,19 @@ class Database(object):
 
         # set up the logger
         self.logger = Logging().get_logger(__name__)
+        self.database = DB
 
     def init_db(self):
         """initialize the db with all its tables"""
-        init_queries = self.query_file_reader('creation_script.sql')
-        self.run_queries(init_queries)
-        self.run_shell_script('procedures.sql')
+        if self.database is None:
+            global DB  # treat DB as global
+            init_queries = self.query_file_reader('creation_script.sql')
+            self.run_queries(init_queries)
+            self.run_shell_script('procedures.sql')
 
-        self.logger.info("The database tables have been successfully initialised")
-        return self
+            self.logger.info("The database tables have been successfully initialised")
+            self.database = DB = self
+        return self.database
 
     def set_cursor(self):
         self.close_cursor()
