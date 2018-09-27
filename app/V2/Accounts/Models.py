@@ -33,6 +33,26 @@ class User(Base):
         )
         DB.execute_procedures('add_user', details)
 
+    def add_admin(self, details):
+        """
+        Add a  user to the DB and return the user
+        :param details:
+        :return: user
+        """
+        details = dict(details)
+        details.update({'isadmin': True})
+        details['password'] = self.generate_hash(details['password'])
+        details = (
+            details['username'],
+            details['first_name'],
+            details['second_name'],
+            details['surname'],
+            details['email'],
+            details['password'],
+            details['isadmin'],
+        )
+        DB.execute_procedures('add_user', details)
+
     def login_user(self, email, password):
         """a method to login users"""
         try:

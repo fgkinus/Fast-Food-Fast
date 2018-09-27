@@ -34,10 +34,36 @@ class AddUser(Resource):
         return res
 
 
+@namespace.route('/register-admin', endpoint="add-new-admin")
+class AddAdmin(Resource):
+    """view for registering new admins"""
+
+    @admin_required
+    @namespace.expect(Parsers().user)
+    def post(self):
+        """register new user to DB"""
+        data = Parsers().user.parse_args()
+        # validate input
+        try:
+            result = UserSchema().load(data)
+        except ValidationError as error:
+            DB.logger.error(str(error))
+            return {'message': str(error)}, getattr(error, 'code', 401)
+
+        # Add user to DB
+
+        User().add_admin(data)
+
+        res = {
+            "Message": "New user has been added",
+            "details": result}
+        return res
+
+
 @namespace.route('/login-user', endpoint="authenticate-users")
 class ValidateUser(Resource):
     """
-    A class for validating user sesessions
+    A class for validating user sessions
     """
 
     @namespace.expect(Parsers().login)
