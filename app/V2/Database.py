@@ -114,13 +114,16 @@ class Database(object):
         """
         self.set_cursor()
         try:
-            self.cursor.callproc(procedure, params)
-            result = self.cursor.fetchall()
+            with self.conn:
+                with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
+                    cur.callproc(procedure, params)
+                    result = cur.fetchall()
             self.logger.info("procedure successfully called:{0}".format(procedure))
             return result
         except Error as error:
             self.logger.error(
                 "procedure call failed : {0} :code:{1} \n ID:{2})".format(procedure, error.pgcode, error.pgerror))
+            abort(400, str(error.diag.message_detail))
 
     def run_shell_script(self, file):
         """
