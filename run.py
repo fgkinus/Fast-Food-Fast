@@ -8,12 +8,7 @@ from app.V2.queries import connection
 from app.V2.Database import Database
 from app.urls import urls_v1, urls_v2
 from dotenv import load_dotenv  # import the environment files
-
-# load external configurations
-load_dotenv(verbose=True)
-
-# initialise the DB
-Database(conn=connection).init_db()
+import app.V2
 
 # configure logging globally
 coloredlogs.install()

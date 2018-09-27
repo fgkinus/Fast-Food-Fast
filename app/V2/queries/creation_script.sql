@@ -8,7 +8,7 @@ create table if not exists tbl_users
   firstname  varchar(50)           not null,
   secondname varchar(50)           not null,
   surname    varchar(50),
-  password   varchar(50)           not null,
+  password   varchar(5000)           not null,
   isadmin    boolean default false not null
 );
 
