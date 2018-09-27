@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 
 from flask_restplus import abort
+from webargs import validate
 from marshmallow import Schema, fields
 from passlib.hash import pbkdf2_sha256 as sha256
 
@@ -167,13 +168,15 @@ class Admin(User):
 class UserSchema(Schema):
     """parse the user details for normal and admin users"""
     id = fields.Int(dump_only=True)
-    username = fields.Str()
+    username = fields.Str(validate=validate.Length(min=5), error="enter 5 or characters")
     firstname = fields.Str()
     secondname = fields.Str()
     surname = fields.Str()
-    email = fields.Str()
+    email = fields.Str(validate=validate.Email(error="The email address is invalid "))
+    password = fields.Str(validate=validate.Length(min=6), error="enter 6 or more characters")
     image = fields.Str()
     created = fields.Date(dump_only=True)
+    modified = fields.Date(dump_only=True)
 
     class Meta:
         strict = True
