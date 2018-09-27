@@ -173,8 +173,9 @@ class UserSchema(Schema):
     secondname = fields.Str()
     surname = fields.Str()
     email = fields.Str(validate=validate.Email(error="The email address is invalid "))
-    password = fields.Str(validate=validate.Length(min=6), error="enter 6 or more characters")
+    password = fields.Str(validate=validate.Length(min=6), error="enter 6 or more characters", load_only=True)
     image = fields.Str()
+    isadmin = fields.Bool(dump_only=True)
     created = fields.Date(dump_only=True)
     modified = fields.Date(dump_only=True)
 

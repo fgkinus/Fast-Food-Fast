@@ -52,6 +52,23 @@ END;
 $$
 LANGUAGE plpgsql;
 
+-- login user against email and password
+CREATE OR REPLACE FUNCTION get_user_by_email(
+  user_email VARCHAR
+)
+  RETURNS setof tbl_users AS $$
+DECLARE
+  rReturn tbl_users;
+BEGIN
+  for rReturn in
+  SELECT * FROM tbl_users u WHERE u.email = user_email-- Open a cursor
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+
 -- add a new user
 CREATE OR REPLACE FUNCTION add_user(
   username   varchar,

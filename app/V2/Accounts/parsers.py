@@ -6,6 +6,7 @@ class Parsers:
 
     def __init__(self):
         self.user = self.user_parser()
+        self.login = self.login_details()
 
     @staticmethod
     def user_parser():
@@ -14,11 +15,23 @@ class Parsers:
         :return: user_parser
         """
         request_parser = reqparse.RequestParser()
-        request_parser.add_argument('username', help='This field cannot be blank', required=True,)
+        request_parser.add_argument('username', help='This field cannot be blank', required=True, )
         request_parser.add_argument('first_name', help='This field cannot be blank', required=True)
         request_parser.add_argument('second_name', help='This field cannot be blank', required=True)
         request_parser.add_argument('email', help='This field cannot be blank', required=True,
                                     type=inputs.email(check=True))
         request_parser.add_argument('password', help='This field cannot be blank', required=True)
         request_parser.add_argument('surname', help='This field cannot be blank', required=True)
+        return request_parser
+
+    @staticmethod
+    def login_details():
+        """
+        a parser for logging in details
+        :return: parser
+        """
+        request_parser = reqparse.RequestParser()
+        request_parser.add_argument('email', help='This field cannot be blank', required=True,
+                                    type=inputs.email(check=True))
+        request_parser.add_argument('password', help='This field cannot be blank', required=True)
         return request_parser
