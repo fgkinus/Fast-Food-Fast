@@ -79,3 +79,42 @@ class User(Base):
             return self.user['isadmin']
         else:
             return False
+
+    @staticmethod
+    def get_user_by_username(username):
+        """
+        get user details by username
+        :param username:
+        :return: user
+        """
+        user = DB.execute_procedures('get_users_by_username', (username,))
+
+        if len(user) == 0:
+            DB.logger.debug("user details for {0} not found".format(username))
+            abort(200, "user details for {0} not found".format(username))
+        else:
+            return user[0]
+
+    @staticmethod
+    def edit_user(original, updated):
+        """
+        Accept the original and updated user details and update the database
+        :param original:
+        :param updated:
+        :return: updated
+        """
+        user_id = original['id']
+        updated.update({'isadmin': original['isadmin']})
+        details = (
+            user_id,
+            updated['username'],
+            updated['first_name'],
+            updated['second_name'],
+            updated['surname'],
+            updated['email'],
+            updated['password'],
+            updated['isadmin'],
+        )
+        new_details = DB.execute_procedures('modify_user', details)
+
+        return new_details[0]

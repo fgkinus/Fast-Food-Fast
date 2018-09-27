@@ -9,7 +9,9 @@ create table if not exists tbl_users
   secondname varchar(50)           not null,
   surname    varchar(50),
   password   varchar(5000)           not null,
-  isadmin    boolean default false not null
+  isadmin    boolean default false not null,
+  created    timestamp default now(),
+  modified timestamp,
 );
 
 

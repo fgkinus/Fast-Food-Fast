@@ -1,4 +1,4 @@
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, get_current_user, get_jwt_identity, jwt_required
 from flask_restplus import Resource, reqparse
 from webargs.flaskparser import use_kwargs, use_args
 
@@ -89,4 +89,39 @@ class ValidateUser(Resource):
             access_token=access_token
         )
 
+        return ret
+
+
+@namespace.route('/profile', endpoint='User profile')
+class UserProfile(Resource):
+    """User profile related actions"""
+
+    @jwt_required
+    def get(self):
+        """
+        Get and return the details of the currently logged in user
+        :return: user
+        """
+        user = get_jwt_identity()
+        user_details = User().get_user_by_username(user)
+        ret = dict(
+            user_details=UserSchema().dump(user_details)
+        )
+        return ret
+
+    @jwt_required
+    @namespace.expect(Parsers().user)
+    def put(self):
+        """
+        Edit a currently logged in user's details
+        :return:
+        """
+        user = get_jwt_identity()
+        user_details = User().get_user_by_username(user)
+
+        data = Parsers().user.parse_args()
+        modified = User().edit_user(user_details, data)
+        ret = dict(
+            details=UserSchema().dump(modified)
+        )
         return ret
