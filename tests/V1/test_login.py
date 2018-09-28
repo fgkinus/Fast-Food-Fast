@@ -1,5 +1,6 @@
 from app.V1.Accounts import Models
 from tests.conftest import json_of_response
+from app.urls import auth_ns, urls_v1
 
 
 class TestLogin(object):
@@ -10,7 +11,7 @@ class TestLogin(object):
         user = Models.User().add_user(username='testuser', firstname='firstname', surname='sir', secondname='second',
                                       password='pass',
                                       email='testuser@test.com')
-        response = test_client.post('/api/v1/login',
+        response = test_client.post(urls_v1[auth_ns] + '/login',
                                     data=dict(
                                         email='testuser@test.com',
                                         password='pass'

@@ -4,7 +4,7 @@ from flask_restplus import Resource, reqparse, inputs, abort
 # define a namespace for authentication and registration of users
 from app.V1.Accounts import Models
 from app.V1.Accounts.Models import users
-from .decorators import *
+from app.V1.Accounts.decorators import *
 
 
 # register new user

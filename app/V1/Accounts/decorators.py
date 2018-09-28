@@ -36,7 +36,7 @@ def admin_required(fn):
         verify_jwt_in_request()
         claims = get_jwt_claims()
         if claims['admin'] is False:
-            return {'msg': "Admin Users only!!!"}, 401
+            return {'message': "Admin Users only!!!"}, 401
         else:
             return fn(*args, **kwargs)
 

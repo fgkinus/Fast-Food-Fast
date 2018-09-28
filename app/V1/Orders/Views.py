@@ -58,7 +58,7 @@ class ViewMenuOrderItem(Resource):
 
     # parser.add_argument('owner', required=False, type=int)
 
-    # @admin_required
+    @admin_required
     @namespace.param(name='id', description="The identity of the order")
     def get(self, id):
         """get item"""
@@ -71,6 +71,7 @@ class ViewMenuOrderItem(Resource):
 
     @namespace.param(name='id', description="modify the order")
     @namespace.expect(parser)
+    @admin_required
     def patch(self, id):
         """get item"""
         schema = OrderSchema()
