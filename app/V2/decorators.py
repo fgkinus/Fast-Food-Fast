@@ -2,13 +2,10 @@
 from functools import wraps
 
 import marshmallow
-from flask import jsonify
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_claims
 from flask_jwt_extended.exceptions import NoAuthorizationError
-from flask_marshmallow import Marshmallow
 from flask_restplus import Namespace
 from jwt import ExpiredSignature, InvalidSignatureError
-from marshmallow import ValidationError
 
 from app import jwt
 from app.Exceptions import AlreadyExists

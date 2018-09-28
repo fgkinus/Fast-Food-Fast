@@ -11,7 +11,7 @@ create table if not exists tbl_users
   password   varchar(5000)           not null,
   isadmin    boolean default false not null,
   created    timestamp default now(),
-  modified timestamp,
+  modified timestamp
 );
 
 

@@ -1,5 +1,5 @@
 from flask_restplus import abort
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, ValidationError, validates
 import datetime as dt
 
 from app.Exceptions import AlreadyExists
@@ -101,10 +101,15 @@ class MenuItem:
 
 
 class MenuItemSchema(Schema):
-    ID = fields.Int()
+    id = fields.Int(dump_only=True)
     name = fields.Str()
     image = fields.Str()
     price = fields.Float()
-    owner = fields.Str()
-    added = fields.Date()
-    Modified = fields.Date()
+    owner = fields.Str(dump_only=True)
+    added = fields.Date(dump_only=True)
+    modified = fields.Date(dump_only=True)
+
+    @validates('price')
+    def validate_quantity(self, value):
+        if value < 0:
+            raise ValidationError('Quantity must be greater than 0.')
