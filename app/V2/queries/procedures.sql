@@ -61,7 +61,7 @@ DECLARE
   rReturn tbl_users;
 BEGIN
   for rReturn in
-  SELECT * FROM tbl_users u WHERE u.email = user_email-- Open a cursor
+  SELECT * FROM tbl_users u WHERE u.email = user_email -- Open a cursor
   loop
     return next rReturn;
   end loop;
@@ -217,14 +217,14 @@ LANGUAGE plpgsql;
 
 --get menu item by id
 CREATE OR REPLACE FUNCTION get_menu_item_by_id(
-item_id int
+  item_id int
 )
   RETURNS setof tbl_menuitems AS $$
 DECLARE
   rReturn tbl_menuitems;
 BEGIN
   for rReturn in
-  SELECT * FROM tbl_menuitems where id=item_id-- Open a cursor
+  SELECT * FROM tbl_menuitems where id = item_id -- Open a cursor
   loop
     return next rReturn;
   end loop;
@@ -235,14 +235,14 @@ LANGUAGE plpgsql;
 
 -- get menu item by name
 CREATE OR REPLACE FUNCTION get_menu_item_by_name(
-item_name varchar
+  item_name varchar
 )
   RETURNS setof tbl_menuitems AS $$
 DECLARE
   rReturn tbl_menuitems;
 BEGIN
   for rReturn in
-  SELECT * FROM tbl_menuitems where name=item_name
+  SELECT * FROM tbl_menuitems where name = item_name
   loop
     return next rReturn;
   end loop;
@@ -304,7 +304,7 @@ LANGUAGE plpgsql;
 
 --Delete a menu items
 CREATE OR REPLACE FUNCTION delete_menu_item(
-item_id int
+  item_id int
 )
   RETURNS setof tbl_menuitems AS $$
 DECLARE
@@ -312,7 +312,8 @@ DECLARE
 BEGIN
   for rReturn in
 
-  DELETE FROM tbl_menuitems WHERE id = item_id RETURNING *
+  DELETE FROM tbl_menuitems WHERE id = item_id
+  RETURNING *
 
   loop
     return next rReturn;
@@ -343,14 +344,14 @@ LANGUAGE plpgsql;
 
 --get order item by id
 CREATE OR REPLACE FUNCTION get_order_item_by_id(
-item_id int
+  item_id int
 )
   RETURNS setof tbl_orders AS $$
 DECLARE
   rReturn tbl_orders;
 BEGIN
   for rReturn in
-  SELECT * FROM tbl_orders where id=item_id-- Open a cursor
+  SELECT * FROM tbl_orders where id = item_id -- Open a cursor
   loop
     return next rReturn;
   end loop;
@@ -360,14 +361,14 @@ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION get_order_item_by_user_id(
-user_id int
+  user_id int
 )
   RETURNS setof tbl_orders AS $$
 DECLARE
   rReturn tbl_orders;
 BEGIN
   for rReturn in
-  SELECT * FROM tbl_orders where "user"=user_id-- Open a cursor
+  SELECT * FROM tbl_orders where "user" = user_id -- Open a cursor
   loop
     return next rReturn;
   end loop;
@@ -377,9 +378,10 @@ LANGUAGE plpgsql;
 
 -- add order item
 CREATE OR REPLACE FUNCTION add_order_item(
-  order_item  int,
+  order_item     int,
   order_quantity int,
-  order_owner int
+  order_location varchar,
+  order_owner    int
 )
   RETURNS setof tbl_orders AS $$
 DECLARE
@@ -387,7 +389,8 @@ DECLARE
 BEGIN
   for rReturn in
 
-  INSERT INTO tbl_orders ("user",item,quantity) VALUES (order_owner,order_item,order_quantity)
+  INSERT INTO tbl_orders ("user", item, quantity, location)
+  VALUES (order_owner, order_item, order_quantity, order_location)
   RETURNING *
 
 
@@ -400,7 +403,7 @@ LANGUAGE plpgsql;
 
 --Delete a menu items
 CREATE OR REPLACE FUNCTION delete_order_item(
-order_id int
+  order_id int
 )
   RETURNS setof tbl_orders AS $$
 DECLARE
@@ -408,7 +411,8 @@ DECLARE
 BEGIN
   for rReturn in
 
-  DELETE FROM tbl_orders WHERE id = order_id RETURNING *
+  DELETE FROM tbl_orders WHERE id = order_id
+  RETURNING *
 
   loop
     return next rReturn;
@@ -421,10 +425,11 @@ LANGUAGE plpgsql;
 --Edit Menu Items
 -- add order item
 CREATE OR REPLACE FUNCTION edit_order_item(
-  order_id int,
-  order_item  int,
+  order_id       int,
+  order_item     int,
   order_quantity int,
-  order_owner int
+  order_location varchar(50),
+  order_owner    int
 )
   RETURNS setof tbl_orders AS $$
 DECLARE
@@ -433,7 +438,7 @@ BEGIN
   for rReturn in
 
   UPDATE tbl_orders
-  SET "user"=order_owner,item=order_item,quantity =order_quantity, modified = now()
+  SET "user" = order_owner, item = order_item, quantity = order_quantity, modified = now(), location = order_location
   WHERE id = order_id
   RETURNING *
 

@@ -80,8 +80,7 @@ class User(Base):
         else:
             return False
 
-    @staticmethod
-    def get_user_by_username(username):
+    def get_user_by_username(self, username):
         """
         get user details by username
         :param username:
@@ -93,10 +92,10 @@ class User(Base):
             DB.logger.debug("user details for {0} not found".format(username))
             abort(200, "user details for {0} not found".format(username))
         else:
+            self.user = user[0]
             return user[0]
 
-    @staticmethod
-    def edit_user(original, updated):
+    def edit_user(self, original, updated):
         """
         Accept the original and updated user details and update the database
         :param original:
@@ -116,5 +115,13 @@ class User(Base):
             updated['isadmin'],
         )
         new_details = DB.execute_procedures('modify_user', details)
+        self.user = new_details[0]
 
         return new_details[0]
+
+    @staticmethod
+    def add_default_admin():
+        """add a default admin user on Db initialisation"""
+        user_details = (
+            'admin', 'root_admin', 'default', 'base', 'admin@root.com', 'adminpassword', True
+        )

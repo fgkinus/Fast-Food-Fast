@@ -8,12 +8,11 @@ create table if not exists tbl_users
   firstname  varchar(50)           not null,
   secondname varchar(50)           not null,
   surname    varchar(50),
-  password   varchar(5000)           not null,
+  password   varchar(5000)         not null,
   isadmin    boolean default false not null,
   created    timestamp default now(),
-  modified timestamp
+  modified   timestamp
 );
-
 
 
 create unique index if not exists tbl_users_username_uindex
@@ -38,7 +37,6 @@ create table if not exists tbl_menuitems
 );
 
 
-
 create unique index if not exists tbl_menuitems_id_uindex
   on tbl_menuitems (id);
 
@@ -59,10 +57,10 @@ create table if not exists tbl_orders
     references tbl_menuitems
     on update cascade on delete cascade,
   quantity integer default 1       not null,
+  location varchar(55)             not null,
   created  timestamp default now() not null,
   modified timestamp
 );
-
 
 
 create unique index if not exists tbl_orders_id_uindex
@@ -77,7 +75,6 @@ create table if not exists tbl_ref_status
   created     timestamp   default now(),
   modified    timestamp
 );
-
 
 
 create unique index if not exists tbl_ref_status_id_uindex
