@@ -125,12 +125,12 @@ class Orders:
 
 
 class OrderSchema(Schema):
-    ID = fields.Int()
-    item = fields.Int()
-    quantity = fields.Int()
+    id = fields.Int(dump_only=True)
+    item = fields.Int(required=True)
+    quantity = fields.Int(required=True)
     amount = fields.Float()
     status = fields.Str()
-    owner = fields.Str()
-    location = fields.Str()
+    user = fields.Str(required=True)
+    location = fields.Str(required=True)
     created = fields.Date()
     Modified = fields.Date()
