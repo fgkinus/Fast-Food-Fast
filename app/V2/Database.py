@@ -121,9 +121,14 @@ class Database(object):
             self.logger.info("procedure successfully called:{0}".format(procedure))
             return result
         except Error as error:
-            self.logger.error(
-                "procedure call failed : {0} :code:{1} \n ID:{2})".format(procedure, error.pgcode, error.pgerror))
-            abort(400, str(error.diag.message_detail))
+            # Raise Exception if error is unknown
+            if error.pgcode is None:
+                self.logger.critical("Critical non-Database error : {0}".format(error))
+                abort(400, "Critical Internal Error.Please contact ADMIN")
+            else:
+                self.logger.error(
+                    "procedure call failed : {0} :code:{1} \n ID:{2})".format(procedure, error.pgcode, error.pgerror))
+                abort(500, str(error.diag.message_detail))
 
     def run_shell_script(self, file):
         """

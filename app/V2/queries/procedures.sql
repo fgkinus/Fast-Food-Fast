@@ -450,3 +450,76 @@ END;
 $$
 LANGUAGE plpgsql;
 
+-- Order statuses
+--Delete a menu items
+CREATE OR REPLACE FUNCTION get_all_order_status()
+  RETURNS setof tbl_ref_status AS $$
+DECLARE
+  rReturn tbl_ref_status;
+BEGIN
+  for rReturn in
+
+  select id, description from tbl_ref_status
+
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+
+--select * from get_all_order_status();
+
+-- set order status
+CREATE OR REPLACE FUNCTION set_order_status(
+  order_id       INT,
+  response_id    INT,
+  response_owner int
+)
+  RETURNS setof tbl_order_status AS $$
+DECLARE
+  rReturn tbl_order_status;
+BEGIN
+  for rReturn in
+
+  INSERT INTO tbl_order_status ("order", status, owner) VALUES (order_id, response_id, response_owner)
+  RETURNING *
+
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+
+-- Edit existing order status
+CREATE OR REPLACE FUNCTION edit_order_status(
+  order_id       int,
+  response_id    int,
+  response_owner int
+)
+  RETURNS setof tbl_order_status AS $$
+DECLARE
+  rReturn tbl_order_status;
+BEGIN
+  for rReturn in
+
+  UPDATE tbl_order_status
+  SET status = response_id, owner = response_owner, modified = now()
+  WHERE "order" = order_id
+  RETURNING *
+
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+
+
+-- select * from set_order_status(6,2,3);
+-- -- --
+-- select * from edit_order_status(4,3,1);
+-- -- select * from tbl_order_status;
+-- -- select * from tbl_ref_status;
+-- -- select * from tbl_order_status;

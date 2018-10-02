@@ -4,7 +4,7 @@ from flask_restplus import Resource, Namespace, abort
 from app.V2.Accounts.Models import User
 from app.V2.Orders import Parsers
 from app.V2.Orders.Models import Order
-from app.V2.Orders.Parsers import Parsers
+from app.V2.Orders.Parsers import Parsers, ResponseSchema
 from app.V2.decorators import admin_required
 from app.V2.utils import Utils
 
@@ -104,10 +104,42 @@ class GetEditDeleteOrder(Resource):
         return ret
 
 
+@namespace.route('/response', endpoint='list-responses')
+class Responses(Resource):
+    @admin_required
+    def get(self):
+        """
+        list all responses
+        :return:
+        """
+        responses = Order.get_order_statuses()
+        return responses
+
+
 @namespace.route('/response/<order_id>/<response>')
-class OrderRespose:
+class OrderResponse(Resource):
     """Add and Edit order responses for admin"""
 
-    def post(self, order_id, response):
+    @admin_required
+    def put(self, order_id, response):
         """add order response"""
-        pass
+        # validate input
+        order_id = Utils.parse_int(order_id)
+        response = Utils.parse_int(response)
+        # create order Item
+        order = Order()
+        # validate order existence
+        order.get_order(order_id)
+        response = order.check_order_statuses_exist(response)
+        # fetch user details
+        user = get_jwt_identity()
+        user = User().get_user_by_username(user)
+
+        # set order status
+        try:
+            status = order.set_order_status(order_id, response['id'], user['id'])
+        except:
+            status = order.edit_order_status(order_id, response['id'], user['id'])
+
+        serialized = order.parser().dump(status)
+        return serialized

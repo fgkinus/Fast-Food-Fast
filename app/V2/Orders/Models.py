@@ -100,12 +100,47 @@ class Order(Base):
         Get and return all order statuses
         :return: order statuses
         """
-        pass
+        status = DB.execute_procedures('get_all_order_status', ())
+        status = status
+        return status
 
-    @staticmethod
-    def check_order_statuses_exist(status_id):
+    def check_order_statuses_exist(self, status_id):
         """
-        Get order status exists
+        Get order status if exists
         :return status_details:
         """
-        pass
+        status = self.get_order_statuses()
+        for st in status:
+            if st['id'] == status_id:
+                return st
+        abort(400, "The status id does not reference a known response ")
+
+    def set_order_status(self, order, response, owner):
+        """
+        Add response for orders
+        :param order:
+        :param response:
+        :param owner:
+        :return:
+        """
+        # response = DB.query_db_with_results(
+        #     "SELECT * from set_order_status({0},{1},{2})".format(order, response, owner))
+        response = DB.execute_procedures('set_order_status', (order, response, owner))
+        self.status = response[0]
+        self.details['status'] = response
+        return self.details
+
+    def edit_order_status(self, order, response, owner):
+        """
+        Add response for orders
+        :param order:
+        :param response:
+        :param owner:
+        :return:
+        """
+        # response = DB.query_db_with_results(
+        #     "SELECT * from set_order_status({0},{1},{2})".format(order, response, owner))
+        response = DB.execute_procedures('edit_order_status', (order, response, owner))
+        self.status = response[0]
+        self.details['status'] = response
+        return self.details

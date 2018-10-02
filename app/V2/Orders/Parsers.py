@@ -1,4 +1,5 @@
 from flask_restplus.reqparse import RequestParser
+from marshmallow import Schema, fields
 
 
 class Parsers:
@@ -18,3 +19,13 @@ class Parsers:
         parser.add_argument('location', required=True, help="Please provide a location for delivery")
 
         return parser
+
+
+class ResponseSchema(Schema):
+    """A schema class for response"""
+    id = fields.Int(dump_only=True)
+    order = fields.Int(dump_only=True)
+    status = fields.Int(dump_only=True)
+    owner = fields.Int(dump_only=True)
+    created = fields.Date(dump_only=True)
+    modified = fields.Date(dump_only=True)
