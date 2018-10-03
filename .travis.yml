@@ -4,7 +4,7 @@ python:
 install: pip install -r requirements.txt
 services: postgresql
 before_script:
-- psql -c 'create database if not exists fast_food_fast;' -U postgres
+- psql -c 'create database fast_food_fast;' -U postgres
 - psql -U postgre --default-character-set=utf8 fast_food_fast < app/V2/queries/creation_script.sql
 - psql -U postgre --default-character-set=utf8 fast_food_fast < app/V2/queries/procedures.sql
 
