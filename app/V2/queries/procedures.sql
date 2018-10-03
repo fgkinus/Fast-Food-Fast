@@ -518,27 +518,28 @@ LANGUAGE plpgsql;
 
 -- initialize the default admin
 insert into tbl_users (username, email, firstname, secondname, surname, password, isadmin)
-SELECT 'admin',
-       'admin@email.com',
-       'first',
-       'second',
-       'surname',
-       '$pbkdf2-sha256$29000$qdV6j7E25lxLae1dK2UMAQ$RdOvB.vKESGyl6H15Y6byTvLczKdSbqVd.hcKK6YCX8',
-       TRUE
-WHERE NOT EXISTS(select * from tbl_users where email = 'admin@email.com');
+VALUES ('admin',
+        'admin@email.com',
+        'first',
+        'second',
+        'surname',
+        '$pbkdf2-sha256$29000$qdV6j7E25lxLae1dK2UMAQ$RdOvB.vKESGyl6H15Y6byTvLczKdSbqVd.hcKK6YCX8',
+        TRUE)
+ON CONFLICT (email) DO NOTHING;
 -- initialize default user
 insert into tbl_users (username, email, firstname, secondname, surname, password, isadmin)
-SELECT 'fgkinus',
-       'kinusfg@email.com',
-       'francis',
-       'GItau',
-       'surname',
-       '$pbkdf2-sha256$29000$qdV6j7E25lxLae1dK2UMAQ$RdOvB.vKESGyl6H15Y6byTvLczKdSbqVd.hcKK6YCX8',
-       FALSE
-WHERE NOT EXISTS(select * from tbl_users where email = 'kinusfg@email.com');
+VALUES ('fgkinus',
+        'kinusfg@email.com',
+        'francis',
+        'GItau',
+        'surname',
+        '$pbkdf2-sha256$29000$qdV6j7E25lxLae1dK2UMAQ$RdOvB.vKESGyl6H15Y6byTvLczKdSbqVd.hcKK6YCX8',
+        FALSE)
+    ON CONFLICT (email) DO NOTHING ;
 -- select * from set_order_status(6,2,3);
 -- -- --
 -- select * from edit_order_status(4,3,1);
 -- -- select * from tbl_order_status;
 -- -- select * from tbl_ref_status;
 -- -- select * from tbl_order_status;
+
