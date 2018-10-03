@@ -4,7 +4,7 @@ python:
 install: pip install -r requirements.txt
 services: postgresql
 before_script:
-- psql -c 'create database fast_food_fast;' -U postgres
+- psql -c 'create database Fast-Food-Fast;' -U postgres
 
 script:
 - coverage run --source app\V2 -m py.test
