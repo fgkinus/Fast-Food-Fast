@@ -7,11 +7,10 @@ before_script:
 - psql -c 'create database fast_food_fast;' -U postgres
 - psql -c 'create database test;' -U postgres
 - psql -c "select table_name from information_schema.tables where table_schema = 'public';"
-- export FLASK_APP="run.py"
-- export SECRET="$pbkdf2-sha256$29000$I.T8f8/ZG8M4J0QIwTgHIA$.9wCvRZECxd7/yvHttEgoHzpvgjdhjizq5ySewKfeQc"
-- export APP_SETTINGS="development"
+
 script:
-- py.test --cov-report term-missing  --cov app/ --cov tests/
+- coverage run --source app\V2 -m py.test
+- coverage report
 after_success: coveralls
 deploy:
   provider: heroku
