@@ -8,8 +8,8 @@ before_script:
 
 script:
 #- coverage run --source app\V2 -m py.test
-  -coverage run run.py  -m py.test
-  - coverage report
+- py.test --cov=app/v2 tests/
+
 after_success: coveralls
 deploy:
   provider: heroku
