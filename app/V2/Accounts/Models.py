@@ -119,10 +119,3 @@ class User(Base):
         self.user = new_details[0]
 
         return new_details[0]
-
-    @staticmethod
-    def add_default_admin():
-        """add a default admin user on Db initialisation"""
-        user_details = (
-            'admin', 'root_admin', 'default', 'base', 'admin@root.com', 'adminpassword', True
-        )

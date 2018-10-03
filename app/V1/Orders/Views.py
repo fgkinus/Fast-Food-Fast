@@ -11,7 +11,7 @@ namespace = Namespace('Orders', description='Orders related operations')
 
 @namespace.route('/', endpoint='Get-Order-items')
 class ViewMenuOrders(Resource):
-    """A viewset for Order items"""
+    """A view set for Order items"""
     schema = OrderSchema()
     parser = RequestParser()
     parser.add_argument('item', required=True, type=int, help="item cannot be blank")
@@ -55,8 +55,6 @@ class ViewMenuOrderItem(Resource):
     parser.add_argument('item', required=False, type=int, help="item cannot be blank")
     parser.add_argument('quantity', required=False, type=int, help="item cannot be blank")
     parser.add_argument('location', required=False, type=str, help="item cannot be blank")
-
-    # parser.add_argument('owner', required=False, type=int)
 
     @admin_required
     @namespace.param(name='id', description="The identity of the order")
@@ -106,7 +104,7 @@ class HistoricalOrders(Resource):
     def get(self):
         """
         A method to display order history
-        :return history:
+        :return history:1QqQ2
         """
         user = get_jwt_identity()
         history = Orders().order_history(user)

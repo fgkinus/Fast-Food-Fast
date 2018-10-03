@@ -1,7 +1,6 @@
-from flask_jwt_extended import create_access_token, get_current_user, get_jwt_identity, jwt_required
-from flask_restplus import Resource, reqparse
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+from flask_restplus import Resource
 from marshmallow import ValidationError
-from webargs.flaskparser import use_kwargs, use_args
 
 from app.V1.Accounts.Models import UserSchema
 from app.V2 import DB
@@ -66,7 +65,6 @@ class ValidateUser(Resource):
     """
     A class for validating user sessions
     """
-
     @namespace.expect(Parsers().login)
     def post(self):
         """

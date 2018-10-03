@@ -4,11 +4,8 @@ import coloredlogs
 
 from app import create_app, jwt
 from app.Models import API, URLS
-from app.V2.queries import connection
-from app.V2.Database import Database
-from app.urls import urls_v1, urls_v2
-from dotenv import load_dotenv  # import the environment files
-import app.V2
+from app.urls import urls_v2
+
 
 # configure logging globally
 coloredlogs.install()

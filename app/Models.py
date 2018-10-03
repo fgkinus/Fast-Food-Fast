@@ -1,4 +1,3 @@
-from flask_jwt_extended import JWTManager
 from flask_restplus import Api, abort
 
 from app.Exceptions import AttributeNotFound

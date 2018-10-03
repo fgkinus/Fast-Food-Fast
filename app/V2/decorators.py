@@ -30,6 +30,7 @@ def user_identity_lookup(user):
     return user.user['username']
 
 
+# An admin validation wrapper function
 def admin_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -75,7 +76,7 @@ def handle_already_exists_exception(error):
 @namespace.errorhandler(marshmallow.exceptions.ValidationError)
 def handle_validation_exception(error):
     """Handle handle the already exists error"""
-    return {"error message"}, 500  # {'message': error.message}, getattr(error, 'code', 500)
+    return {"error message"}, 500
 
 
 @namespace.errorhandler

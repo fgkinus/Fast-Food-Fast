@@ -4,11 +4,9 @@ import subprocess
 import connection_url
 import psycopg2
 from flask_restplus import abort
-from psycopg2._psycopg import DatabaseError, Error
+from psycopg2._psycopg import Error
 from psycopg2.extras import RealDictCursor
 
-from app.Exceptions import StoredProcedureError
-import app
 from app.V2.queries import queries, os, URL
 from instance.logging import Logging
 
