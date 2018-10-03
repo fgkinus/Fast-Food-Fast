@@ -7,11 +7,12 @@ from app.V2.Accounts.Models import User
 from app.V2.MenuItems.Models import MenuItems
 from app.V2.MenuItems.Parsers import Parsers
 from app.V2.decorators import *
+from app.V2.utils import Utils
 
 namespace = Namespace("MenuItems", "Menu Items Related Operations")
 
 
-@namespace.route('/items', endpoint="add-edit menuitems")
+@namespace.route('/', endpoint="add-edit menu items")
 class ViewAddMenuItems(Resource):
     """add and view menu items"""
 
@@ -46,7 +47,7 @@ class ViewAddMenuItems(Resource):
         return items
 
 
-@namespace.route('/items/<item_id>', endpoint="add-edit menuitem")
+@namespace.route('/<item_id>', endpoint="add-edit menuitem")
 class ViewEditMenuItems(Resource):
     """Views for editting and modifying menu items"""
 
@@ -56,7 +57,7 @@ class ViewEditMenuItems(Resource):
         :param item_id:
         :return:
         """
-        item_id = int(item_id)
+        item_id = Utils.parse_int(item_id)
         items = MenuItems().get_specific_menu_item(item_id)
         item = MenuItems().schema().dump(items)
 
@@ -69,7 +70,7 @@ class ViewEditMenuItems(Resource):
         :param item_id:
         :return:
         """
-        item_id = int(item_id)
+        item_id = Utils.parse_int(item_id)
         items = MenuItems().delete_menu_item(item_id)
         item = MenuItems().schema().dump(items)
         ret = dict(
@@ -85,8 +86,9 @@ class ViewEditMenuItems(Resource):
         edit a menu items details
         :return: modified
         """
+        item_id = Utils.parse_int(item_id)
         data = Parsers().item.parse_args()
-        original = MenuItems().get_specific_menu_item(int(item_id))
+        original = MenuItems().get_specific_menu_item(item_id)
         modified = MenuItems().edit_menu_item(original, data)
         modified = MenuItems().schema().dump(modified)
 

@@ -47,7 +47,11 @@ class GetOrderHistory(Resource):
     @jwt_required
     @namespace.doc("List all historical personal orders")
     def get(self):
-        """fetch and list all historical orders"""
+        """
+        fetch and list all historical orders
+        :auth: non-admin
+        :return:
+        """
         user = get_jwt_identity()
         user = User().get_user_by_username(username=user)
         history = Order().get_historical_orders(user=user['id'])
@@ -86,8 +90,7 @@ class GetEditDeleteOrder(Resource):
 
     @jwt_required
     @namespace.expect(Parsers().raw)
-    def put(self, order_id):
-        """Edit an order"""
+    def patch(self, order_id):
         order_id = Utils.parse_int(order_id)
         order = Order()
         order.get_order(order_id)
@@ -116,7 +119,7 @@ class Responses(Resource):
         return responses
 
 
-@namespace.route('/response/<order_id>/<response>')
+@namespace.route('/<order_id>/<response>')
 class OrderResponse(Resource):
     """Add and Edit order responses for admin"""
 

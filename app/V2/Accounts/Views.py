@@ -10,7 +10,7 @@ from app.V2.decorators import *
 from app.V2.Accounts.Models import User
 
 
-@namespace.route('/register-user', endpoint="add-new-user")
+@namespace.route('/signup', endpoint="add-new-user")
 class AddUser(Resource):
     """view for registering users"""
 
@@ -61,7 +61,7 @@ class AddAdmin(Resource):
         return res
 
 
-@namespace.route('/login-user', endpoint="authenticate-users")
+@namespace.route('/login', endpoint="authenticate-users")
 class ValidateUser(Resource):
     """
     A class for validating user sessions
