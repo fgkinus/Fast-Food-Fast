@@ -7,7 +7,7 @@ from flask_jwt_extended import create_access_token
 from app import create_app, jwt
 from app.V1.Accounts.Models import Admin, User
 from app.Models import API, URLS
-from app.V2 import DB
+from app.V2 import DB, Database, connection
 from app.V2.Accounts.Models import User
 from app.urls import urls_v1, urls_v2
 
@@ -51,6 +51,8 @@ def test_client_2():
     api = API(app, jwt)
     api = URLS(api, urls=urls_v2).get_api()
 
+    DB = Database(conn=connection).init_db()
+
     client = api.app.test_client()
     ctx = api.app.app_context()
     ctx.push()
@@ -74,32 +76,6 @@ def create_admin_token():
 
 @pytest.fixture()
 def create_user_token():
-    """A reusable function to create a user token"""
-    user = User().login_user('kinusfg@email.com', 'password')
-    # create access token
-    access_token_user = create_access_token(identity=user)
-    # create header
-    header_user = {
-        'Authorization': 'Bearer {}'.format(access_token_user)
-    }
-    return header_user
-
-
-@pytest.fixture()
-def create_admin_token_v1():
-    "a reusable function to create an admin token"
-    user = User().login_user('admin@email.com', 'password')
-    # create access token
-    access_token_admin = create_access_token(identity=user)
-    # create header
-    header_admin = {
-        'Authorization': 'Bearer {}'.format(access_token_admin)
-    }
-    return header_admin
-
-
-@pytest.fixture()
-def create_user_token_v1():
     """A reusable function to create a user token"""
     user = User().login_user('kinusfg@email.com', 'password')
     # create access token
