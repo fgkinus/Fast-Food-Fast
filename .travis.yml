@@ -11,7 +11,7 @@ before_script:
 - export SECRET="$pbkdf2-sha256$29000$I.T8f8/ZG8M4J0QIwTgHIA$.9wCvRZECxd7/yvHttEgoHzpvgjdhjizq5ySewKfeQc"
 - export APP_SETTINGS="development"
 script:
-- py.test --cov-report term-missing  --cov tests/
+- py.test --cov-report term-missing  --cov app/ --cov tests/
 after_success: coveralls
 deploy:
   provider: heroku
