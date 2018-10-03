@@ -30,4 +30,4 @@ api = URLS(api, urls_v2).get_api()
 app = api.app
 
 if __name__ == '__main__':
-    app.run()
+    app.run(use_reloader=False)
