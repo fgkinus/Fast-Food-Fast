@@ -24,6 +24,7 @@ class Order(Base):
         """
         order = DB.execute_procedures('add_order_item', (item, quantity, location, owner))
         self.details = order[0]
+        DB.logger.debug(self.details)
         return self
 
     def get_order(self, order_id):
@@ -33,6 +34,7 @@ class Order(Base):
         """
         if self.details is None:
             order = DB.execute_procedures('get_order_item_by_id', (order_id,))
+            DB.logger.debug(order)
             self.details = order[0]
             return self.details
         else:
