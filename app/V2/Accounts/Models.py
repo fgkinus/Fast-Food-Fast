@@ -57,6 +57,7 @@ class User(Base):
         """a method to login users"""
         try:
             user = DB.execute_procedures('get_user_by_email', (email,))
+            DB.logger.debug(user[0])
         except Exception:
             DB.logger.info("user details for email {0} not found".format(email))
             abort(401, "user email not found")

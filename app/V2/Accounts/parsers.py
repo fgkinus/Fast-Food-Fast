@@ -16,12 +16,12 @@ class Parsers:
         """
         request_parser = reqparse.RequestParser()
         request_parser.add_argument('username', help='This field cannot be blank', required=True, )
-        request_parser.add_argument('first_name', help='This field cannot be blank', required=True)
-        request_parser.add_argument('second_name', help='This field cannot be blank', required=True)
+        request_parser.add_argument('first_name', help='This field cannot be blank', required=False)
+        request_parser.add_argument('second_name', help='This field cannot be blank', required=False)
         request_parser.add_argument('email', help='This field cannot be blank', required=True,
                                     type=inputs.email(check=True))
         request_parser.add_argument('password', help='This field cannot be blank', required=True)
-        request_parser.add_argument('surname', help='This field cannot be blank', required=True)
+        request_parser.add_argument('surname', help='This field cannot be blank', required=False)
         return request_parser
 
     @staticmethod

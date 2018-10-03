@@ -129,7 +129,7 @@ class OrderSchema(Schema):
     item = fields.Int(required=True)
     quantity = fields.Int(required=True)
     amount = fields.Float()
-    status = fields.Str()
+    status = fields.Int(dump_only=True)
     user = fields.Str(required=True)
     location = fields.Str(required=True)
     created = fields.Date()
