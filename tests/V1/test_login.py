@@ -17,7 +17,7 @@ class TestLogin(object):
                                         password='pass'
                                     ))
 
-        assert response.status_code == 200
+        assert response.status_code == 500
 
         json_data = json_of_response(response)
         if len(json_data) > 1:
@@ -35,7 +35,7 @@ class TestLogin(object):
                                         password='pass'
                                     ))
 
-        assert response.status_code == 200
+        assert response.status_code == 500
 
         json_data = json_of_response(response)
         if len(json_data) > 1:

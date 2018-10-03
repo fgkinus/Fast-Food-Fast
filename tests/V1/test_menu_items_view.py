@@ -22,7 +22,7 @@ class TestMenuItemsView(object):
 
         assert response.status_code == 200
         response = json_of_response(response)
-        assert 'ID' in response
+        assert 'name' in response
 
     def test_add_menu_item(self, test_client, create_admin_token):
         """test add  menu items"""
