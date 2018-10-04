@@ -10,7 +10,7 @@ coveralls[yaml]
 docopt==0.6.2
 Flask==1.0.2
 Flask-JWT-Extended==3.12.1
-flask-restplus==0.11.0
+flask-restplus
 flask-restplus-patched
 gunicorn==19.9.0
 idna==2.7

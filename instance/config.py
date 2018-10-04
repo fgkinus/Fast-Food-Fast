@@ -10,9 +10,11 @@ class Config(object):
     CSRF_ENABLED = True
     SECRET = os.getenv('SECRET')
     TESTING = False
-    DATABASE_URL = os.getenv('DB_URL')
+    DATABASE_URL = os.getenv('DATABASE_URL')
     BUNDLE_ERRORS = True
     RESTPLUS_VALIDATE = True
+    SWAGGER_UI_JSONEDITOR = True
+    SWAGGER_UI_DOC_EXPANSION = 'list'
 
 
 class DevelopmentConfig(Config):

@@ -40,6 +40,7 @@ class AddAdmin(Resource):
 
     @admin_required
     @namespace.expect(Parsers().user)
+    @namespace.doc(security='token')
     def post(self):
         """register new user to DB"""
         data = Parsers().user.parse_args()
@@ -97,6 +98,7 @@ class UserProfile(Resource):
     """User profile related actions"""
 
     @jwt_required
+    @namespace.doc(security='token')
     def get(self):
         """
         Get and return the details of the currently logged in user
@@ -110,6 +112,7 @@ class UserProfile(Resource):
         return ret
 
     @jwt_required
+    @namespace.doc(security='token')
     @namespace.expect(Parsers().user)
     def put(self):
         """

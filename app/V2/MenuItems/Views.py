@@ -18,6 +18,7 @@ class ViewAddMenuItems(Resource):
 
     @admin_required
     @namespace.expect(Parsers().item)
+    @namespace.doc(security='token')
     def post(self):
         """
         add a new menu item if admin
@@ -49,7 +50,7 @@ class ViewAddMenuItems(Resource):
 
 @namespace.route('/<item_id>', endpoint="add-edit menuitem")
 class ViewEditMenuItems(Resource):
-    """Views for editting and modifying menu items"""
+    """Views for editing and modifying menu items"""
 
     def get(self, item_id):
         """
@@ -64,6 +65,7 @@ class ViewEditMenuItems(Resource):
         return item
 
     @admin_required
+    @namespace.doc(security='token')
     def delete(self, item_id):
         """
         remove and return menu item
@@ -81,6 +83,7 @@ class ViewEditMenuItems(Resource):
 
     @admin_required
     @namespace.expect(Parsers().item)
+    @namespace.doc(security='token')
     def put(self, item_id):
         """
         edit a menu items details

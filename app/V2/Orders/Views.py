@@ -18,6 +18,7 @@ class AddListOrders(Resource):
 
     @jwt_required
     @namespace.expect(Parsers().raw)
+    @namespace.doc(security='token')
     def post(self):
         """
         add a new order item to the DB.
@@ -32,6 +33,7 @@ class AddListOrders(Resource):
         return order
 
     @admin_required
+    @namespace.doc(security='token')
     @namespace.doc("list all orders")
     def get(self):
         """List all order items"""
@@ -45,6 +47,7 @@ class GetOrderHistory(Resource):
     """Fetch the authenticated users order history"""
 
     @jwt_required
+    @namespace.doc(security='token')
     @namespace.doc("List all historical personal orders")
     def get(self):
         """
@@ -64,6 +67,7 @@ class GetEditDeleteOrder(Resource):
     """Get edit or delete Order detail"""
 
     @jwt_required
+    @namespace.doc(security='token')
     def get(self, order_id):
         """Fetch a specific order"""
         order_id = Utils.parse_int(order_id)
@@ -72,6 +76,7 @@ class GetEditDeleteOrder(Resource):
         return serialized
 
     @jwt_required
+    @namespace.doc(security='token')
     def delete(self, order_id):
         """delete an order if you own it"""
         order_id = Utils.parse_int(order_id)
@@ -89,6 +94,7 @@ class GetEditDeleteOrder(Resource):
         return ret
 
     @jwt_required
+    @namespace.doc(security='token')
     @namespace.expect(Parsers().raw)
     def patch(self, order_id):
         order_id = Utils.parse_int(order_id)
@@ -110,6 +116,7 @@ class GetEditDeleteOrder(Resource):
 @namespace.route('/response', endpoint='list-responses')
 class Responses(Resource):
     @admin_required
+    @namespace.doc(security='token')
     def get(self):
         """
         list all responses
@@ -119,16 +126,20 @@ class Responses(Resource):
         return responses
 
 
-@namespace.route('/<order_id>/<response>')
+@namespace.route('/<int:order_id>')
 class OrderResponse(Resource):
     """Add and Edit order responses for admin"""
 
     @admin_required
-    def put(self, order_id, response):
+    @namespace.doc(security='token', tags='admin')
+    @namespace.expect(Parsers().response)
+    def put(self, order_id):
         """add order response"""
         # validate input
+        data = Parsers().response.parse_args()
+
         order_id = Utils.parse_int(order_id)
-        response = Utils.parse_int(response)
+        response = data['response']
         # create order Item
         order = Order()
         # validate order existence

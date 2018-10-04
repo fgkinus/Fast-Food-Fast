@@ -18,7 +18,7 @@ class API:
 
     def __create_api(self, **kwargs):
         """initialize an instance of the flask rest plus API"""
-        self.api = Api(self.app)
+        self.api = Api(self.app, authorizations=self.get_authorisations())
         self.set_attr(**kwargs)
 
     def set_attr(self, **kwargs):
@@ -43,6 +43,18 @@ class API:
     def __init_jwt(self):
         self.jwt.init_app(self.app)
         return self.jwt
+
+    @staticmethod
+    def get_authorisations():
+        """Define the authorisations for API documentation"""
+        authorisations = {
+            'token': {
+                'type': 'apiKey',
+                'in': 'Header',
+                'name': "Authorization"
+            },
+        }
+        return authorisations
 
 
 class URLS:
