@@ -11,6 +11,8 @@ class Config(object):
     SECRET = os.getenv('SECRET')
     TESTING = False
     DATABASE_URL = os.getenv('DB_URL')
+    BUNDLE_ERRORS = True
+    RESTPLUS_VALIDATE = True
 
 
 class DevelopmentConfig(Config):
@@ -48,5 +50,3 @@ APP_CONFIG = {
     'staging': StagingConfig,
     'production': ProductionConfig,
 }
-
-

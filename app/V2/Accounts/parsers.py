@@ -1,4 +1,5 @@
 from flask_restplus import reqparse, inputs
+from flask_restplus.reqparse import RequestParser
 
 
 class Parsers:
@@ -14,14 +15,23 @@ class Parsers:
         define and return a users parser
         :return: user_parser
         """
-        request_parser = reqparse.RequestParser()
-        request_parser.add_argument('username', help='This field cannot be blank', required=True, )
-        request_parser.add_argument('first_name', help='This field cannot be blank', required=False)
-        request_parser.add_argument('second_name', help='This field cannot be blank', required=False)
-        request_parser.add_argument('email', help='This field cannot be blank', required=True,
+        request_parser = RequestParser(bundle_errors=True)
+        request_parser.add_argument('username', required=True, help='Item required : {error_msg} .')
+        request_parser.add_argument('first_name', required=False)
+        request_parser.add_argument('second_name', required=False)
+        request_parser.add_argument('email', help='This field cannot be blank and should be a valid email address.',
+                                    required=True,
                                     type=inputs.email(check=True))
         request_parser.add_argument('password', help='This field cannot be blank', required=True)
-        request_parser.add_argument('surname', help='This field cannot be blank', required=False)
+        request_parser.add_argument('surname', required=False)
+
+        {
+            "message": {
+                "username": "The username argument should not be empty",
+                "email": "This entry has to be a valid email address"
+            }
+        }
+
         return request_parser
 
     @staticmethod
@@ -33,5 +43,6 @@ class Parsers:
         request_parser = reqparse.RequestParser()
         request_parser.add_argument('email', help='This field cannot be blank', required=True,
                                     type=inputs.email(check=True))
-        request_parser.add_argument('password', help='This field cannot be blank', required=True)
+        request_parser.add_argument('password', help='This field cannot be blank and has to be a valid email address',
+                                    required=True)
         return request_parser

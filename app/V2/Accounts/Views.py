@@ -13,7 +13,7 @@ from app.V2.Accounts.Models import User
 class AddUser(Resource):
     """view for registering users"""
 
-    @namespace.expect(Parsers().user)
+    @namespace.expect(Parsers().user, validate=True)
     def post(self):
         """register new user to DB"""
         data = Parsers().user.parse_args()
@@ -65,6 +65,7 @@ class ValidateUser(Resource):
     """
     A class for validating user sessions
     """
+
     @namespace.expect(Parsers().login)
     def post(self):
         """

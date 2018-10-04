@@ -37,7 +37,7 @@ def admin_required(fn):
         verify_jwt_in_request()
         claims = get_jwt_claims()
         if claims['admin'] is False:
-            return {'msg': "Admin Users only!!!"}, 401
+            return {'message': "Sorry,You are not authorised to access this endpoint."}, 403
         else:
             return fn(*args, **kwargs)
 
@@ -62,9 +62,10 @@ def handle_expired_token(error):
 
 
 @namespace.errorhandler(LookupError)
-def handle_expired_look_up_error(error):
+def handle_look_up_error(error):
     """To allow for a custom message, status 200 is used instead of 204"""
-    return {'message': 'The item you are looking for was not found'}, 200
+    return {'message': 'The item you are looking for was not found',
+            }, 400
 
 
 @namespace.errorhandler(AlreadyExists)

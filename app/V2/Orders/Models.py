@@ -47,6 +47,8 @@ class Order(Base):
         :return:
         """
         orders = DB.execute_procedures('get_order_items', ())
+        if len(orders) == 0:
+            abort(400, "There are no orders to display")
         return orders
 
     def delete_order(self, order_id):
@@ -80,6 +82,8 @@ class Order(Base):
         :return: history
         """
         history = DB.execute_procedures('get_order_item_by_user_id', (user,))
+        if len(history) == 0:
+            abort(400, "There is no order History to display")
         return history
 
     def verify_owner(self, username):

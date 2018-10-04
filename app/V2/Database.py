@@ -126,7 +126,13 @@ class Database(object):
             else:
                 self.logger.error(
                     "procedure call failed : {0} :code:{1} \n ID:{2})".format(procedure, error.pgcode, error.pgerror))
-                abort(500, str(error.diag.message_detail))
+                if error.pgcode == "23505":
+                    """If Key already exists"""
+                    abort(400,
+                          "Sorry, the item already exist in the Database./n details:{0}".format(
+                              error.diag.message_detail))
+                else:
+                    abort(500, str(error.diag.message_detail))
 
     def run_shell_script(self, file):
         """

@@ -32,7 +32,7 @@ class MenuItems(Base):
         """
         item = DB.execute_procedures('get_menu_item_by_id', (id_no,))
         if len(item) == 0:
-            abort(200, "Menu Item not found")
+            abort(400, "The Menu Item was not found")
         else:
             return item[0]
 
@@ -41,7 +41,7 @@ class MenuItems(Base):
         """Get all menu items"""
         item = DB.execute_procedures('get_menu_items')
         if len(item) == 0:
-            abort(200, "Menu Item not found")
+            abort(400, "There are no menu items to display!!!")
         else:
             return item
 
@@ -54,7 +54,7 @@ class MenuItems(Base):
         """
         item = DB.execute_procedures('delete_menu_item', (id_no,))
         if len(item) == 0:
-            abort(200, "Menu Item not found")
+            abort(400, "Menu Item not found")
         else:
             return item[0]
 
