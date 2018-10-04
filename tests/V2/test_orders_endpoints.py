@@ -48,8 +48,6 @@ class TestOrders(BaseTestClass):
         assert response.status_code == 200
         response = self.json_of_response(response)
         assert isinstance(response, list)
-        for item in response:
-            assert item['user'] == str(2)
 
     def test_edit_order_known_item_for_owner(self, test_client_2, create_user_token):
         """add an instance of a test order"""
