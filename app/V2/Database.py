@@ -29,7 +29,6 @@ class Database(object):
             init_queries = self.query_file_reader('creation_script.sql')
             self.run_queries(init_queries)
             try:
-                # self.run_shell_script('procedures.sql')
                 self.init_procedures()
             except:
                 raise SystemExit("Could not initialise stored proceedures")

@@ -61,7 +61,7 @@ def test_client_2():
     tear_down_db()
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def create_admin_token():
     "a reusable function to create an admin token"
     user = User().login_user('admin@email.com', 'password')
@@ -74,7 +74,7 @@ def create_admin_token():
     return header_admin
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def create_user_token():
     """A reusable function to create a user token"""
     user = User().login_user('kinusfg@email.com', 'password')
@@ -94,6 +94,7 @@ def json_of_response(response):
 
 class BaseTestClass(object):
     """contains the Base test variables"""
+
     user1 = dict(
         email='fg@gmail.com',
         password='password',
