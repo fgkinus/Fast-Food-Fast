@@ -158,6 +158,9 @@ def test_client_2():
 def create_admin_token():
     "a reusable function to create an admin token"
     user = User().login_user(BaseTestClass.base_admin['email'], BaseTestClass.base_admin['password'])
+    if user is None:
+        BaseTestClass().create_base_test_admin()
+        user = User().login_user(BaseTestClass.base_admin['email'], BaseTestClass.base_admin['password'])
     # create access token
     access_token_admin = create_access_token(identity=user)
     # create header
@@ -172,6 +175,9 @@ def create_user_token():
     """A reusable function to create a user token"""
 
     user = User().login_user(BaseTestClass.base_user['email'], BaseTestClass.base_user['password'])
+    if user is None:
+        BaseTestClass.create_base_test_user()
+        user = User().login_user(BaseTestClass.base_user['email'], BaseTestClass.base_user['password'])
     # create access token
     access_token_user = create_access_token(identity=user)
     # create header
