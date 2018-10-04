@@ -60,12 +60,12 @@ class User(Base):
             DB.logger.debug(user[0])
         except Exception:
             DB.logger.info("user details for email {0} not found".format(email))
-            abort(401, "user email not found")
+            abort(401, "The user email not was found")
 
         # validate password
         val = self.verify_hash(password, user[0]['password'])
         if val is False:
-            abort(401, "wrong password")
+            abort(401, "wrong password!!! Try another one")
 
         # return user instance
         self.user = user[0]
@@ -91,7 +91,7 @@ class User(Base):
 
         if len(user) == 0:
             DB.logger.debug("user details for {0} not found".format(username))
-            abort(200, "user details for {0} not found".format(username))
+            abort(400, "user details for {0} not found. Please re-authenticate and try again.".format(username))
         else:
             self.user = user[0]
             return user[0]
@@ -105,6 +105,7 @@ class User(Base):
         """
         user_id = original['id']
         updated.update({'isadmin': original['isadmin']})
+        updated['password'] = self.generate_hash(updated['password'])
         details = (
             user_id,
             updated['username'],

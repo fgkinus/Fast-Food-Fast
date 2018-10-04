@@ -14,7 +14,7 @@ class Parsers(Base):
         """parse menu item details"""
         parser = RequestParser()
         parser.add_argument('name', required=True, help="the name of the item is required")
-        parser.add_argument('price', required=True, type=float, help="the name of the item is required")
+        parser.add_argument('price', required=True, type=float, help="the price of the item is required")
         parser.add_argument('image', required=False, help="Please provide an image")
 
         return parser
