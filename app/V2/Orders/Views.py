@@ -94,8 +94,8 @@ class GetEditDeleteOrder(Resource):
         return ret
 
     @jwt_required
-    @namespace.doc(security='token')
     @namespace.expect(Parsers().raw)
+    @namespace.doc(security='token')
     def patch(self, order_id):
         order_id = Utils.parse_int(order_id)
         order = Order()
@@ -111,24 +111,6 @@ class GetEditDeleteOrder(Resource):
         )
 
         return ret
-
-
-@namespace.route('/response', endpoint='list-responses')
-class Responses(Resource):
-    @admin_required
-    @namespace.doc(security='token')
-    def get(self):
-        """
-        list all responses
-        :return:
-        """
-        responses = Order.get_order_statuses()
-        return responses
-
-
-@namespace.route('/<int:order_id>')
-class OrderResponse(Resource):
-    """Add and Edit order responses for admin"""
 
     @admin_required
     @namespace.doc(security='token', tags='admin')
@@ -157,3 +139,20 @@ class OrderResponse(Resource):
 
         serialized = order.parser().dump(status)
         return serialized
+
+
+@namespace.route('/response', endpoint='list-responses')
+class Responses(Resource):
+    @admin_required
+    @namespace.doc(security='token')
+    def get(self):
+        """
+        list all responses
+        :return:
+        """
+        responses = Order.get_order_statuses()
+        return responses
+
+# @namespace.route('/<int:order_id>')
+# class OrderResponse(Resource):
+#     """Add and Edit order responses for admin"""
