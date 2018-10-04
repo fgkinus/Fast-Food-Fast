@@ -140,4 +140,36 @@ create table if not exists tbl_menuitem_images
 create unique index if not exists tbl_menuitem_images_id_uindex
   on tbl_menuitem_images (id);
 
+insert into tbl_users (username, email, firstname, secondname, surname, password, isadmin)
+VALUES ('admin',
+        'admin@email.com',
+        'first',
+        'second',
+        'surname',
+        '$pbkdf2-sha256$29000$qdV6j7E25lxLae1dK2UMAQ$RdOvB.vKESGyl6H15Y6byTvLczKdSbqVd.hcKK6YCX8',
+        TRUE)
+ON CONFLICT (email) DO NOTHING;
+
+insert into tbl_users (username, email, firstname, secondname, surname, password, isadmin)
+VALUES ('fgkinus',
+        'kinusfg@email.com',
+        'francis',
+        'GItau',
+        'surname',
+        '$pbkdf2-sha256$29000$qdV6j7E25lxLae1dK2UMAQ$RdOvB.vKESGyl6H15Y6byTvLczKdSbqVd.hcKK6YCX8',
+        FALSE)
+ON CONFLICT (email) DO NOTHING;
+
+insert into tbl_ref_status (description)
+VALUES ('New')
+on conflict (description) DO NOTHING;
+insert into tbl_ref_status (description)
+VALUES ('Processing')
+on conflict (description) DO NOTHING;
+insert into tbl_ref_status (description)
+VALUES ('Approved')
+on conflict (description) DO NOTHING;
+insert into tbl_ref_status (description)
+VALUES ('Cancelled')
+on conflict (description) DO NOTHING;
 

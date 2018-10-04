@@ -8,6 +8,7 @@ from psycopg2._psycopg import Error, DatabaseError
 from psycopg2.extras import RealDictCursor
 
 from app.V2.queries import queries, os, URL
+from app.V2.queries.procedures import proceedures
 from instance.logging import Logging
 
 
@@ -28,7 +29,8 @@ class Database(object):
             init_queries = self.query_file_reader('creation_script.sql')
             self.run_queries(init_queries)
             try:
-                self.run_shell_script('procedures.sql')
+                # self.run_shell_script('procedures.sql')
+                self.init_procedures()
             except:
                 raise SystemExit("Could not initialise stored proceedures")
 
@@ -150,3 +152,8 @@ class Database(object):
         self.logger.debug(''.join(script))
         subprocess.call(script, shell=True)
         self.logger.info("The procedures have been setup")
+
+    def init_procedures(self):
+        """Initialise procedures"""
+        self.run_queries(proceedures)
+        self.logger.info("Procedure initialisation from secondary list complete")

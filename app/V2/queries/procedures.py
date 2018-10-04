@@ -1,10 +1,6 @@
------------------------------------------------------------------------------------------------------------------
---user related operations
------------------------------------------------------------------------------------------------------------------
-
--- users table related operations;
--- list all users
-CREATE OR REPLACE FUNCTION get_users2()
+proceedures = [
+    """
+    CREATE OR REPLACE FUNCTION get_users2()
   RETURNS setof tbl_users AS $$
 DECLARE
   rReturn tbl_users;
@@ -17,9 +13,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- get a user by id
-CREATE OR REPLACE FUNCTION get_users_by_id(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION get_users_by_id(
   id_no INT
 )
   RETURNS setof tbl_users AS $$
@@ -34,9 +30,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- get a user by username
-CREATE OR REPLACE FUNCTION get_users_by_username(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION get_users_by_username(
   user_name VARCHAR
 )
   RETURNS setof tbl_users AS $$
@@ -51,9 +47,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- login user against email and password
-CREATE OR REPLACE FUNCTION get_user_by_email(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION get_user_by_email(
   user_email VARCHAR
 )
   RETURNS setof tbl_users AS $$
@@ -68,9 +64,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- add a new user
-CREATE OR REPLACE FUNCTION add_user(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION add_user(
   username   varchar,
   firstname  varchar,
   secondname varchar,
@@ -95,10 +91,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- edit an existing user
-
-CREATE OR REPLACE FUNCTION modify_user(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION modify_user(
   user_id       int,
   user_name     varchar,
   firs_tname    varchar,
@@ -131,9 +126,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- modify username
-CREATE OR REPLACE FUNCTION modify_user_name(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION modify_user_name(
   user_id   int,
   user_name varchar
 )
@@ -165,9 +160,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- check if username exists
-CREATE OR REPLACE FUNCTION check_username_exists(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION check_username_exists(
   user_name varchar
 )
   RETURNS boolean AS $$
@@ -176,9 +171,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- delete user record
-CREATE OR REPLACE FUNCTION delete_user(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION delete_user(
   user_id int
 )
   RETURNS setof tbl_users AS $$
@@ -194,14 +189,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
--- select * from modify_user(3, 'tash', 'francis', 'gitau', 'kinuthia', 'fgkinus@gmail.com', 'pass', FALSE);
-
------------------------------------------------------------------------------------------------------------------
--- Menu items related operations
------------------------------------------------------------------------------------------------------------------
-
--- list all menu items
-CREATE OR REPLACE FUNCTION get_menu_items()
+    """,
+    """
+    CREATE OR REPLACE FUNCTION get_menu_items()
   RETURNS setof tbl_menuitems AS $$
 DECLARE
   rReturn tbl_menuitems;
@@ -232,10 +222,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
--- select * from get_menu_item_by_id(2);
-
--- get menu item by name
-CREATE OR REPLACE FUNCTION get_menu_item_by_name(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION get_menu_item_by_name(
   item_name varchar
 )
   RETURNS setof tbl_menuitems AS $$
@@ -250,10 +239,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
---select * from get_menu_item_by_name('Fries');
-
--- ADD MENU ITEMS
-CREATE OR REPLACE FUNCTION add_menu_item(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION add_menu_item(
   item_name  varchar,
   item_price DOUBLE PRECISION,
   item_owner int
@@ -274,10 +262,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
--- SELECT * FROM add_menu_item('Fries',450,1 );
-
---Edit Menu Items
-CREATE OR REPLACE FUNCTION edit_menu_item(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION edit_menu_item(
   item_id    int,
   item_name  varchar,
   item_price DOUBLE PRECISION,
@@ -301,10 +288,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
---select * from edit_menu_item(item_id := 1,item_name :=  'Burger',item_price :=  350,item_owner :=  1);
-
---Delete a menu items
-CREATE OR REPLACE FUNCTION delete_menu_item(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION delete_menu_item(
   item_id int
 )
   RETURNS setof tbl_menuitems AS $$
@@ -322,14 +308,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
--- SELECT * FROM delete_menu_item(2);
-
------------------------------------------------------------------------------------------------------------------
--- orders related OPERATIONS
------------------------------------------------------------------------------------------------------------------
-
--- list all orders
-CREATE OR REPLACE FUNCTION get_order_items()
+    """,
+    """
+    CREATE OR REPLACE FUNCTION get_order_items()
   RETURNS setof tbl_orders AS $$
 DECLARE
   rReturn tbl_orders;
@@ -342,9 +323,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
---get order item by id
-CREATE OR REPLACE FUNCTION get_order_item_by_id(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION get_order_item_by_id(
   item_id int
 )
   RETURNS setof tbl_orders AS $$
@@ -359,9 +340,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
-
-CREATE OR REPLACE FUNCTION get_order_item_by_user_id(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION get_order_item_by_user_id(
   user_id int
 )
   RETURNS setof tbl_orders AS $$
@@ -376,9 +357,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- add order item
-CREATE OR REPLACE FUNCTION add_order_item(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION add_order_item(
   order_item     int,
   order_quantity int,
   order_location varchar,
@@ -401,9 +382,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
---Delete a menu items
-CREATE OR REPLACE FUNCTION delete_order_item(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION delete_order_item(
   order_id int
 )
   RETURNS setof tbl_orders AS $$
@@ -421,11 +402,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
--- SELECT * FROM delete_menu_item(2);
-
---Edit Menu Items
--- add order item
-CREATE OR REPLACE FUNCTION edit_order_item(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION edit_order_item(
   order_id       int,
   order_item     int,
   order_quantity int,
@@ -450,10 +429,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- Order statuses
---Delete a menu items
-CREATE OR REPLACE FUNCTION get_all_order_status()
+    """,
+    """
+    CREATE OR REPLACE FUNCTION get_all_order_status()
   RETURNS setof tbl_ref_status AS $$
 DECLARE
   rReturn tbl_ref_status;
@@ -468,11 +446,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
---select * from get_all_order_status();
-
--- set order status
-CREATE OR REPLACE FUNCTION set_order_status(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION set_order_status(
   order_id       INT,
   response_id    INT,
   response_owner int
@@ -492,9 +468,9 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
--- Edit existing order status
-CREATE OR REPLACE FUNCTION edit_order_status(
+    """,
+    """
+    CREATE OR REPLACE FUNCTION edit_order_status(
   order_id       int,
   response_id    int,
   response_owner int
@@ -516,18 +492,6 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+    """,
 
--- initialize the default admin
-
--- initialize default user
-
-
--- initilize defaut statuses
-
--- select * from set_order_status(6,2,3);
--- -- --
--- select * from edit_order_status(4,3,1);
--- -- select * from tbl_order_status;
--- -- select * from tbl_ref_status;
--- -- select * from tbl_order_status;
-
+]
