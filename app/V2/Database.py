@@ -4,7 +4,7 @@ import subprocess
 import connection_url
 import psycopg2
 from flask_restplus import abort
-from psycopg2._psycopg import Error
+from psycopg2._psycopg import Error, DatabaseError
 from psycopg2.extras import RealDictCursor
 
 from app.V2.queries import queries, os, URL
@@ -27,7 +27,10 @@ class Database(object):
         if self.database is None:
             init_queries = self.query_file_reader('creation_script.sql')
             self.run_queries(init_queries)
-            self.run_shell_script('procedures.sql')
+            try:
+                self.run_shell_script('procedures.sql')
+            except:
+                raise SystemExit("Could not initialise stored proceedures")
 
             self.logger.info("The database tables have been successfully initialised")
             self.database = self
