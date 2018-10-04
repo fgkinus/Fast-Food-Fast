@@ -5,7 +5,7 @@ import marshmallow
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_claims
 from flask_jwt_extended.exceptions import NoAuthorizationError, InvalidHeaderError
 from flask_restplus import Namespace
-from jwt import ExpiredSignature, InvalidSignatureError
+from jwt import ExpiredSignature, InvalidSignatureError, DecodeError
 
 from app import jwt
 from app.Exceptions import AlreadyExists
@@ -66,6 +66,11 @@ def handle_invalid_header_error(error):
     return {
                'message': 'The request header provided is invalid. \n'
                           'Please use Authorization:Bearer <token> format for all requests'}, 400
+
+
+@namespace.errorhandler(DecodeError)
+def handle_decode_error(error):
+    return {'message': 'authentication token provided is invalid'}, 401
 
 
 @namespace.errorhandler(LookupError)
