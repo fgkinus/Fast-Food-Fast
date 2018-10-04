@@ -71,8 +71,8 @@ create table if not exists tbl_ref_status
   id          serial not null
     constraint tbl_ref_status_pkey
     primary key,
-  description varchar(10) default 'Pending' :: character varying,
-  created     timestamp   default now(),
+  description varchar(10) unique default 'New' :: character varying,
+  created     timestamp          default now(),
   modified    timestamp
 );
 

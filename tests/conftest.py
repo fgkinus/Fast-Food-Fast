@@ -90,3 +90,74 @@ def create_user_token():
 def json_of_response(response):
     """Decode json from response"""
     return json.loads(response.data.decode('utf8'))
+
+
+class BaseTestClass(object):
+    """contains the Base test variables"""
+    user1 = dict(
+        email='fg@gmail.com',
+        password='password',
+        username='test_user',
+        surname='fgtash',
+        first_name='first',
+        second_name='second'
+    )
+
+    admin1 = dict(
+        email='testadmin@gmail.com',
+        password='password',
+        username='testadmin',
+        surname='fgtash',
+        first_name='first',
+        second_name='second'
+    )
+
+    admin2 = dict(
+        email='testadmin2@gmail.com',
+        password='password',
+        username='new-test-user',
+        surname='surname',
+        first_name='first',
+        second_name='second')
+
+    item1 = dict(
+        name='test_item',
+        price=500
+    )
+
+    item2 = dict(
+        name='test_item2',
+        price=500
+    )
+
+    item3 = dict(
+        name='test-item3',
+        price=600
+    )
+
+    order1 = dict(
+        item=1,
+        quantity=2,
+        location='nowhere'
+    )
+
+    order2 = dict(
+        item=2,
+        quantity=2,
+        location='nowhere'
+    )
+    order3 = dict(
+        item=2,
+        quantity=5,
+        location='nowhere'
+    )
+    order4 = dict(
+        item=2,
+        quantity=5,
+        location='nowhere'
+    )
+
+    @staticmethod
+    def json_of_response(response):
+        """Decode json from response"""
+        return json.loads(response.data.decode('utf8'))

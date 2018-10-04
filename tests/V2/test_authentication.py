@@ -1,48 +1,34 @@
 from app.urls import urls_v2, auth_ns_2
-from tests.conftest import json_of_response
+from tests.conftest import BaseTestClass
 
 
-class TestAddUsers(object):
+class TestAddUsers(BaseTestClass):
     """Test cases for user registration"""
 
     def test_add_user(self, test_client_2):
         response = test_client_2.post(urls_v2[auth_ns_2] + '/signup',
-                                      data=dict(
-                                          email='fgkinus@gmail.com',
-                                          password='password',
-                                          username='fgtash',
-                                          surname='fgtash',
-                                          first_name='first',
-                                          second_name='second'
-                                      ))
+                                      data=self.user1)
         assert response.status_code == 200
 
     def test_add_admin(self, test_client_2, create_admin_token):
         response = test_client_2.post(urls_v2[auth_ns_2] + '/register-admin',
-                                      data=dict(
-                                          email='testadmin@gmail.com',
-                                          password='password',
-                                          username='testadmin',
-                                          surname='fgtash',
-                                          first_name='first',
-                                          second_name='second'
-                                      ),
+                                      data=self.admin1,
                                       headers=create_admin_token)
         assert response.status_code == 200
 
 
-class TestAuth(object):
+class TestAuth(BaseTestClass):
     """Test cases for use authentication"""
 
     def test_login(self, test_client_2):
         response = test_client_2.post(urls_v2[auth_ns_2] + '/login',
                                       data=dict(
-                                          email='fgkinus@gmail.com',
-                                          password='password'
+                                          email=self.user1['email'],
+                                          password=self.user1['password']
                                       ))
 
         assert response.status_code == 200
-        response = json_of_response(response)
+        response = self.json_of_response(response)
 
         assert 'details' in response
         assert 'access_token' in response
@@ -66,26 +52,20 @@ class TestAuth(object):
         assert response.status_code == 400
 
 
-class TestGetUserProfile(object):
+class TestGetUserProfile(BaseTestClass):
     """Fetch use profile of current user"""
 
     def test_get_user_profile(self, test_client_2, create_admin_token):
         response = test_client_2.get(urls_v2[auth_ns_2] + '/profile', headers=create_admin_token)
         assert response.status_code == 200
-        response = json_of_response(response)
+        response = self.json_of_response(response)
         assert isinstance(response, dict)
         assert 'user_details' in response
 
     def test_edit_user_profile(self, test_client_2, create_admin_token):
-        response = test_client_2.put(urls_v2[auth_ns_2] + '/profile', headers=create_admin_token, data=dict(
-            email='testadmin2@gmail.com',
-            password='password',
-            username='new-test-user',
-            surname='surname',
-            first_name='first',
-            second_name='second'))
+        response = test_client_2.put(urls_v2[auth_ns_2] + '/profile', headers=create_admin_token, data=self.admin2)
         assert response.status_code == 200
-        response = json_of_response(response)
+        response = self.json_of_response(response)
         assert 'details' in response
         assert isinstance(response['details'], list)
         assert response['details'][0]['surname'] == 'surname'

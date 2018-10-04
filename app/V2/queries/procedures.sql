@@ -535,7 +535,21 @@ VALUES ('fgkinus',
         'surname',
         '$pbkdf2-sha256$29000$qdV6j7E25lxLae1dK2UMAQ$RdOvB.vKESGyl6H15Y6byTvLczKdSbqVd.hcKK6YCX8',
         FALSE)
-    ON CONFLICT (email) DO NOTHING ;
+ON CONFLICT (email) DO NOTHING;
+
+-- initilize defaut statuses
+insert into tbl_ref_status (description)
+VALUES ('New')
+on conflict (description) DO NOTHING;
+insert into tbl_ref_status (description)
+VALUES ('Processing')
+on conflict (description) DO NOTHING;
+insert into tbl_ref_status (description)
+VALUES ('Approved')
+on conflict (description) DO NOTHING;
+insert into tbl_ref_status (description)
+VALUES ('Cancelled')
+on conflict (description) DO NOTHING;
 -- select * from set_order_status(6,2,3);
 -- -- --
 -- select * from edit_order_status(4,3,1);
