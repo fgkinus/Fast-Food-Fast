@@ -8,6 +8,7 @@ before_script:
 - psql -U postgres -d fast_food_fast -f app/V2/queries/procedures.sql
 
 
+
 script:
 #- coverage run --source app\V2 -m py.test
 - py.test --cov=app/v2 tests/
