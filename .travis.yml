@@ -2,12 +2,13 @@ language: python
 python:
 - 3.6.3
 install: pip install -r requirements.txt
-services: postgresql:"9.6"
+services: postgresql
 before_script:
 - psql -c 'create database fast_food_fast;' -U postgres
+- psql -d fast_food_fast -f app/V2/queries/creation_script.sql
 script:
 #- coverage run --source app\V2 -m py.test
-- py.test --cov=app/v2 tests/
+- py.test --cov=app/V2 tests/
 
 after_success: coveralls
 deploy:
@@ -16,4 +17,4 @@ deploy:
   app: fast-food-really-fast
   on:
     repo: fgkinus/Fast-Food-Fast
-    branch: feature/API-V2
+    branch: develop

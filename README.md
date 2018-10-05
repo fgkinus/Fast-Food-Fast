@@ -1,5 +1,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/fgkinus/Fast-Food-Fast/badge.svg?branch=develop)](https://coveralls.io/github/fgkinus/Fast-Food-Fast?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/18d0d4be1372bb91b7c4/maintainability)](https://codeclimate.com/github/fgkinus/Fast-Food-Fast/maintainability)
+
 # Fast-Food-Fast
 Get your fast food really fast
 
