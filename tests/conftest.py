@@ -157,8 +157,9 @@ def test_client_2():
 @pytest.fixture(scope='module')
 def create_admin_token():
     "a reusable function to create an admin token"
-    user = User().login_user(BaseTestClass.base_admin['email'], BaseTestClass.base_admin['password'])
-    if user is None:
+    try:
+        user = User().login_user(BaseTestClass.base_admin['email'], BaseTestClass.base_admin['password'])
+    except:
         BaseTestClass().create_base_test_admin()
         user = User().login_user(BaseTestClass.base_admin['email'], BaseTestClass.base_admin['password'])
     # create access token
@@ -173,9 +174,9 @@ def create_admin_token():
 @pytest.fixture(scope='module')
 def create_user_token():
     """A reusable function to create a user token"""
-
-    user = User().login_user(BaseTestClass.base_user['email'], BaseTestClass.base_user['password'])
-    if user is None:
+    try:
+        user = User().login_user(BaseTestClass.base_user['email'], BaseTestClass.base_user['password'])
+    except:
         BaseTestClass.create_base_test_user()
         user = User().login_user(BaseTestClass.base_user['email'], BaseTestClass.base_user['password'])
     # create access token
