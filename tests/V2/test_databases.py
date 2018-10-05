@@ -27,3 +27,24 @@ class TestDatabases(object):
         assert isinstance(result, list)
         assert isinstance(result[0], dict)
         assert 'table_name' in result[0]
+
+    def test_query_file_reader(self):
+        with pytest.raises(InternalServerError):
+            DB.query_file_reader('unknown.sql')
+
+    def test_query_db_with_results(self):
+        query = """SELECT * FROM tbl_users"""
+        res = DB.query_db_with_results(query)
+        assert isinstance(res, list)
+        assert isinstance(res[0], dict)
+
+        query = """SELECT * FROM tbl_unknown"""
+        with pytest.raises(InternalServerError):
+            res = DB.query_db_with_results(query)
+
+    def test_query_db_with_results_no_results(self):
+        query = """INSERT INTO tbl_ref_status(description) VALUES ('status') ON CONFLICT (description) DO NOTHING """
+        res = DB.query_db_with_results(query)
+        assert not isinstance(res, list)
+
+

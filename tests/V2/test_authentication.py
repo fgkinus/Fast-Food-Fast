@@ -10,11 +10,21 @@ class TestAddUsers(BaseTestClass):
                                       data=self.user1)
         assert response.status_code == 200
 
+    def test_wrong_inputs(self, test_client_2):
+        response = test_client_2.post(urls_v2[auth_ns_2] + '/signup',
+                                      data=self.user3)
+        assert response.status_code == 401
+
     def test_add_admin(self, test_client_2, create_admin_token):
         response = test_client_2.post(urls_v2[auth_ns_2] + '/register-admin',
                                       data=self.admin1,
                                       headers=create_admin_token)
         assert response.status_code == 200
+
+    def test_wrong_inputs_admin(self, test_client_2):
+        response = test_client_2.post(urls_v2[auth_ns_2] + '/signup',
+                                      data=self.admin3)
+        assert response.status_code == 401
 
 
 class TestAuth(BaseTestClass):
@@ -52,6 +62,8 @@ class TestAuth(BaseTestClass):
         assert response.status_code == 400
 
 
+
+
 class TestGetUserProfile(BaseTestClass):
     """Fetch use profile of current user"""
 
@@ -61,6 +73,7 @@ class TestGetUserProfile(BaseTestClass):
         response = self.json_of_response(response)
         assert isinstance(response, dict)
         assert 'user_details' in response
+        assert response['user_details']['username'] == self.base_admin['username']
 
     def test_edit_user_profile(self, test_client_2, create_admin_token):
         response = test_client_2.put(urls_v2[auth_ns_2] + '/profile', headers=create_admin_token, data=self.admin2)

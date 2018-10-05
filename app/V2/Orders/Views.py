@@ -1,6 +1,9 @@
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restplus import Resource, Namespace, abort
+from marshmallow import ValidationError
 
+from app.V1.Orders.Models import OrderSchema
+from app.V2 import DB
 from app.V2.Accounts.Models import User
 from app.V2.Orders import Parsers
 from app.V2.Orders.Models import Order
@@ -27,6 +30,13 @@ class AddListOrders(Resource):
         user = get_jwt_identity()
         user = User().get_user_by_username(username=user)
         data = Parsers().raw.parse_args()
+        try:
+            if data['quantity'] <= 0:
+                raise ValidationError("Invalid order quantity !!!")
+        except ValidationError as error:
+            DB.logger.error(str(error))
+            return {'message': str(error)}, getattr(error, 'code', 401)
+
         order = Order().create_order(data['item'], data['quantity'], data['location'], user['id'])
         order = Order().parser().dump(order.details)
 

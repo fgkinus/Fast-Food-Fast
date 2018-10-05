@@ -23,6 +23,21 @@ class BaseTestClass(object):
         second_name='second'
     )
 
+    user3 = dict(
+        email='fg@gmail.com',
+        password='password',
+        username='test_user',
+        first_name='first',
+        second_name='second'
+    )
+    admin3 = dict(
+        email='fg@gmail.com',
+        password='password',
+        username='test_user',
+        first_name='first',
+        second_name='second'
+    )
+
     base_user = dict(
         email='kinusfg@email.com',
         password='password',

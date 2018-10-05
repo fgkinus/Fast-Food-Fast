@@ -17,7 +17,7 @@ class Parsers:
         parser.add_argument('item', required=True, type=int, help="the id of the item is required",
                             )
         parser.add_argument('quantity', required=True, type=int, help="the quantity of the item is required")
-        parser.add_argument('owner', required=False, type=int, help="The id of the owner")
+        # parser.add_argument('owner', required=False, type=int, help="The id of the owner")
         parser.add_argument('location', required=True, help="Please provide a location for delivery")
 
         return parser
