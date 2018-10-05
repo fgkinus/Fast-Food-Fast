@@ -1,0 +1,19 @@
+language: python
+python:
+- 3.6.3
+install: pip install -r requirements.txt
+services: postgresql:"9.6"
+before_script:
+- psql -c 'create database fast_food_fast;' -U postgres
+script:
+#- coverage run --source app\V2 -m py.test
+- py.test --cov=app/v2 tests/
+
+after_success: coveralls
+deploy:
+  provider: heroku
+  api_key: 18481de2-d646-41df-96f2-ba23197c3daa
+  app: fast-food-really-fast
+  on:
+    repo: fgkinus/Fast-Food-Fast
+    branch: feature/API-V2

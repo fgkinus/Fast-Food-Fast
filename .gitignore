@@ -57,7 +57,7 @@ local_settings.py
 db.sqlite3
 
 # Flask stuff:
-instance/
+#instance/
 .webassets-cache
 
 # Scrapy stuff:
@@ -103,6 +103,14 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+<<<<<<< HEAD
 # webstorm
 .idea/
 
+=======
+#ignore the IDE config files
+.idea/
+
+#ignore local log files
+instance/logs/
+>>>>>>> ft-api-v2-endpoints-4084513

@@ -1,0 +1,164 @@
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, get_current_user
+from flask_restplus import Resource, reqparse, inputs, abort
+
+# define a namespace for authentication and registration of users
+from app.V1.Accounts import Models
+from app.V1.Accounts.Models import users
+from app.V1.Accounts.decorators import *
+
+
+# register new user
+@namespace.route('/register-user', endpoint="add-new-user")
+class UserRegistration(Resource):
+    # request parser
+    request_parser = reqparse.RequestParser()
+    request_parser.add_argument('username', help='This field cannot be blank', required=True)
+    request_parser.add_argument('first_name', help='This field cannot be blank', required=True)
+    request_parser.add_argument('second_name', help='This field cannot be blank', required=True)
+    request_parser.add_argument('email', help='This field cannot be blank', required=True,
+                                type=inputs.email(check=True))
+    request_parser.add_argument('password', help='This field cannot be blank', required=True)
+    request_parser.add_argument('surname', help='This field cannot be blank', required=True)
+
+    # model attributes
+    username = None
+    first_name = None
+    second_name = None
+    email = None
+    password = None
+    surname = None
+
+    @namespace.expect(request_parser)
+    def post(self):
+        """add new admin user"""
+        # initialise the request parser
+        data = self.request_parser.parse_args()  # parse user input
+        self.fetch_user_details(data=data)
+        # create admin object
+        user = Models.User().add_user(self.username, self.first_name, self.second_name, self.surname, self.password,
+                                      self.email)
+
+        return {
+            'id': user.ID,
+            'new-user': data
+        }
+
+    def fetch_user_details(self, data):
+        """get parsed user details"""
+        self.username = data['username']
+        self.first_name = data['first_name']
+        self.second_name = data['second_name']
+        self.email = data['email']
+        self.password = data['password']
+        self.surname = data['surname']
+
+
+# register new admin
+@namespace.route('/register-admin', endpoint="add-new-admin")
+class AdminRegistration(UserRegistration):
+    """admin registration view set"""
+    request_parser = reqparse.RequestParser()
+    request_parser.add_argument('username', help='This field cannot be blank', required=True)
+    request_parser.add_argument('first_name', help='This field cannot be blank', required=True)
+    request_parser.add_argument('second_name', help='This field cannot be blank', required=True)
+    request_parser.add_argument('email', help='This field cannot be blank', required=True,
+                                type=inputs.email(check=True))
+    request_parser.add_argument('password', help='This field cannot be blank', required=True)
+    request_parser.add_argument('surname', help='This field cannot be blank', required=True)
+
+    # request_parser = reqparse.RequestParser()
+    @namespace.expect(request_parser)
+    # @admin_required
+    def post(self):
+        """add new admin user"""
+        # initialise the request parser
+
+        data = self.request_parser.parse_args()  # parse user input
+        self.fetch_user_details(data=data)
+        # create admin object
+        admin = Models.Admin().add_user(self.username, self.first_name, self.second_name, self.surname, self.password,
+                                        self.email)
+
+        return {
+            'id': admin.ID,
+            'new-user': data
+        }
+
+
+# login new user or admin
+@namespace.route('/login', endpoint="Login")
+class LoginUsers(Resource):
+    """A view to authenticate all users"""
+    email = None
+    password = None
+    request_parser = reqparse.RequestParser()
+    request_parser.add_argument('email', help='This field cannot be blank', required=True,
+                                type=inputs.email(check=True))
+    request_parser.add_argument('password', help='This field cannot be blank', required=True)
+
+    def add_req_parsers(self):
+        self.request_parser.add_argument('email', help='This field cannot be blank', required=True)
+        self.request_parser.add_argument('password', help='This field cannot be blank', required=True)
+
+    def fetch_user_details(self, data):
+        """get parsed user details"""
+        self.email = data['email']
+        self.password = data['password']
+
+    @namespace.expect(request_parser)
+    def post(self):
+        """add new admin user"""
+        # initialise the request parser
+        self.add_req_parsers()
+        data = self.request_parser.parse_args()  # parse user input
+        self.fetch_user_details(data=data)
+
+        user = Models.User().get_user(email=self.email, password=self.password)
+        admin = Models.Admin().get_user(email=self.email, password=self.password)
+
+        # alert if user is not found
+        if user is False and admin is False:
+            return {
+                       'message': "wrong user or password"
+                   }, 401
+        else:
+            # if user is a normal user authenticate
+            if user is not False:
+                access_token = create_access_token(identity=user)
+                ret = {'access_token': access_token, 'details': dict(
+                    username=user.username,
+                    email=user.email
+                )}
+                return jsonify(ret)
+
+            elif admin is not False:
+                access_token = create_access_token(identity=admin)
+                ret = {'access_token': access_token, 'details': dict(
+                    username=admin.username,
+                    email=admin.email
+                )}
+                return jsonify(ret)
+
+            else:
+                return jsonify(mes="None")
+
+
+@namespace.route('/profile', endpoint='USer profile details')
+class UserProfile(Resource):
+    """View and edit user profiles"""
+
+    @jwt_required
+    def get(self):
+        current_user = get_jwt_identity()
+        user = Models.User().get_profile(current_user)
+        admin = Models.Admin().get_profile(current_user)
+
+        if user is not False:
+            pass
+        elif admin is not False:
+            user = admin
+        else:
+            abort(401, "user details not found")
+
+        user = Models.UserSchema().dump(user)
+        return user
