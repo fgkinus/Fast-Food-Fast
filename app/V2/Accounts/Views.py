@@ -30,7 +30,7 @@ class AddUser(Resource):
 
         res = {
             "Message": "New user has been added",
-            "details": result}
+            "details": result[0]}
         return res
 
 
@@ -57,7 +57,7 @@ class AddAdmin(Resource):
 
         res = {
             "Message": "New user has been added",
-            "details": result}
+            "details": result[0]}
         return res
 
 
@@ -86,7 +86,7 @@ class ValidateUser(Resource):
         access_token = create_access_token(user)
 
         ret = dict(
-            details=UserSchema().dump(user.user),
+            details=UserSchema().dump(user.user)[0],
             access_token=access_token
         )
 
@@ -107,7 +107,7 @@ class UserProfile(Resource):
         user = get_jwt_identity()
         user_details = User().get_user_by_username(user)
         ret = dict(
-            user_details=UserSchema().dump(user_details)
+            user_details=UserSchema().dump(user_details)[0]
         )
         return ret
 
@@ -125,6 +125,6 @@ class UserProfile(Resource):
         data = Parsers().user.parse_args()
         modified = User().edit_user(user_details, data)
         ret = dict(
-            details=UserSchema().dump(modified)
+            details=UserSchema().dump(modified)[0]
         )
         return ret

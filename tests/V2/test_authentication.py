@@ -67,5 +67,5 @@ class TestGetUserProfile(BaseTestClass):
         assert response.status_code == 200
         response = self.json_of_response(response)
         assert 'details' in response
-        assert isinstance(response['details'], list)
-        assert response['details'][0]['surname'] == 'surname'
+        assert isinstance(response['details'], dict)
+        assert response['details']['surname'] == 'surname'

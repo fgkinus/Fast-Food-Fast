@@ -10,7 +10,7 @@ class TestOrders(BaseTestClass):
         # its expected to fail if menu_item does not exist
         response = test_client_2.post(urls_v2[orders_ns_2] + '/', headers=create_user_token,
                                       data=self.order1)
-        assert response.status_code == 500
+        assert response.status_code == 400
 
     def test_add_order_known_item(self, test_client_2, create_user_token):
         """add an instance of a test order"""
@@ -33,7 +33,8 @@ class TestOrders(BaseTestClass):
         response = test_client_2.get(urls_v2[orders_ns_2] + '/', headers=create_admin_token)
         assert response.status_code == 200
         response = self.json_of_response(response)
-        assert isinstance(response, list)
+        assert isinstance(response, dict)
+        assert "orders" in response
 
     def test_get_one_order_admin_user(self, test_client_2, create_admin_token):
         """get an order in the database"""
@@ -47,7 +48,8 @@ class TestOrders(BaseTestClass):
         response = test_client_2.get(urls_v2[orders_ns_2] + '/history', headers=create_user_token)
         assert response.status_code == 200
         response = self.json_of_response(response)
-        assert isinstance(response, list)
+        assert isinstance(response, dict)
+        assert isinstance(response['history'],list)
 
     def test_edit_order_known_item_for_owner(self, test_client_2, create_user_token):
         """add an instance of a test order"""

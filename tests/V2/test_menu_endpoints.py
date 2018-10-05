@@ -22,8 +22,8 @@ class TestMenuItems(BaseTestClass):
         response = test_client_2.get(urls_v2[menu_ns_2] + '/')
         assert response.status_code == 200
         response = self.json_of_response(response)
-        assert isinstance(response, list)
-        assert 'name' in response[0]
+        assert isinstance(response, dict)
+        assert 'items' in response
 
     def test_get_menu_item_id(self, test_client_2, create_user_token):
         """list all  menu items"""
@@ -50,8 +50,8 @@ class TestMenuItems(BaseTestClass):
         response = self.json_of_response(response)
         assert isinstance(response, dict)
         assert 'details' in response
-        assert response['details'][0]['price'] == 600
-        assert response['details'][0]['name'] == 'test-item3'
+        assert response['details']['price'] == 600
+        assert response['details']['name'] == 'test-item3'
 
     def test_delete_menu_item(self, test_client_2, create_admin_token):
         """list all  menu items"""

@@ -130,13 +130,14 @@ class Database(object):
             else:
                 self.logger.error(
                     "procedure call failed : {0} :code:{1} \n ID:{2})".format(procedure, error.pgcode, error.pgerror))
-                if error.pgcode == "23505":
-                    """If Key already exists"""
-                    abort(400,
-                          "Sorry, the item already exist in the Database./n details:{0}".format(
-                              error.diag.message_detail))
-                else:
-                    abort(500, str(error.diag.message_detail))
+                abort(400, self.error_messages_switcher(int(error.pgcode)))
+                # if error.pgcode == "23505":
+                #     """If Key already exists"""
+                #     abort(400,
+                #           "Sorry, the item already exist in the Database./n details:{0}".format(
+                #               error.diag.message_detail))
+                # else:
+                # abort(500, str(error.diag.message_detail))
 
     def run_shell_script(self, file):
         """
@@ -156,3 +157,11 @@ class Database(object):
         """Initialise procedures"""
         self.run_queries(proceedures)
         self.logger.info("Procedure initialisation from secondary list complete")
+
+    @staticmethod
+    def error_messages_switcher(error_id):
+        switcher = {
+            23505: "Sorry, the item already exists in the Database",
+            23503: "Sorry ,The item you were looking for was not found"
+        }
+        return switcher.get(error_id, "Database error occurred while processing your request.Please Check your Inputs")

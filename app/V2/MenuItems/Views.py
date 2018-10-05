@@ -45,7 +45,10 @@ class ViewAddMenuItems(Resource):
         """
         items = MenuItems().get_all_menu_items()
         items = MenuItems().schema().dump(items, many=True)
-        return items
+        ret = dict(
+            items=items[0]
+        )
+        return ret
 
 
 @namespace.route('/<item_id>', endpoint="add-edit menuitem")
@@ -77,7 +80,7 @@ class ViewEditMenuItems(Resource):
         item = MenuItems().schema().dump(items)
         ret = dict(
             message="Item Deleted",
-            details=item
+            details=item[0]
         )
         return ret
 
@@ -97,7 +100,7 @@ class ViewEditMenuItems(Resource):
 
         ret = dict(
             message="Menu-item Modified",
-            details=modified
+            details=modified[0]
         )
 
         return ret

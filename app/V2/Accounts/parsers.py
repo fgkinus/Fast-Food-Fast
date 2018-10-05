@@ -16,12 +16,12 @@ class Parsers:
         :return: user_parser
         """
         request_parser = RequestParser(bundle_errors=True)
-        request_parser.add_argument('username', required=True, help='Item required : {error_msg} .')
+        request_parser.add_argument('username', required=True, help='Please provide the username')
         request_parser.add_argument('first_name', required=False)
         request_parser.add_argument('second_name', required=False)
         request_parser.add_argument('email', help='This field cannot be blank and should be a valid email address.',
                                     required=True,
-                                    type=inputs.email(check=True))
+                                    type=inputs.email())
         request_parser.add_argument('password', help='This field cannot be blank', required=True)
         request_parser.add_argument('surname', required=False)
 
@@ -41,8 +41,8 @@ class Parsers:
         :return: parser
         """
         request_parser = reqparse.RequestParser()
-        request_parser.add_argument('email', help='This field cannot be blank', required=True,
-                                    type=inputs.email(check=True))
-        request_parser.add_argument('password', help='This field cannot be blank and has to be a valid email address',
+        request_parser.add_argument('email', help='Enter a valid user email here.', required=True,
+                                    type=inputs.email())
+        request_parser.add_argument('password', help='This field cannot be blank',
                                     required=True)
         return request_parser

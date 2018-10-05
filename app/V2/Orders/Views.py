@@ -39,7 +39,10 @@ class AddListOrders(Resource):
         """List all order items"""
         orders = Order().get_all_orders()
         orders = Order().parser().dump(orders, many=True)
-        return orders
+        ret = dict(
+            orders=orders[0]
+        )
+        return ret
 
 
 @namespace.route('/history', endpoint='display-order history')
@@ -59,7 +62,11 @@ class GetOrderHistory(Resource):
         user = User().get_user_by_username(username=user)
         history = Order().get_historical_orders(user=user['id'])
         serialized = Order().parser().dump(history, many=True)
-        return serialized
+        ret = dict(
+            history=serialized
+        )
+
+        return ret
 
 
 @namespace.route('/<order_id>')
@@ -151,7 +158,10 @@ class Responses(Resource):
         :return:
         """
         responses = Order.get_order_statuses()
-        return responses
+        ret = dict(
+            responses=responses
+        )
+        return ret
 
 # @namespace.route('/<int:order_id>')
 # class OrderResponse(Resource):
