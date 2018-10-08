@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script type="application/javascript" src="../js/main.js"></script>
+    <script type="application/javascript" src="../js/script.js"></script>
 </head>
-<body class="bg" onload="showContent('food-list')">
+<body class="bg"
+      onload="showMenuList('food-list');">
 <header class="heading">
-    <h2><a href="#" >Fast-Food-Fast</a></h2>
+    <h2><a href="#">Fast-Food-Fast</a></h2>
     <nav>
         <!--<li><a href="registration.h</a></li>-->
         <li><a href=" login.html">log in</a></li>
@@ -23,14 +25,13 @@
     <div class="hero-content-area">
         <h1>Fast-Food-Fast</h1>
         <h3>Get your fast food faster than ever before!!</h3>
-        <h4>Try us out now</h4>
         <a href="#" onclick="pop_up('popup-list')" class="btn">our Menu</a>
     </div>
 </section>
 
 <!--a modal containing the menu list-->
 <div class="modal" id="popup-list">
-    <div id="popup-list-content" class="container-login modal-content tabcontent" >
+    <div id="popup-list-content" class="container-login modal-content tabcontent">
         <div id="title">
             <i class="material-icons lock">shopping_cart</i> Menu Items List
             <button class="material-icons close btn cancelbtn tooltip"
@@ -42,8 +43,8 @@
         <div>
             <div>
                 <div class="container" id="food-list">
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </div>
