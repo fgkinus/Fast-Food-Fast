@@ -29,7 +29,7 @@ class TestLogin(object):
         user = Models.Admin().add_user(username='testadmin', firstname='firstname', surname='sir', secondname='second',
                                        password='pass',
                                        email='tester@test.com')
-        response = test_client.post('/api/v1/login',
+        response = test_client.post('/API/v1/login',
                                     data=dict(
                                         email='tester@test.com',
                                         password='pass'
@@ -43,7 +43,7 @@ class TestLogin(object):
             assert isinstance(json_data['details'], dict)
 
     def test_wrong_user_credentials(self, test_client):
-        response = test_client.post('/api/v1/login',
+        response = test_client.post('/API/v1/login',
                                     data=dict(
                                         email='test@test.com',
                                         password='password'

@@ -2,7 +2,7 @@ from app.urls import urls_v1, order_ns, menu_ns, auth_ns
 
 
 class TestURLs(object):
-    """Test the api endpoints ie not 404"""
+    """Test the API endpoints ie not 404"""
 
     def test_register_admin(self, test_client):
         """test the register_admin"""

@@ -5,7 +5,7 @@ from app.Exceptions import AttributeNotFound
 
 
 class API:
-    """Initialize the app object and the associated API"""
+    """Initialize the APP object and the associated API"""
     app = None
     api = None
     jwt = None
@@ -24,7 +24,7 @@ class API:
         self.set_attr(**kwargs)
 
     def set_attr(self, **kwargs):
-        # dynamically set class attributes
+        """dynamically set class attributes"""
         if kwargs:
             for key, value in kwargs.items():
                 if not hasattr(self.api, key):
@@ -74,5 +74,5 @@ class URLS:
             self.api.register_namespace(namespace=url[0], path=url[1])
 
     def get_api(self):
-        """return the api object"""
+        """return the API object"""
         return self.api

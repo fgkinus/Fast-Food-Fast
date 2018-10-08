@@ -15,7 +15,7 @@ class TestAPI(object):
         assert isinstance(app, type(app2))
 
     def test_type(self):
-        """test api initialisation"""
+        """test API initialisation"""
         app = Flask(__name__)
         api = API(app, jwt, version="", title="", description="")
 
@@ -38,7 +38,7 @@ class TestAPI(object):
         app = Flask(__name__)
         api = API(app, jwt)
 
-        api.set_attr(version="v1", description='the api description')
+        api.set_attr(version="v1", description='the API description')
 
         assert hasattr(api.app, 'not_exist') is False
         # test exception
@@ -46,4 +46,4 @@ class TestAPI(object):
             api.set_attr(not_exist="unknown")
 
         assert api.api.version == "v1"
-        assert api.api.description == "the api description"
+        assert api.api.description == "the API description"

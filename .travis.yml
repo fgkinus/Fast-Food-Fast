@@ -5,10 +5,10 @@ install: pip install -r requirements.txt
 services: postgresql
 before_script:
 - psql -c 'create database fast_food_fast;' -U postgres
-- psql -d fast_food_fast -f app/V2/queries/creation_script.sql
+- psql -d fast_food_fast -f APP/V2/queries/creation_script.sql
 script:
-#- coverage run --source app\V2 -m py.test
-- py.test --cov=app/V2 tests/
+#- coverage run --source APP\V2 -m py.test
+- py.test --cov=APP/V2 tests/
 
 after_success: coveralls
 deploy:

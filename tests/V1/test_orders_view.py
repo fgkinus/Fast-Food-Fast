@@ -6,7 +6,7 @@ class TestOrdersViews(object):
 
     def test_add_order(self, test_client, create_admin_token):
         # add test admin
-        response = test_client.post('/api/v1/orders/', headers=create_admin_token,
+        response = test_client.post('/API/v1/orders/', headers=create_admin_token,
                                     data=dict(
                                         item=1,
                                         quantity=2,

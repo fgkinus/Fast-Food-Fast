@@ -8,13 +8,13 @@ from app.V2.Orders.Views import namespace as orders_ns_2
 
 # A dictionary of key value pairs of namespace and path
 urls_v1 = {
-    auth_ns: '/api/v1',
-    menu_ns: '/api/v1/menu',
-    order_ns: '/api/v1/orders'
+    auth_ns: '/API/v1',
+    menu_ns: '/API/v1/menu',
+    order_ns: '/API/v1/orders'
 }
 # add urls_v1 for v2 here
 urls_v2 = {
-    auth_ns_2: '/api/v2/auth',
-    menu_ns_2: '/api/v2/menu',
-    orders_ns_2: '/api/v2/orders'
+    auth_ns_2: '/API/v2/auth',
+    menu_ns_2: '/API/v2/menu',
+    orders_ns_2: '/API/v2/orders'
 }

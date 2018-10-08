@@ -9,7 +9,7 @@ print(connection)
 DB = Database(connection)
 
 
-class TestDatabases(object):
+class TestDatabases:
     """Test cases for the database"""
 
     def test_query_file_reader(self):
@@ -28,7 +28,7 @@ class TestDatabases(object):
         assert isinstance(result[0], dict)
         assert 'table_name' in result[0]
 
-    def test_query_file_reader(self):
+    def test_query_file_reader_with_exception(self):
         with pytest.raises(InternalServerError):
             DB.query_file_reader('unknown.sql')
 
