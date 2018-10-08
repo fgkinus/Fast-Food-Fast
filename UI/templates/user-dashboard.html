@@ -11,7 +11,7 @@
 </head>
 <body class="bg2">
 
-<header class="heading">
+<header>
     <h2><a href="#">Fast-Food-Fast</a></h2>
     <nav>
         <!--the <ul> wrapper is ommited to ensere thy stay inline/ horizontally oriented-->
@@ -32,7 +32,7 @@
     </div>
     <!--tab contents-->
 
-    <!--sectionfood items displays a list of food items&ndash;&gt;-->
+    <!--section food items displays a list of food items&ndash;&gt;-->
     <div id="food-items" class="tabcontent">
         <h3>Menu</h3>
         <h4>Select your favourite meal from our large array of delicacies.</h4>
@@ -63,8 +63,8 @@
     <!--display a list of all orders before submitting-->
     <div id="checkout" class="tabcontent">
         <h3>Checkout</h3>
-        <a href="#" class="btn ">check out</a>
         <h4>all new orders you make appear here</h4>
+        <span id="checkout-btn" class="content-content-area"> <a href="#" class="btn">check out</a></span>
         <table id="List-orders">
             <thead>
             <th>order id</th>
@@ -89,7 +89,7 @@
             <tr>
                 <td><img src=""></td>
                 <td>
-                    <h5>name</h5>
+                    <h3>name</h3>
                     <p>Ksh price</p>
                     <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
                             onclick="AddOrder(this.id)">
@@ -113,15 +113,19 @@
     </template>
 
     <template id="food-item2">
-        <div class="galleryItem">
+        <div class="thumbnail">
             <img src="..." alt="item"/>
-            <h5>Name</h5>
-            <a href="#"><p>Price</p></a>
-            <button class="mdc-button mdc-button_raised tooltip" aria-label="control_point"
-                    onclick="AddOrder(this.id)">
-                <i class="material-icons mdc-button__icon" aria-hidden="true">control_point</i>
+            <div id="details" class="tooltip inline" onclick="AddOrder(this.id)">
+                <h5>Name</h5>
+                <span class="inline">
+                    <h6>price:</h6>
+                    <p>Price</p>
+                </span>
                 <span class="tooltiptext">add to checkout</span>
-            </button>
+                <!--<button></button>-->
+            </div>
+
+
         </div>
     </template>
 </div>

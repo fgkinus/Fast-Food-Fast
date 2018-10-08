@@ -1,5 +1,6 @@
 /*General Styles*/
 @import "@material/button/mdc-button";
+
 * {
     margin: 0;
     padding: 0;
@@ -10,22 +11,18 @@ html body {
 
     font-size: 16px;
     font-family: "Raleway", sans-serif;
-    color: #f5f5f5;
-    /*overflow: hidden;*/
-    /*height: 100%;*/
-}
-.bg {
-    background-image: url("../img/fast food.jpeg");
-    /*height: 95vh;*/
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.bg2{
-    /*height: 100%;*/
-    background-color: #373b3d;
+    color: #2A2F42;
 }
 
+.bg {
+    /*height: 95vh;*/
+    background: url("../img/fast food.jpeg") no-repeat center;
+    background-size: cover;
+}
+
+.bg2 {
+    background-color: #F6F6F2;
+}
 
 ul {
     display: inline; /*display menu items as inline*/
@@ -73,31 +70,33 @@ a.btn:hover {
 }
 
 section {
+    min-width: 560px;
     display: grid;
     padding: 100px 80px;
     position: relative;
 }
 
-/*make images dispalyed have a constant size*/
+/*make images displayed have a constant size*/
 img {
-    height: 100px;
-    width: 120px;
+    height: 200px;
+    width: 220px;
     border-radius: 25px;
-    padding: 20px
 }
 
 /*Header Styles*/
-
 header {
     grid-area: header;
-    position: absolute;
+    position: fixed;
+    top:0;
     width: 100%;
+    overflow: hidden;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 35px 100px 0;
     animation: 1s fadein 0.5s forwards;
     opacity: 0;
+    background-color: #C2A766;
     color: #FFFFFF;
     z-index: 2;
 }
@@ -138,7 +137,7 @@ header nav li {
     justify-content: center;
     text-align: center;
     min-height: 100vh;
-    color: #f5f5f5;
+    color: #f8f9fa;
 }
 
 .content .background-image {
@@ -149,9 +148,7 @@ header nav li {
     /*height: 100%;*/
     background-size: cover;
     z-index: -1;
-    background-image: url("../img/fast food.jpeg");
-    background-color: #949494;
-    background-repeat: no-repeat;
+    background: #8E5E60 url("../img/fast food.jpeg") no-repeat;
 }
 
 .content h1 {
@@ -216,8 +213,7 @@ header nav li {
 /*style the tabs to appear in the content section of the dashboard*/
 .tab {
     overflow: hidden;
-    /*border: 1px solid #ccc;*/
-    background-color: #f1f1f1;
+    background-color: #7A8091;
     width: 100%;
     height: 57px;
 }
@@ -230,7 +226,7 @@ header nav li {
     /*outline: none;*/
     cursor: pointer;
     padding: 20px 26px;
-    transition: 0.6s;
+    transition: 0.4s;
 }
 
 /* Change background color of buttons on hover */
@@ -249,11 +245,11 @@ header nav li {
     /*padding: 6px 12px;*/
     /*border: 1px solid #ccc;*/
     border-top: none;
-    animation: fadeEffect 5s; /* Fading effect takes 5 second */
+    animation: fadeEffect 1s; /* Fading effect takes 2 second */
     min-width: 60%;
     width: inherit;
     overflow: auto;
-    opacity: .6;
+    opacity: 1;
 }
 
 /* Go from zero to full opacity */
@@ -266,21 +262,22 @@ header nav li {
     }
 }
 
-.tabcontent h3 {
-    font: 28px "Raleway", sans-serif;
-    font-weight: 300;
-    text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
-    margin-bottom: 5px;
-}
-.tabcontent div {
-    background-color: #1D1F20;
+.tabcontent h5 {
+font: 1em "Raleway", sans-serif;
+font-weight: 300;
+text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+margin-bottom: 5px;
 }
 
-.scrollable{
+.tabcontent div {
+    background-color: #4D4940;
+}
+
+.scrollable {
     overflow: auto;
 }
 
-
+/*credit w3 schools*/
 /*tooltip hover*/
 /* Tooltip container */
 .tooltip {
@@ -318,9 +315,8 @@ header nav li {
     top: 100%;
     left: 50%;
     margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
+    border: 5px solid transparent;
+    border-top-color: #555;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
@@ -350,63 +346,70 @@ th {
 
 /*style the items container*/
 .container {
-    width: 80%;
+    min-width: 230px;
+    width: 90%;
     margin: 30px auto;
     overflow: hidden;
 }
-/*stle the gallery item*/
-.galleryItem {
-    color: #797478;
-    font: 10px/1.5 Verdana, Helvetica, sans-serif;
+
+/*style the gallery item*/
+.thumbnail {
+    color: #C2A766;
+    background-color: #F6F6F2;
+    font: 30px/1.5 inherit;
     float: left;
 
-    width: 16%;
-    margin:  2% 2% 50px 2%;
+    min-width: 200px;
+    max-width: 220px;
+    margin: 2% 2% 50px 2%;
 }
 
-.galleryItem h3 {
+.thumbnail h3 {
     text-transform: uppercase;
 }
 
-.galleryItem img {
+.thumbnail img {
     max-width: 100%;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+
 /*add rules to control page resizing*/
-@media only screen and (max-width : 940px),
-only screen and (max-device-width : 940px){
-    .galleryItem {width: 21%;}
+@media only screen and (max-width: 940px), only screen and (max-device-width: 940px) {
+    .thumbnail {
+        width: 30%;
+    }
 }
 
-@media only screen and (max-width : 720px),
-only screen and (max-device-width : 720px){
-    .galleryItem {width: 29.33333%;}
+@media only screen and (max-width: 720px), only screen and (max-device-width: 720px) {
+    .thumbnail {
+        width: 30%;
+    }
 }
 
-/* MEDIA QUERIES*/
-@media only screen and (max-width : 940px),
-only screen and (max-device-width : 940px){
-    .galleryItem {width: 21%;}
+@media only screen and (max-width: 530px), only screen and (max-device-width: 530px) {
+    .thumbnail {
+        width: 40%;
+    }
 }
 
-@media only screen and (max-width : 720px),
-only screen and (max-device-width : 720px){
-    .galleryItem {width: 29.33333%;}
-}
+@media only screen and (max-width: 320px), only screen and (max-device-width: 320px) {
+    .thumbnail {
+        width: 96%;
+    }
 
-@media only screen and (max-width : 530px),
-only screen and (max-device-width : 530px){
-    .galleryItem {width: 46%;}
-}
+    .thumbnail img {
+        width: 96%;
+    }
 
-@media only screen and (max-width : 320px),
-only screen and (max-device-width : 320px){
-    .galleryItem {width: 96%;}
-    .galleryItem img {width: 96%;}
-    .galleryItem h3 {font-size: 18px;}
-    .galleryItem p {font-size: 18px;}
+    .thumbnail h3 {
+        font-size: 18px;
+    }
+
+    .thumbnail p {
+        font-size: 18px;
+    }
 }
 
 /*upload button styling*/
@@ -415,6 +418,7 @@ only screen and (max-device-width : 320px){
     overflow: hidden;
     display: inline-block;
 }
+
 .btn {
     /*border: 2px solid gray;*/
     /*color: gray;*/
@@ -424,6 +428,7 @@ only screen and (max-device-width : 320px){
     font-size: 10px;
     font-weight: bold;
 }
+
 .upload-btn-wrapper input[type=file] {
     font-size: 100px;
     position: absolute;
@@ -457,16 +462,18 @@ only screen and (max-device-width : 320px){
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: #AE7B63; /* Black w/ opacity */
     padding-top: 60px;
 }
+
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
+    opacity: 1;
 }
 
 /* Add Zoom Animation */
@@ -476,13 +483,21 @@ only screen and (max-device-width : 320px){
 }
 
 @-webkit-keyframes animatezoom {
-    from {-webkit-transform: scale(0)}
-    to {-webkit-transform: scale(1)}
+    from {
+        -webkit-transform: scale(0)
+    }
+    to {
+        -webkit-transform: scale(1)
+    }
 }
 
 @keyframes animatezoom {
-    from {transform: scale(0)}
-    to {transform: scale(1)}
+    from {
+        transform: scale(0)
+    }
+    to {
+        transform: scale(1)
+    }
 }
 
 /* Change styles for span and cancel button on extra small screens */
@@ -491,10 +506,43 @@ only screen and (max-device-width : 320px){
         display: block;
         float: none;
     }
+
     .cancelbtn {
         width: 100%;
     }
 }
 
+/*define an inline block class*/
+.inline {
+    display: inline;
+    max-width: 220px;
+    margin: 1em;
+}
 
+/*handle styling for menu items in landing page*/
+#title {
+    position: relative;
+    background-color: #4CAF50;
+    width: 100%;
+    padding: 20px 0px;
+    border-radius: 0.35em;
+    font-size: 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
 
+#popup-list #popup-list-content {
+    background-color: #f1f1f1;
+}
+
+/*make the checkout button float at the bottom of the page*/
+#checkout-btn {
+    float: right;
+    position: fixed;
+    bottom: -4px;
+    right: 10px;
+    height: 50px;
+    width: 140px;
+}
+
+/*modify how input prompts look*/

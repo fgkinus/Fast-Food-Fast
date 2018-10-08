@@ -1,21 +1,22 @@
 
 .container-login {
-    background-color: #1D1F20;
+    background-color: #3D4746;
     position: relative;
     top: 20%;
     margin: auto;
     min-width: 250px;
     width: 300px;
     max-width: 340px;
-    height: 400px;
+    height: auto;
     border-radius: 0.35em;
-    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 3px 10px 0 #9FAAA7;
     text-align: center;
-    font-size: medium;
+    font-size: large;
+    color: #F6F6F2;
 }
 
 .container-register {
-    background-color: #1D1F20;
+    background-color: #3D4746;
     /*position: relative;*/
     top: 20%;
     margin: auto;
@@ -26,13 +27,15 @@
     border-radius: 0.35em;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
     text-align: center;
+    font-size: large;
+    color: #F6F6F2;
 }
 
 #title {
     position: relative;
-    background-color: #1A1C1D;
+    background-color: #3D4746;
     width: 100%;
-    padding: 20px 0px;
+    padding: 20px 1px;
     border-radius: 0.35em;
     font-size: 22px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -44,12 +47,12 @@
 }
 
 .input {
-    margin: auto;
     width: 240px;
     border-radius: 4px;
     background-color: #373b3d;
-    padding: 8px 0px;
-    margin-top: 15px;
+    padding: 8px 1px;
+    margin: 15px auto auto;
+    font-size: large;
 }
 
 .input-addon {
@@ -65,7 +68,7 @@ input[type=checkbox] {
 }
 
 input[type=text] {
-    color: #FFFFFF;
+    color: #F6F7F3;
     margin: 0;
     background-color: #373b3d;
     border: 1px solid #373b3d;
@@ -82,7 +85,7 @@ i {
 }
 
 input[type=password] {
-    color: #FFFFFF;
+    color: #F6F7F3;
     margin: 0;
     background-color: #373b3d;
     border: 1px solid #373b3d;
@@ -95,7 +98,7 @@ input[type=password]:focus {
 }
 
 input[type=email] {
-    color: #FFFFFF;
+    color: #F6F7F3;
     margin: 0;
     background-color: #373b3d;
     border: 1px solid #373b3d;
@@ -136,7 +139,7 @@ input[type=file]:focus {
 }
 
 .forgot-password a:hover {
-    color: #FFF;
+    color: #F6F7F3;
     transition: color 1s;
 }
 
@@ -144,7 +147,7 @@ input[type=file]:focus {
     margin-top: 5px;
     position: relative;
     font-size: 12px;
-    bottom: 0%;
+    bottom: 1%;
 }
 
 .privacy a:link {
@@ -173,8 +176,8 @@ input[type=file]:focus {
 
 input[type=submit] {
     padding: 6px 25px;
-    background: #373E4A;
-    color: #C1C3C6;
+    background: #C2A766;
+    color: #FFFFFF;
     font-weight: bold;
     border: 0 none;
     cursor: pointer;
@@ -182,10 +185,9 @@ input[type=submit] {
 }
 
 .register {
-    margin: auto;
     padding: 16px 0;
     text-align: center;
-    margin-top: 40px;
+    margin: 40px auto auto;
     width: 85%;
     border-top: 1px solid #C1C3C6;
 }
@@ -194,13 +196,14 @@ input[type=submit] {
     clear: both;
 }
 
-#register-link {
+.register-link {
     margin-top: 10px;
     padding: 6px 25px;
-    background: #373E4A;
-    color: #C1C3C6;
+    background: #e07e7b;
+    color: #FFFFFF;
     font-weight: bold;
     border: 0 none;
     cursor: pointer;
     border-radius: 3px;
+    align-content: center;
 }
