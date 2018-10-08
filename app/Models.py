@@ -1,4 +1,5 @@
 from flask_restplus import Api, abort
+from flask_cors import CORS
 
 from app.Exceptions import AttributeNotFound
 
@@ -12,6 +13,7 @@ class API:
     def __init__(self, app, jwt, **kwargs):
         """Initialize the object"""
         self.app = app
+        CORS(app=self.app)  # enables CORS support on all routes,
         self.jwt = jwt
         self.__create_api(**kwargs)
         jwt = self.__init_jwt()
