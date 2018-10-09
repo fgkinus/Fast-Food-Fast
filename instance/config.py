@@ -15,6 +15,7 @@ class Config(object):
     RESTPLUS_VALIDATE = True
     SWAGGER_UI_JSONEDITOR = True
     SWAGGER_UI_DOC_EXPANSION = 'list'
+    CORS_HEADERS = 'Content-Type'
 
 
 class DevelopmentConfig(Config):

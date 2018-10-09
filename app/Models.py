@@ -21,6 +21,7 @@ class API:
     def __create_api(self, **kwargs):
         """initialize an instance of the flask rest plus API"""
         self.api = Api(self.app, authorizations=self.get_authorisations())
+        self.api.namespaces.pop(0)
         self.set_attr(**kwargs)
 
     def set_attr(self, **kwargs):
