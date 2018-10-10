@@ -27,10 +27,11 @@ class AddUser(Resource):
         # Add user to DB
 
         User().add_user(data)
+        data['password'] = User.generate_hash(data['password'])
 
         res = {
             "Message": "New user has been added",
-            "details": result[0]}
+            "details": data}
         return res
 
 
@@ -54,10 +55,11 @@ class AddAdmin(Resource):
         # Add user to DB
 
         User().add_admin(data)
+        data['password'] = User.generate_hash(data['password'])
 
         res = {
             "Message": "New user has been added",
-            "details": result[0]}
+            "details": data}
         return res
 
 
