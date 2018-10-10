@@ -7,11 +7,8 @@
 
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="application/javascript" src="../js/main.js"></script>
-    <script type="application/javascript" src="../js/script.js"></script>
 </head>
-<body class="bg"
-      onload="showMenuList('food-list');">
+<body class="bg" onload="showMenuList('food-list','alerts');">
 <header class="heading">
     <h2><a href="#">Fast-Food-Fast</a></h2>
     <nav>
@@ -41,9 +38,11 @@
             </button>
         </div>
         <div>
+            <div id='alerts'>
+                <!--display alerts here-->
+            </div>
             <div>
-                <div class="container" id="food-list">
-                </div>
+                <div class="container" id="food-list"></div>
             </div>
         </div>
     </div>
@@ -69,6 +68,17 @@
 
     </div>
 </template>
+<!--define a error template-->
+<template id="alert-box">
+    <div class="alert_box">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <p class="message_content"></p>
+    </div>
+</template>
 
 </body>
+<footer>
+    <script type="application/javascript" src="../js/main.js"></script>
+    <script type="application/javascript" src="../js/script.js"></script>
+</footer>
 </html>

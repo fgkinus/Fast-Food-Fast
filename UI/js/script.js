@@ -2,7 +2,10 @@
 // a list of api endpoint urls
 let urls;
 urls = {
-    "menulist": "https://fast-food-really-fast.herokuapp.com/api/v2/menu/",
+    "menulist": "https://fast-food-really-fast.herokuapp.com/API/v2/menu/",
+    // "menulist": "http://localhost:5000/API/v2/menu/",
+    // "login": "https://fast-food-really-fast.herokuapp.com/API/v2/auth/login",
+    "login": "http://localhost:5000/API/v2/auth/login"
 };
 
 
@@ -15,9 +18,34 @@ function FoodItem(id, name, price, image_url) {
     this.image = image_url;
 }
 
+// alert box close
+close_alerts = function () {
+    let close = document.getElementsByClassName("closebtn");
+    let i;
+    // #loop through close buttons closing them
+    for (i = 0; i < close.length; i++) {
+        close[i].onclick = function () {
+            let div = this.parentElement;
+            div.style.opacity = "0";
+            setTimeout(function () {
+                div.style.display = "none";
+            }, 600);
+        }
 
-//Declare Generic reusable functions here
-fetch_function = function (url, payload) {
+    }
+};
+alerter = function (message, alerts_destination) {
+    let temp = document.getElementById('alert-box');
+    let alertbox = document.importNode(temp.content, true);
+    let alertbox_clone = alertbox.cloneNode(true);
+    let text_content = alertbox_clone.querySelector('p');
+    text_content.textContent = message;
+    let alerts = document.getElementById(alerts_destination);
+    alerts.appendChild(alertbox_clone);
+    close_alerts();
+};
+
+fetch_function_v2 = function (url, payload, alerts_destination) {
     // a function to fetch and log all  requests
     // makes use of the fetch api
 
@@ -25,30 +53,117 @@ fetch_function = function (url, payload) {
     let myRequest = new Request(url, payload);
     // fetch the request response
     return fetch(myRequest)
-        .then((result) => result.json())
+        .then(function (result) {
+                if (result.ok) {
+                    return result.json();
+                } else {
+                    let temp = result.json().then(function (res) {
+                            alerter(res.message, alerts_destination);
+                            throw new Error(res.message);
+                        }
+                    )
+                }
+
+            }
+        )
         .then(function (data) {
-            console.log(data);
+            // console.log(data);
             return data;
         })
         .catch(function (data) {
             console.log(data);
-            throw new Error("Could not complete request!!!");
+            alerter(data.message);
         });
 };
 
+fetch_function_v3 = function (url, payload, alerts_destination) {
+    // a function to fetch and log all  requests
+    // makes use of the fetch api
 
+    // create a request object
+    let myRequest = new Request(url, payload);
+    // fetch the request response
+    return fetch(myRequest)
+        .then(function (result) {
+                if (result.ok) {
+                    return result.json();
+                } else {
+                    let temp = result.json().then(function (res) {
+                            alerter(res.message, alerts_destination);
+                            if (res.hasOwnProperty('errors') || res.hasOwnProperty('Error')) {
+                                console.log(res);
+                                if (res.errors.hasOwnProperty('email')) {
+                                    alerter(res.errors.email, alerts_destination);
+                                }
+                                if (res.errors.hasOwnProperty('password')) {
+                                    alerter(res.errors.password, alerts_destination);
+                                }
+                                if (res.Error.hasOwnProperty('password')) {
+                                    alerter(res.Error.password, alerts_destination);
+                                }
+                            }
+                            throw new Error(res.message);
+                        }
+                    )
+                }
 
+            }
+        )
+        .then(function (data) {
+            // console.log(data);
+            return data;
+        })
+        .catch(function (data) {
+            console.log(data);
+            alerter(data.message);
+        });
+};
+
+function setCookie(cname, cvalue, exdays) {
+    let d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+// function checkCookie(cname) {
+//     let username = getCookie(cname);
+//     if (username != "") {
+//         alert("Welcome again " + username);
+//     } else {
+//         username = prompt("Please enter your name:", "");
+//         if (username != "" && username != null) {
+//             setCookie("username", username, 365);
+//         }
+//     }
+// }
 
 // Declare all case specific functions here
 // list all menu items in the DB
-function showMenuList(destination) {
+function showMenuList(destination, alerts_destination) {
     // empty the destination object
     //get the template element:
     let temp = document.querySelector("#food-item2");
 
     // fetch the items list
     let request_body = {method: 'GET'};
-    fetch_function(urls.menulist, request_body).then(menu_items => {
+    fetch_function_v2(urls.menulist, request_body, alerts_destination).then(menu_items => {
         // items
         let items = create_items(menu_items.items);
         let keys = Object.keys(items);
@@ -95,3 +210,37 @@ function create_items(items_list) {
 
 }
 
+// authenticate and register new users
+
+// #login user
+function login() {
+    let username = document.getElementById('username');
+    let password = document.getElementById('password');
+    let data = {
+        email: username.value,
+        password: password.value
+    };
+
+    let request_body = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        },
+    };
+    fetch_function_v3(urls.login, request_body, "errors").then(request_response => {
+        console.log(request_response);
+        // create an acess token cookie
+        setCookie('auth', request_response.access_token, 1);
+        setCookie('username', request_response.details.username, 1);
+        console.log(getCookie('auth'));
+        console.log(getCookie('username'));
+        if (request_response.details.isadmin) {
+            window.location.href = 'admin-dashboard.html'
+        } else {
+            window.location.href = 'user-dashboard.html'
+        }
+    });
+
+
+}

@@ -17,6 +17,10 @@ class Config(object):
     SWAGGER_UI_DOC_EXPANSION = 'list'
     CORS_HEADERS = 'Content-Type'
 
+    # JWT_TOKEN_LOCATION = ['cookies']
+    JWT_ACCESS_COOKIE_PATH = '/api/'
+    JWT_REFRESH_COOKIE_PATH = '/token/refresh'
+
 
 class DevelopmentConfig(Config):
     """Development configuration"""

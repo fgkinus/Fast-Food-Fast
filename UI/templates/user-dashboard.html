@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
-<body class="bg2" onload="showMenuList('food-list')">
+<body class="bg2" onload="showMenuList('food-list','menu_alerts')">
 
 <header>
     <h2><a href="#">Fast-Food-Fast</a></h2>
@@ -32,7 +32,6 @@
         <button class="tab_titles" onclick="openTab(event, 'checkout');ShowOrders('List-orders')">Checkout</button>
     </div>
     <!--tab contents-->
-
     <!--section food items displays a list of food items&ndash;&gt;-->
     <div id="food-items" class="tabcontent">
         <h3>Menu</h3>
@@ -40,6 +39,9 @@
         <!--a list of all food items-->
         <!--<ul id="food-list"></ul>-->
         <div class="container" id="food-list">
+            <div class="tab" id="menu_alerts">
+                <!--display error messages fro API here-->
+            </div>
 
         </div>
     </div>
@@ -130,6 +132,13 @@
             </div>
 
 
+        </div>
+    </template>
+
+    <template id="alert-box">
+        <div class="alert_box">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p class="message_content"></p>
         </div>
     </template>
 </div>

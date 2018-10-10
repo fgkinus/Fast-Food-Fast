@@ -1,4 +1,5 @@
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+from flask.json import jsonify
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, set_access_cookies
 from flask_restplus import Resource
 from marshmallow import ValidationError
 
@@ -91,6 +92,8 @@ class ValidateUser(Resource):
             details=UserSchema().dump(user.user)[0],
             access_token=access_token
         )
+        ret = jsonify(ret)
+        # set_access_cookies(ret, access_token)
 
         return ret
 

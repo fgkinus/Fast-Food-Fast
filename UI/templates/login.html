@@ -18,17 +18,21 @@
     </nav>
 </header>
 
+
 <section class="content">
-    <div class="container-login">
+    <div id="errors">
+        <!--// Display all errors here-->
+    </div>
+    <div class="container-login" id="login-form">
         <div id="title">
             <i class="material-icons lock">lock</i> Fast Food Fast
         </div>
-        <form action="user-dashboard.html">
+        <form  onsubmit="login()">
             <div class="input">
                 <div class="input-addon">
                     <i class="material-icons">face</i>
                 </div>
-                <input id="username" placeholder="Username" type="text" required class="validate" autocomplete="off">
+                <input id="username" placeholder="email" type="email" required class="validate" autocomplete="off">
             </div>
 
             <div class="clearfix"></div>
@@ -50,8 +54,8 @@
 
         </form>
 
-        <a  href="admin-dashboard.html">
-            <button  class="register-link tooltip btn" >sign in as admin
+        <a href="admin-dashboard.html">
+            <button class="register-link tooltip btn">sign in as admin
                 <span class="tooltiptext"> temporary button for demonstration</span>
             </button>
         </a>
@@ -71,5 +75,17 @@
     </div>
 </section>
 
+<div>
+    <template id="alert-box">
+        <div class="alert_box">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p class="message_content"></p>
+        </div>
+    </template>
+</div>
+
 </body>
+<footer>
+    <script type="application/javascript" src="../js/script.js"></script>
+</footer>
 </html>
