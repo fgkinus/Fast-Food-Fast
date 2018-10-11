@@ -5,7 +5,8 @@ urls = {
     "menulist": "https://fast-food-really-fast.herokuapp.com/API/v2/menu/",
     // "menulist": "http://localhost:5000/API/v2/menu/",
     // "login": "https://fast-food-really-fast.herokuapp.com/API/v2/auth/login",
-    "login": "http://localhost:5000/API/v2/auth/login"
+    "login": "http://localhost:5000/API/v2/auth/login",
+    "signup": "http://localhost:5000/API/v2/auth/signup"
 };
 
 
@@ -41,6 +42,7 @@ alerter = function (message, alerts_destination) {
     let text_content = alertbox_clone.querySelector('p');
     text_content.textContent = message;
     let alerts = document.getElementById(alerts_destination);
+    alerts.innerHTML = "";
     alerts.appendChild(alertbox_clone);
     close_alerts();
 };
@@ -98,9 +100,6 @@ fetch_function_v3 = function (url, payload, alerts_destination) {
                                 if (res.errors.hasOwnProperty('password')) {
                                     alerter(res.errors.password, alerts_destination);
                                 }
-                                if (res.Error.hasOwnProperty('password')) {
-                                    alerter(res.Error.password, alerts_destination);
-                                }
                             }
                             throw new Error(res.message);
                         }
@@ -114,6 +113,7 @@ fetch_function_v3 = function (url, payload, alerts_destination) {
             return data;
         })
         .catch(function (data) {
+            console.log("request exception caught!!!");
             console.log(data);
             alerter(data.message);
         });
@@ -225,7 +225,7 @@ function login() {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
     };
     fetch_function_v3(urls.login, request_body, "errors").then(request_response => {
@@ -235,6 +235,7 @@ function login() {
         setCookie('username', request_response.details.username, 1);
         console.log(getCookie('auth'));
         console.log(getCookie('username'));
+        document.querySelector('form').submit();
         if (request_response.details.isadmin) {
             window.location.href = 'admin-dashboard.html'
         } else {
@@ -243,4 +244,118 @@ function login() {
     });
 
 
+}
+
+// signup new user
+function signup() {
+    let username = document.getElementById('username');
+    let password = document.getElementById('password');
+    let first_name = document.getElementById('first-name');
+    let second_name = document.getElementById('second-name');
+    let email = document.getElementById('email');
+    let confirm_password = document.getElementById('confirm-password');
+
+    // validate that both emails are the same
+    if (!(password.value === confirm_password.value)) {
+        alerter("The passwords entered do not match", 'errors')
+        return
+    }
+
+    // body
+    data = {
+        username: username.value,
+        password: password.value,
+        first_name: first_name.value,
+        second_name: second_name.value,
+        email: email.value,
+        confirm_password: confirm_password.value,
+        surname: username.value
+    };
+    console.log(data);
+
+    // request body
+    let request_body = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        },
+    };
+
+    // make the request to the sever
+    fetch_function_v3(urls.signup, request_body, "errors").then(request_response => {
+        alerter(request_response.Message, 'errors');
+        // redirect to login page
+        window.location.href = 'login.html'    // redirect to login page
+    });
+
+}
+
+
+function signup_admin() {
+    let username = document.getElementById('username');
+    let password = document.getElementById('password');
+    let first_name = document.getElementById('first-name');
+    let second_name = document.getElementById('second-name');
+    let email = document.getElementById('email');
+
+    // body
+    data = {
+        username: username.value,
+        password: password.value,
+        first_name: first_name.value,
+        second_name: second_name.value,
+        email: email.value,
+        surname: username.value
+    };
+    console.log(data);
+
+    // request body
+    let request_body = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        },
+    };
+
+    // make the request to the sever
+    fetch_function_v3(urls.signup, request_body, "errors").then(request_response => {
+        alerter(request_response.Message, 'errors');
+        // redirect to login page
+        window.location.href = 'login.html'    // redirect to login page
+    });
+
+}
+
+// call scripts
+try {
+    document.querySelector('#login-form2').onsubmit = function () {
+        try {
+            console.log("attempting login!");
+            login();
+            console.log("logged in!!")
+        } catch (e) {
+            // just trying again for the sake of it
+            login()
+        }
+    };
+} catch (e) {
+    console.log()
+}
+
+try {
+    document.querySelector('#registration_form').onsubmit = function () {
+        try {
+            console.log("attempting registration");
+            signup();
+            console.log("registered")
+        } catch (e) {
+            // just trying again for the sake of it
+            signup()
+        }
+    };
+}
+catch (e) {
+    console.log()
 }

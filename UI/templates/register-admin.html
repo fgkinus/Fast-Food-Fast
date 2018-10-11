@@ -23,11 +23,14 @@
     </nav>
 </header>
 <section class="content">
+    <div id="errors">
+        <!--// Display all errors here-->
+    </div>
     <div class="container-register" id="profile-container">
         <div id="title tooltip">
             <i class="material-icons lock">lock</i> Admin Registration
         </div>
-        <form action="admin-dashboard.html">
+        <form action="#">
             <div class="input">
                 <div class="input-addon">
                     <i class="material-icons">input</i>
@@ -74,6 +77,15 @@
         </form>
     </div>
 </section>
+<footer>
+    <template id="alert-box">
+        <div class="alert_box">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p class="message_content"></p>
+        </div>
+    </template>
+    <script type="application/javascript" src="../js/script.js"></script>
+</footer>
 
 </body>
 </html>

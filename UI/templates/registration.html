@@ -19,24 +19,29 @@
 </header>
 
 <section class="content">
+    <div id="errors">
+        <!--// Display all errors here-->
+    </div>
     <div class="container-register" id="profile-container">
         <div id="title">
             <i class="material-icons lock">lock</i> Fast Food Fast
         </div>
 
-        <form action="user-dashboard.html">
+        <form action="#" id="registration_form">
             <div class="input">
                 <div class="input-addon">
                     <i class="material-icons">input</i>
                 </div>
-                <input id="first-name" placeholder="first name" type="text" required class="validate" autocomplete="off">
+                <input id="first-name" placeholder="first name" type="text" class="validate"
+                       autocomplete="off">
             </div>
             <div class="clearfix"></div>
             <div class="input">
                 <div class="input-addon">
                     <i class="material-icons">input</i>
                 </div>
-                <input id="second-name" placeholder="second name" type="text" required class="validate" autocomplete="off">
+                <input id="second-name" placeholder="second name" type="text" class="validate"
+                       autocomplete="off">
             </div>
             <div class="clearfix"></div>
             <div class="input">
@@ -59,7 +64,8 @@
                 <div class="input-addon">
                     <i class="material-icons">vpn_key</i>
                 </div>
-                <input id="password" placeholder="Password" type="password" required class="validate" autocomplete="off">
+                <input id="password" placeholder="Password" type="password" required class="validate"
+                       autocomplete="off">
             </div>
             <div class="clearfix"></div>
 
@@ -67,17 +73,18 @@
                 <div class="input-addon">
                     <i class="material-icons">vpn_key</i>
                 </div>
-                <input id="confirm-password" placeholder="Confirm Password" type="password" required class="validate" autocomplete="off">
+                <input id="confirm-password" placeholder="Confirm Password" type="password" required class="validate"
+                       autocomplete="off">
             </div>
             <div class="clearfix"></div>
 
             <div class="remember-me">
                 <input type="checkbox" required/>
-                <span >I accept Terms of Service</span>
+                <span>I accept Terms of Service</span>
             </div>
             <div class="clearfix"></div>
 
-            <input type="submit" value="Register" />
+            <input type="submit" value="Register"/>
         </form>
 
         <div class="privacy">
@@ -86,10 +93,22 @@
 
         <div class="register">
             Do you already have an account?
-            <a href="login.html"><button class="register-link">Log In here</button></a>
+            <a href="login.html">
+                <button class="register-link">Log In here</button>
+            </a>
         </div>
     </div>
 </section>
-
+<div>
+    <template id="alert-box">
+        <div class="alert_box">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p class="message_content"></p>
+        </div>
+    </template>
+</div>
 </body>
+<footer>
+    <script type="application/javascript" src="../js/script.js"></script>
+</footer>
 </html>
