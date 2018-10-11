@@ -4,6 +4,7 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS, cross_origin
 
+
 from instance.config import APP_CONFIG, basedir
 
 jwt = JWTManager()

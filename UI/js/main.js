@@ -27,7 +27,7 @@ function set_active_tab(ID) {
 }
 
 // a list of all food items
-var foodItems = {
+let foodItems = {
     "BurgerFriesSoda": 2000, "Drumsticks": 350, 'Fries': 200, "Meatballs": 350, "Pie": 900, "Pizza": 1500, "Rools": 750,
     "Sandwich": 150, "Vege_burger": 250
 };
@@ -111,6 +111,12 @@ function showFoodlist(destination) {
 let Orders = [];
 
 function ShowOrders(destination) {
+    // empty the destination
+    let tb = document.getElementById(destination);
+    while (tb.rows.length > 1) {
+        tb.deleteRow(1);
+    }
+
     let temp = document.querySelector("#order");
     // items
     for (let i = 0; i < Orders.length; i++) {
@@ -121,10 +127,11 @@ function ShowOrders(destination) {
         // get all table columns
         let cols = clone.querySelectorAll("td");
 
+
         // assign value
         cols[0].textContent = order.id;
         cols[1].textContent = order.item_id;
-        cols[2].textContent = Object.keys(foodItems)[order.item_id[5]];
+        cols[2].textContent = get_item_by_id(order.item_id).name;
         cols[3].textContent = order.quantity;
         cols[4].textContent = order.location;
         cols[5].textContent = order.time;
@@ -253,3 +260,17 @@ function close_pop_up(ID) {
     let item = document.getElementById(ID);
     item.style.display = "none";
 }
+
+//get a specific order item
+function get_item_by_id(item_id) {
+    let it;
+    let it_id = item_id.substring(5);
+    it_id = parseInt(it_id);
+    foodItems.forEach(function (item) {
+        if (item.id === it_id) {
+            it = item;
+        }
+    });
+    return it;
+}
+

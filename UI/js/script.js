@@ -1,5 +1,6 @@
 //Declare global varialbles here
 // a list of api endpoint urls
+<<<<<<< Updated upstream
 let urls;
 urls = {
     "menulist": "https://fast-food-really-fast.herokuapp.com/API/v2/menu/",
@@ -7,6 +8,17 @@ urls = {
     // "login": "https://fast-food-really-fast.herokuapp.com/API/v2/auth/login",
     "login": "http://localhost:5000/API/v2/auth/login",
     "signup": "http://localhost:5000/API/v2/auth/signup"
+=======
+
+let urls = {
+    // "menulist": "https://fast-food-really-fast.herokuapp.com/API/v2/menu/",
+    "menulist": "http://localhost:5000/API/v2/menu/",
+    // "login": "https://fast-food-really-fast.herokuapp.com/API/v2/auth/login",
+    "login": "http://localhost:5000/API/v2/auth/login",
+    "signup": "http://localhost:5000/API/v2/auth/signup",
+    'signup_admin': "http://localhost:5000/API/v2/auth/register-admin",
+    'add_order': "http://localhost:5000/API/v2/orders/"
+>>>>>>> Stashed changes
 };
 
 
@@ -156,17 +168,23 @@ function getCookie(cname) {
 
 // Declare all case specific functions here
 // list all menu items in the DB
-function showMenuList(destination, alerts_destination) {
+async function showMenuList(destination, alerts_destination) {
+
     // empty the destination object
     //get the template element:
     let temp = document.querySelector("#food-item2");
 
+    // show loading modal
+    pop_up('popup-loader');
     // fetch the items list
     let request_body = {method: 'GET'};
-    fetch_function_v2(urls.menulist, request_body, alerts_destination).then(menu_items => {
-        // items
-        let items = create_items(menu_items.items);
+    await fetch_function_v2(urls.menulist, request_body, alerts_destination).then((data) => {
+       // items
+        let items = create_items(data.items);
+        foodItems = data.items;
+        // console.log(foodItems);
         let keys = Object.keys(items);
+        console.log(items);
 
         //for each item in image folder
         for (let i = 0; i < keys.length; i++) {
@@ -183,17 +201,19 @@ function showMenuList(destination, alerts_destination) {
             cost.textContent = items[keys[i]].price;
 
             let button = clone.querySelector("#details");
-            button.setAttribute("id", 'item-' + i);
+            button.setAttribute("id", 'item-' + items[i].id);
             //append item to list
             // add_to_list(destination, clone, 'item-' + i);
 
             add_to_div(destination, clone, 'item-' + i);
         }
 
+    }).finally(function () {
+        //close modal
+        close_pop_up('popup-loader');
     });
 
 
-    // let clon = temp.content.cloneNode(true)
 }
 
 function create_items(items_list) {
@@ -213,7 +233,8 @@ function create_items(items_list) {
 // authenticate and register new users
 
 // #login user
-function login() {
+async function login() {
+
     let username = document.getElementById('username');
     let password = document.getElementById('password');
     let data = {
@@ -228,9 +249,11 @@ function login() {
             "Content-Type": "application/json",
         },
     };
-    fetch_function_v3(urls.login, request_body, "errors").then(request_response => {
-        console.log(request_response);
         // create an acess token cookie
+    pop_up('popup-loader');
+    await fetch_function_v3(urls.login, request_body, "errors").then(request_response => {
+        console.log(request_response);
+        // create an access token cookie
         setCookie('auth', request_response.access_token, 1);
         setCookie('username', request_response.details.username, 1);
         console.log(getCookie('auth'));
@@ -241,6 +264,9 @@ function login() {
         } else {
             window.location.href = 'user-dashboard.html'
         }
+    }).finally(function () {
+        //close modal
+        close_pop_up('popup-loader');
     });
 
 
@@ -292,6 +318,7 @@ function signup() {
 }
 
 
+//register new admin
 function signup_admin() {
     let username = document.getElementById('username');
     let password = document.getElementById('password');
@@ -324,10 +351,97 @@ function signup_admin() {
         alerter(request_response.Message, 'errors');
         // redirect to login page
         window.location.href = 'login.html'    // redirect to login page
+
+    // request body
+    let request_body = {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: new Headers(
+                {
+                    "Content-Type": "application/json",
+                    "Authorization": 'Bearer ' + getCookie('auth'),
+                }
+            ),
+        }
+    ;
+    console.log(request_body);
+    pop_up('popup-loader');
+    // make the request to the sever
+    fetch_function_v3(urls.signup_admin, request_body, "errors").then(request_response => {
+        alerter(request_response.Message, 'errors');
+        // redirect to login page
+        alerter("new admin added", 'errors');
+        // window.location.href = '#'    // redirect to login page
+    }).finally(function () {
+        close_pop_up('popup-loader');
+>>>>>>> Stashed changes
     });
 
 }
 
+<<<<<<< Updated upstream
+=======
+// add order
+async function add_new_order(order) {
+    let data = {
+        item: get_item_by_id(order.item_id).id,
+        quantity: order.quantity,
+        location: order.location
+    };
+    let request_body = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: new Headers(
+            {
+                "Content-Type": "application/json",
+                "Authorization": 'Bearer ' + getCookie('auth'),
+            }
+        ),
+    };
+    await fetch_function_v3(urls.add_order, request_body, "order_alerts").then(request_response => {
+        console.log(request_response);
+    }).finally(function () {
+        console.log("order added");
+    })
+}
+
+//checkout
+async function checkout() {
+    // show loading modal
+    pop_up('popup-loader');
+    if (Orders.length <= 0) {
+        alerter("There are no orders to display.Please add some", 'order_alerts');
+        console.log("No orders in the log!!!");
+        close_pop_up('popup-loader');
+        return
+    }
+    await Orders.forEach(function (order) {
+        add_new_order(order).then(function () {
+            // remove order from orders array
+            let index = Orders.indexOf(order);
+            if (index !== -1) Orders.splice(index, 1);
+        })
+    });
+
+    //now empty the checkout list
+    let tb = document.getElementById('List-orders');
+    while (tb.rows.length > 1) {
+        tb.deleteRow(1);
+    }
+    close_pop_up('popup-loader');
+    alerter("Your orders have been made", 'order_alerts');
+    alert("Orders made");
+};
+
+// make the request to the sever
+fetch_function_v3(urls.signup, request_body, "errors").then(request_response => {
+    alerter(request_response.Message, 'errors');
+    // redirect to login page
+    window.location.href = 'login.html'    // redirect to login page
+});
+
+
+>>>>>>> Stashed changes
 // call scripts
 try {
     document.querySelector('#login-form2').onsubmit = function () {
@@ -358,4 +472,23 @@ try {
 }
 catch (e) {
     console.log()
+<<<<<<< Updated upstream
+=======
+}
+
+try {
+    document.querySelector('#register_admin').onsubmit = function () {
+        try {
+            console.log("attempting registration");
+            signup_admin();
+            console.log("registered")
+        } catch (e) {
+            // just trying again for the sake of it
+            signup_admin()
+        }
+    };
+}
+catch (e) {
+    console.log()
+>>>>>>> Stashed changes
 }
