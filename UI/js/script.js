@@ -8,6 +8,7 @@ let urls = {
     "signup": "http://localhost:5000/API/v2/auth/signup",
     'signup_admin': "http://localhost:5000/API/v2/auth/register-admin",
     'add_order': "http://localhost:5000/API/v2/orders/",
+    'history': "http://localhost:5000/API/v2/orders/history"
 };
 
 
@@ -272,7 +273,7 @@ function signup() {
 
     // validate that both emails are the same
     if (!(password.value === confirm_password.value)) {
-        alerter("The passwords entered do not match", 'errors')
+        alerter("The passwords entered do not match", 'errors');
         return
     }
 
@@ -500,6 +501,70 @@ async function add_menu_item() {
 
 }
 
+//
+// view order history
+function fetch_orders() {
+    let request_body = {
+        method: 'GET',
+        headers: new Headers(
+            {
+                "Content-Type": "application/json",
+                "Authorization": 'Bearer ' + getCookie('auth'),
+            }
+        ),
+    };
+
+    pop_up('popup-loader');
+    // make the request to the sever
+    fetch_function_v2(urls.add_order, request_body, "history_alerts").then(request_response => {
+        console.log(request_response);
+        console.log(request_response);
+        let Orders = request_response.orders;
+
+        ShowOrders('List-prev-orders', Orders);
+
+    }).finally(function () {
+        close_pop_up('popup-loader');
+    });
+}
+
+function ShowOrders(destination, orders) {
+    // empty the destination
+    let tb = document.getElementById(destination);
+    while (tb.rows.length > 1) {
+        tb.deleteRow(1);
+    }
+
+    let temp = document.querySelector("#order");
+    let item_id_sub = 'item-';
+    // items
+    for (let i = 0; i < orders.length; i++) {
+        let history = orders[i];
+        console.log(item_id_sub + history.item);
+
+        //get the element from the template:
+        let clone = document.importNode(temp.content, true);
+        // get all table columns
+        let cols = clone.querySelectorAll("td");
+
+
+        // assign value
+        cols[0].textContent = history.id;
+        cols[1].textContent = item_id_sub + history.item;
+        cols[2].textContent = get_item_by_id(item_id_sub + history.item).name;
+        cols[3].textContent = history.quantity;
+        cols[4].textContent = history.location;
+        cols[5].textContent = history.created;
+
+        btn = document.createElement('button');
+        btn.setAttribute("class", "btn");
+        cols[6].appendChild(btn);
+
+        add_to_table(destination, clone, 'order-' + i);
+    }
+
+}
+
 
 // call onsubmit event handlers scripts
 try {
@@ -542,6 +607,21 @@ try {
         } catch (e) {
             // just trying again for the sake of it
             signup_admin()
+        }
+    };
+}
+catch (e) {
+    console.log()
+}
+
+try {
+    document.querySelector('#add_menuitem_form').onsubmit = function () {
+        try {
+            console.log("attempting to add menuitem");
+            add_menu_item();
+        } catch (e) {
+            // just trying again for the sake of it
+            add_menu_item();
         }
     };
 }

@@ -62,37 +62,22 @@
 
         <!--display previous orders-->
         <div id="manage-orders" class="tabcontent">
-            <div>
-                <h3>Previous Orders</h3>
-                <h4>Review all orders</h4>
-                <table>
-                    <thead>
-                    <th>order-id</th>
-                    <th>order-item</th>
-                    <th>order-quantity</th>
-                    <th>order-location</th>
-                    <th>order-time</th>
-                    <th>aceept/reject</th>
-                    <th>completed</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>item-2</td>
-                        <td>5</td>
-                        <td>Thika</td>
-                        <td onload="Date()"></td>
-                        <td>
-                            <form>
-                                <input type="radio" name="status" value="accept" checked> accept<br>
-                                <input type="radio" name="status" value="reject"> reject<br>
-                                <input type="radio" name="status" value="pending"> pending
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <h3>Orders</h3>
+            <h4>Review Your historical orders</h4>
+            <div class="tab" id="history_alerts">
+                <!--display error messages fro API here-->
             </div>
+            <table id="List-prev-orders">
+                <thead>
+                <th>order id</th>
+                <th>order item</th>
+                <th>order name</th>
+                <th>order quantity</th>
+                <th>location</th>
+                <th>Time</th>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
 
     </section>
@@ -208,6 +193,24 @@
                 <span class="tooltiptext">edit</span>
             </button>
         </td>
+    </template>
+
+    <!--orders template-->
+    <template id="order">
+        <td>order_id</td>
+        <td>order_item</td>
+        <td>order_name</td>
+        <td>order_qty</td>
+        <td>location</td>
+        <td>time</td>
+        <td>cancel</td>
+    </template>
+
+    <template id="alert-box">
+        <div class="alert_box">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p class="message_content"></p>
+        </div>
     </template>
 </div>
 
