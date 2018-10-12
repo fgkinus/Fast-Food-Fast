@@ -1,15 +1,5 @@
 //Declare global varialbles here
 // a list of api endpoint urls
-<<<<<<< Updated upstream
-let urls;
-urls = {
-    "menulist": "https://fast-food-really-fast.herokuapp.com/API/v2/menu/",
-    // "menulist": "http://localhost:5000/API/v2/menu/",
-    // "login": "https://fast-food-really-fast.herokuapp.com/API/v2/auth/login",
-    "login": "http://localhost:5000/API/v2/auth/login",
-    "signup": "http://localhost:5000/API/v2/auth/signup"
-=======
-
 let urls = {
     // "menulist": "https://fast-food-really-fast.herokuapp.com/API/v2/menu/",
     "menulist": "http://localhost:5000/API/v2/menu/",
@@ -17,8 +7,8 @@ let urls = {
     "login": "http://localhost:5000/API/v2/auth/login",
     "signup": "http://localhost:5000/API/v2/auth/signup",
     'signup_admin': "http://localhost:5000/API/v2/auth/register-admin",
-    'add_order': "http://localhost:5000/API/v2/orders/"
->>>>>>> Stashed changes
+    'add_order': "http://localhost:5000/API/v2/orders/",
+    'history': "http://localhost:5000/API/v2/orders/history"
 };
 
 
@@ -179,7 +169,7 @@ async function showMenuList(destination, alerts_destination) {
     // fetch the items list
     let request_body = {method: 'GET'};
     await fetch_function_v2(urls.menulist, request_body, alerts_destination).then((data) => {
-       // items
+        // items
         let items = create_items(data.items);
         foodItems = data.items;
         // console.log(foodItems);
@@ -249,7 +239,7 @@ async function login() {
             "Content-Type": "application/json",
         },
     };
-        // create an acess token cookie
+    // create an acess token cookie
     pop_up('popup-loader');
     await fetch_function_v3(urls.login, request_body, "errors").then(request_response => {
         console.log(request_response);
@@ -337,33 +327,16 @@ function signup_admin() {
     };
     console.log(data);
 
-    // request body
     let request_body = {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: new Headers(
+            {
+                "Content-Type": "application/json",
+                "Authorization": 'Bearer ' + getCookie('auth'),
+            }
+        ),
     };
-
-    // make the request to the sever
-    fetch_function_v3(urls.signup, request_body, "errors").then(request_response => {
-        alerter(request_response.Message, 'errors');
-        // redirect to login page
-        window.location.href = 'login.html'    // redirect to login page
-
-    // request body
-    let request_body = {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: new Headers(
-                {
-                    "Content-Type": "application/json",
-                    "Authorization": 'Bearer ' + getCookie('auth'),
-                }
-            ),
-        }
-    ;
     console.log(request_body);
     pop_up('popup-loader');
     // make the request to the sever
@@ -374,13 +347,10 @@ function signup_admin() {
         // window.location.href = '#'    // redirect to login page
     }).finally(function () {
         close_pop_up('popup-loader');
->>>>>>> Stashed changes
     });
 
 }
 
-<<<<<<< Updated upstream
-=======
 // add order
 async function add_new_order(order) {
     let data = {
@@ -433,16 +403,69 @@ async function checkout() {
     alert("Orders made");
 };
 
-// make the request to the sever
-fetch_function_v3(urls.signup, request_body, "errors").then(request_response => {
-    alerter(request_response.Message, 'errors');
-    // redirect to login page
-    window.location.href = 'login.html'    // redirect to login page
-});
+// view order history
+function fetch_order_history() {
+    let request_body = {
+        method: 'GET',
+        headers: new Headers(
+            {
+                "Content-Type": "application/json",
+                "Authorization": 'Bearer ' + getCookie('auth'),
+            }
+        ),
+    };
+
+    pop_up('popup-loader');
+    // make the request to the sever
+    fetch_function_v3(urls.history, request_body, "history_alerts").then(request_response => {
+        // console.log(request_response);
+        let History = request_response.history;
+        ShowOrdersHistory('List-prev-orders', History);
+
+    }).finally(function () {
+        close_pop_up('popup-loader');
+    });
+}
+
+function ShowOrdersHistory(destination, History) {
+    // empty the destination
+    let tb = document.getElementById(destination);
+    while (tb.rows.length > 1) {
+        tb.deleteRow(1);
+    }
+
+    let temp = document.querySelector("#order");
+    let item_id_sub = 'item-';
+    // items
+    for (let i = 0; i < History.length; i++) {
+        let history = History[i];
+        console.log(item_id_sub + history.item);
+
+        //get the element from the template:
+        let clone = document.importNode(temp.content, true);
+        // get all table columns
+        let cols = clone.querySelectorAll("td");
 
 
->>>>>>> Stashed changes
-// call scripts
+        // assign value
+        cols[0].textContent = history.id;
+        cols[1].textContent = item_id_sub + history.item;
+        cols[2].textContent = get_item_by_id(item_id_sub + history.item).name;
+        cols[3].textContent = history.quantity;
+        cols[4].textContent = history.location;
+        cols[5].textContent = history.created;
+
+        btn = document.createElement('button');
+        btn.setAttribute("class", "btn");
+        cols[6].appendChild(btn);
+
+        add_to_table(destination, clone, 'order-' + i);
+    }
+
+}
+
+
+// call onsubmit event handlers scripts
 try {
     document.querySelector('#login-form2').onsubmit = function () {
         try {
@@ -472,8 +495,6 @@ try {
 }
 catch (e) {
     console.log()
-<<<<<<< Updated upstream
-=======
 }
 
 try {
@@ -490,5 +511,4 @@ try {
 }
 catch (e) {
     console.log()
->>>>>>> Stashed changes
 }

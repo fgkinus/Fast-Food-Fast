@@ -73,7 +73,7 @@ class GetOrderHistory(Resource):
         history = Order().get_historical_orders(user=user['id'])
         serialized = Order().parser().dump(history, many=True)
         ret = dict(
-            history=serialized
+            history=serialized[0]
         )
 
         return ret
