@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
-<body >
+<body>
 
 <div class="bg2">
     <header class="heading">
@@ -40,6 +40,9 @@
                     <span class="material-icons">add</span>
                     <span class="tooltiptext">add new item</span>
                 </button>
+                <div id="menu_alerts">
+                    <!--display error messages fro API here-->
+                </div>
                 <table id="food-items">
                     <thead>
                     <th>item id</th>
@@ -99,14 +102,17 @@
 <div class="modal" id="popup">
     <div class="modal-content container-login">
         <div id="title">
-            <i class="material-icons lock">cloud_upload</i>  add new menu item
+            <i class="material-icons lock">cloud_upload</i> add new menu item
             <button class="material-icons close btn cancelbtn tooltip"
-             onclick="close_pop_up('popup')">
+                    onclick="close_pop_up('popup')">
                 close
                 <span class="tooltiptext">cancel</span>
             </button>
         </div>
-        <form action="#">
+        <div id="add_item_alerts">
+            <!--display error messages fro API here-->
+        </div>
+        <form action="#" id="add_menuitem_form">
             <div class="input">
                 <div class="input-addon">
                     <i class="material-icons">input</i>
@@ -128,7 +134,7 @@
                 </div>
                 <div class="upload-btn-wrapper">
                     <a class="btn">Upload an image file</a>
-                    <input type="file" name="myfile" />
+                    <input type="file" name="myfile"/>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -141,7 +147,7 @@
 </div>
 
 <div class="modal" id="popup2">
-    <div class="container-login modal-content" >
+    <div class="container-login modal-content">
         <div id="title2">
             <i class="material-icons lock">note_add</i> edit entry
             <button class="material-icons close btn cancelbtn tooltip"
@@ -172,7 +178,7 @@
                 </div>
                 <div class="upload-btn-wrapper">
                     <a class="btn">Upload an image file</a>
-                    <input type="file" name="myfile" />
+                    <input type="file" name="myfile"/>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -183,6 +189,12 @@
         </form>
     </div>
 </div>
+
+<div class="modal2" id="popup-loader">
+    <div class="loader modal-content2">
+
+    </div>
+</div>
 <!--templates-->
 <div>
     <template id="MenuItem">
@@ -191,7 +203,7 @@
         <td>name</td>
         <td>price</td>
         <td>
-            <button class="btn tooltip" aria-label="control_point"  onclick="pop_up('popup2')">
+            <button class="btn tooltip" aria-label="control_point" onclick="pop_up('popup2')">
                 <span class="mdc-button__icon material-icons">edit</span>
                 <span class="tooltiptext">edit</span>
             </button>
@@ -203,6 +215,7 @@
 <footer>
     <!--reference external javascript files-->
     <script type="text/javascript" src="../js/main.js"></script>
+    <script type="text/javascript" src="../js/script.js"></script>
     <!--set default tab to active-->
     <script> set_active_tab('default-tab')</script>
 

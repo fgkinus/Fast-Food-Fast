@@ -68,43 +68,58 @@ function showContent(destination) {
     // let clon = temp.content.cloneNode(true)
 }
 
-function showFoodlist(destination) {
+async function showFoodlist(destination) {
     //get the template element:
     let temp = document.querySelector("#MenuItem");
 
-    // items
-    let items = create_items(foodItems);
-    let keys = Object.keys(items);
-    //for each item in image folder
-    for (let i = 0; i < keys.length; i++) {
-        //get the element from the template:
-        let clone = document.importNode(temp.content, true);
-        // create a new node based on the item
-        let cols = clone.querySelectorAll("td");
+    pop_up('popup-loader');
+    // fetch the items list
+    let request_body = {method: 'GET'};
+    await
+        fetch_function_v2(urls.menulist, request_body, 'menu_alerts').then((data) => {
+            // items
+            let items = create_items(data.items);
+            foodItems = data.items;
+            // console.log(foodItems);
+            let keys = Object.keys(items);
+            console.log(items);
 
-        cols[0].textContent = i;
+            //for each item in image folder
+            for (let i = 0; i < keys.length; i++) {
+                //get the element from the template:
+                let clone = document.importNode(temp.content, true);
+                // create a new node based on the item
+                let cols = clone.querySelectorAll("td");
 
-        let image = document.createElement('img');
-        image.src = items[keys[i]].image;
-        cols[1].appendChild(image);
+                cols[0].textContent = i;
 
-        let name = cols[2];
-        name.textContent = items[keys[i]].name;
+                let image = document.createElement('img');
+                image.src = items[keys[i]].image;
+                cols[1].appendChild(image);
 
-        let cost = cols[3];
-        cost.textContent = items[keys[i]].price;
+                let name = cols[2];
+                name.textContent = items[keys[i]].name;
 
-        let button = document.createElement("button");
-        button.setAttribute("id", 'item-' + i);
-        button.setAttribute('onClick', 'pop_up("popup2")');
-        cols[4].appendChild(button);
-        //append item to list
-        add_to_table(destination, clone, 'item-' + i);
+                let cost = cols[3];
+                cost.textContent = items[keys[i]].price;
 
-        // document.body.appendChild(image);
+                let button = document.createElement("button");
+                button.setAttribute("id", 'item-' + i);
+                button.setAttribute('onClick', 'pop_up("popup2")');
+                cols[4].appendChild(button);
+                //append item to list
+                add_to_table(destination, clone, 'item-' + i);
 
-    }
-    // let clon = temp.content.cloneNode(true)
+                // document.body.appendChild(image);
+
+            }
+            // let clon = temp.content.cloneNode(true)
+
+        }).finally(function () {
+            //close modal
+            close_pop_up('popup-loader');
+        });
+
 }
 
 // an array of all orders

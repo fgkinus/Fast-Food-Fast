@@ -8,7 +8,6 @@ let urls = {
     "signup": "http://localhost:5000/API/v2/auth/signup",
     'signup_admin': "http://localhost:5000/API/v2/auth/register-admin",
     'add_order': "http://localhost:5000/API/v2/orders/",
-    'history': "http://localhost:5000/API/v2/orders/history"
 };
 
 
@@ -461,6 +460,43 @@ function ShowOrdersHistory(destination, History) {
 
         add_to_table(destination, clone, 'order-' + i);
     }
+
+}
+
+//add new menu item
+async function add_menu_item() {
+
+    let name = document.getElementById('item-name');
+    let price = document.getElementById('price');
+
+    let data = {
+        name: name.value,
+        price: price.value
+    };
+
+    let request_body = {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: new Headers(
+            {
+                "Content-Type": "application/json",
+                "Authorization": 'Bearer ' + getCookie('auth'),
+            }
+        ),
+    };
+    // create an acess token cookie
+    console.log(data);
+    console.log(request_body);
+
+    pop_up('popup-loader');
+    await fetch_function_v3(urls.menulist, request_body, "add_item_alerts").then(request_response => {
+        console.log(request_response);
+
+    }).finally(function () {
+        //close modal
+        close_pop_up('popup-loader');
+    });
+
 
 }
 
