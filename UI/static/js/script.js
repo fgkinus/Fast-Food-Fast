@@ -1,14 +1,17 @@
 //Declare global varialbles here
 // a list of api endpoint urls
+let domain = "https://fast-food-really-fast.herokuapp.com";
+// let domain = "http://localhost:5000";
+
 let urls = {
-    // "menulist": "https://fast-food-really-fast.herokuapp.com/API/v2/menu/",
-    "menulist": "http://localhost:5000/API/v2/menu/",
-    // "login": "https://fast-food-really-fast.herokuapp.com/API/v2/auth/login",
-    "login": "http://localhost:5000/API/v2/auth/login",
-    "signup": "http://localhost:5000/API/v2/auth/signup",
-    'signup_admin': "http://localhost:5000/API/v2/auth/register-admin",
-    'add_order': "http://localhost:5000/API/v2/orders/",
-    'history': "http://localhost:5000/API/v2/orders/history"
+    "menulist": domain + "/API/v2/menu/",
+    // "menulist": "http://localhost:5000/API/v2/menu/",
+    "login": domain + "/API/v2/auth/login",
+    "login": domain + "/API/v2/auth/login",
+    "signup": domain + "/API/v2/auth/signup",
+    'signup_admin': domain + "/API/v2/auth/register-admin",
+    'add_order': domain + "/API/v2/orders/",
+    'history': domain + "/API/v2/orders/history"
 };
 
 
@@ -212,7 +215,7 @@ function create_items(items_list) {
     items_list.forEach(item => {
         let name = item.name;
         let price = item.price;
-        let url = "../img/" + name + ".jpg";
+        let url = "../static/img/" + name + ".jpg";
         let new_item = new FoodItem(item.id, name, price, url);
         items.push(new_item)
     });

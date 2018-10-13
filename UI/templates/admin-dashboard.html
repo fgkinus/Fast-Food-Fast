@@ -5,8 +5,8 @@
     <title>Fast Food Fast</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/login-registration.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/login-registration.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
@@ -29,7 +29,8 @@
                     onclick="openTab(event, 'food-items-list'); showFoodlist('food-items')">
                 Food items
             </button>
-            <button class="tab_titles" onclick="openTab(event, 'manage-orders');">Manage Orders</button>
+            <button class="tab_titles" onclick="openTab(event, 'manage-orders');fetch_order_history()">Manage Orders
+            </button>
         </div>
 
         <div id="food-items-list" class="tabcontent">
@@ -217,8 +218,8 @@
 <!--footer details and scripts-->
 <footer>
     <!--reference external javascript files-->
-    <script type="text/javascript" src="../js/main.js"></script>
-    <script type="text/javascript" src="../js/script.js"></script>
+    <script type="text/javascript" src="../static/js/main.js"></script>
+    <script type="text/javascript" src="../static/js/script.js"></script>
     <!--set default tab to active-->
     <script> set_active_tab('default-tab')</script>
 

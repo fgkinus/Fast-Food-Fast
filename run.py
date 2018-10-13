@@ -3,6 +3,7 @@
 import os
 
 import coloredlogs
+from flask import render_template
 
 from app import create_app, jwt
 from app.Models import API, URLS
@@ -17,6 +18,15 @@ CONFIG_NAME = os.getenv('APP_SETTINGS')
 # initialize the APP object
 APP = create_app(__name__, CONFIG_NAME)
 APP.config['JWT_SECRET_KEY'] = os.getenv('SECRET')
+
+
+@APP.route('/<page_name>')
+def render_static(page_name):
+    try:
+        return render_template('{0}'.format(page_name))
+    except:
+        return render_template('error404.html')
+
 
 # initialize the API object
 API = API(APP, jwt, version='2.0', title='Fast-Food-Fast API',
