@@ -5,7 +5,7 @@ import marshmallow
 from flask_jwt_extended import verify_jwt_in_request, get_jwt_claims
 from flask_jwt_extended.exceptions import NoAuthorizationError, InvalidHeaderError
 from flask_restplus import Namespace
-from jwt import ExpiredSignature, InvalidSignatureError, DecodeError
+from jwt import ExpiredSignature, InvalidSignatureError, DecodeError, ImmatureSignatureError
 
 from app import jwt
 from app.Exceptions import AlreadyExists
@@ -49,6 +49,12 @@ def admin_required(fn):
 def handle_no_auth_exception(error):
     """Handle ethe jwt required exception when none s provided"""
     return {'message': 'No authentication token provided'}, 401
+
+
+@namespace.errorhandler(ImmatureSignatureError)
+def handle_no_auth_exception(error):
+    """Handle ethe jwt required exception when none s provided"""
+    return {'message': 'Invalid Signature!!!'}, 400
 
 
 @namespace.errorhandler(ExpiredSignature)

@@ -205,6 +205,7 @@ function Order(id, item_ID, quantity, location) {
     this.quantity = quantity;
     this.location = location;
     this.time = Date();
+    this.status = 'New';
 }
 
 // order status object

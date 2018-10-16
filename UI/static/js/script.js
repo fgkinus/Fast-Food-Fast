@@ -1,7 +1,7 @@
 //Declare global varialbles here
 // a list of api endpoint urls
-let domain = "https://fast-food-really-fast.herokuapp.com";
-// let domain = "http://localhost:5000";
+// let domain = "https://fast-food-really-fast.herokuapp.com";
+let domain = "http://localhost:5000";
 
 let urls = {
     "menulist": domain + "/API/v2/menu/",
@@ -11,6 +11,7 @@ let urls = {
     "signup": domain + "/API/v2/auth/signup",
     'signup_admin': domain + "/API/v2/auth/register-admin",
     'add_order': domain + "/API/v2/orders/",
+    'delete_order': domain + "/API/v2/orders/",
     'history': domain + "/API/v2/orders/history"
 };
 
@@ -442,7 +443,6 @@ function ShowOrdersHistory(destination, History) {
     // items
     for (let i = 0; i < History.length; i++) {
         let history = History[i];
-        console.log(item_id_sub + history.item);
 
         //get the element from the template:
         let clone = document.importNode(temp.content, true);
@@ -456,11 +456,31 @@ function ShowOrdersHistory(destination, History) {
         cols[2].textContent = get_item_by_id(item_id_sub + history.item).name;
         cols[3].textContent = history.quantity;
         cols[4].textContent = history.location;
-        cols[5].textContent = history.created;
+        cols[5].textContent = '';
+        cols[6].textContent = history.created;
 
-        btn = document.createElement('button');
-        btn.setAttribute("class", "btn");
-        cols[6].appendChild(btn);
+        // wrap action in an inline span
+        let sp = document.createElement('span');
+
+        // add buttons
+        let btn1 = document.createElement('button');
+        btn1.setAttribute("class", "btn");
+        btn1.setAttribute("id", "his" + history.id);
+        btn1.setAttribute("onclick", 'cancelOrder2(this.id);');
+        btn1.textContent = 'delete';
+
+        //
+        let btn2 = document.createElement('button');
+        btn2.setAttribute("class", "btn");
+        btn2.textContent = 'edit';
+
+        // apdend buttons to span
+        // sp.appendChild(btn1);
+        // sp.appendChild(btn2);
+
+        //
+        cols[7].appendChild(btn1);
+        cols[7].appendChild(btn2);
 
         add_to_table(destination, clone, 'order-' + i);
     }
@@ -531,19 +551,32 @@ function fetch_orders() {
     });
 }
 
-function ShowOrders(destination, orders) {
+function ShowOrders(destination, orders = Orders) {
     // empty the destination
     let tb = document.getElementById(destination);
+    let temp_name;
     while (tb.rows.length > 1) {
         tb.deleteRow(1);
     }
 
     let temp = document.querySelector("#order");
     let item_id_sub = 'item-';
+
     // items
     for (let i = 0; i < orders.length; i++) {
         let history = orders[i];
-        console.log(item_id_sub + history.item);
+
+        // now check that object has attribute
+        if (history.hasOwnProperty('item')) {
+            console.log(item_id_sub + history.item);
+            temp_name = item_id_sub + history.item;
+        } else if (history.hasOwnProperty('item_id')) {
+            temp_name = history.item_id;
+            console.log(temp_name);
+        }
+        if (history.hasOwnProperty('time')) {
+            history.created = history.time;
+        }
 
         //get the element from the template:
         let clone = document.importNode(temp.content, true);
@@ -553,18 +586,94 @@ function ShowOrders(destination, orders) {
 
         // assign value
         cols[0].textContent = history.id;
-        cols[1].textContent = item_id_sub + history.item;
-        cols[2].textContent = get_item_by_id(item_id_sub + history.item).name;
+        cols[1].textContent = temp_name;
+        cols[2].textContent = get_item_by_id(temp_name).name;
         cols[3].textContent = history.quantity;
         cols[4].textContent = history.location;
-        cols[5].textContent = history.created;
+        cols[5].textContent = history.status;
+        cols[6].textContent = history.created;
+        cols[7].textContent = '';
 
         btn = document.createElement('button');
         btn.setAttribute("class", "btn");
-        cols[6].appendChild(btn);
+        btn.setAttribute("id", "btn" + history.id);
+        btn.setAttribute("onclick", 'cancelOrder(this.id);');
+        btn.textContent = 'cancel';
+        cols[7].appendChild(btn);
 
         add_to_table(destination, clone, 'order-' + i);
     }
+
+}
+
+// delete the order
+async function deleteOrder(order_id) {
+    let data = {
+        order_id: order_id
+    };
+    let request_body = {
+        method: 'DELETE',
+        body: JSON.stringify(data),
+        headers: new Headers(
+            {
+                "Content-Type": "application/json",
+                "Authorization": 'Bearer ' + getCookie('auth'),
+            }
+        ),
+    };
+
+    let res = prompt("are you sure you want to delete the menu Item \n enter Yes to delete", "Yes");
+    if (res === "Yes") {
+        // make the request
+        await fetch_function_v3(urls.delete_order + data.order_id, request_body, "history_alerts").then(request_response => {
+            console.log(request_response);
+        }).finally(function () {
+            console.log("order deleted");
+            alerter("order deleted.", "history_alerts");
+        })
+    } else {
+        console.log("order not deleted!!!")
+    }
+
+
+}
+
+function cancelOrder(btn_id) {
+    let button = document.getElementById(btn_id);
+    let cell = button.parentNode;
+    let row = cell.parentNode;
+
+    // now remove the order from the list
+    let name = button.getAttribute('id');
+    let number = parseInt(name.substring(3));
+    Orders.splice(number - 1, 1);
+
+    // remove the row from the display
+    row.remove();
+
+}
+
+function cancelOrder2(btn_id) {
+    let button = document.getElementById(btn_id);
+    let cell = button.parentNode;
+    let row = cell.parentNode;
+
+    let order_id, cells;
+    cells = row.children;
+    order_id = cells[0].textContent;
+    order_id = parseInt(order_id);
+
+    // delete the order from the database
+    deleteOrder(order_id);
+
+
+    // now remove the order from the list
+    let name = button.getAttribute('id');
+    let number = parseInt(name.substring(3));
+
+
+    // remove the row from the display
+    row.remove();
 
 }
 
