@@ -632,10 +632,8 @@ async function deleteOrder(order_id) {
             alerter("order deleted.", "history_alerts");
         })
     } else {
-        console.log("order not deleted!!!")
+        throw new Error("Order Not deleted!!!");
     }
-
-
 }
 
 function cancelOrder(btn_id) {
@@ -650,7 +648,6 @@ function cancelOrder(btn_id) {
 
     // remove the row from the display
     row.remove();
-
 }
 
 function cancelOrder2(btn_id) {
@@ -664,17 +661,20 @@ function cancelOrder2(btn_id) {
     order_id = parseInt(order_id);
 
     // delete the order from the database
-    deleteOrder(order_id);
+    deleteOrder(order_id).then(function () {
+        // remove the row from the display
+        row.remove();
+    }).catch(function () {
+        console.log("Not deleted!!!")
+    });
 
+}
 
-    // now remove the order from the list
-    let name = button.getAttribute('id');
-    let number = parseInt(name.substring(3));
-
-
-    // remove the row from the display
-    row.remove();
-
+// log out the authenticated user
+function logOut() {
+    let token = getCookie('auth');
+    setCookie('auth', null, 0);
+    alert("Good bye . Thank you for choosing us")
 }
 
 
