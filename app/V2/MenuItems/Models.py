@@ -77,3 +77,14 @@ class MenuItems(Base):
         new_details = DB.execute_procedures('edit_menu_item', details)
 
         return new_details[0]
+
+    def add_menuitem_image(self, item_id, image_url):
+        """
+        add an image url to the database for an item
+        :param item_id:
+        :param image_url:
+        :return:
+        """
+        new_image = DB.execute_procedures('add_menu_item_image', (item_id, image_url))
+        self.image = new_image[0]
+        return self.image

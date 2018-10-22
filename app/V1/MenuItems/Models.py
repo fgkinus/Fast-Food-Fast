@@ -103,7 +103,7 @@ class MenuItem:
 class MenuItemSchema(Schema):
     id = fields.Int(dump_only=True)
     name = fields.Str()
-    image = fields.Str()
+    image = fields.Url()
     price = fields.Float()
     owner = fields.Str(dump_only=True)
     added = fields.Date(dump_only=True)

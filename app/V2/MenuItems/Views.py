@@ -29,12 +29,19 @@ class ViewAddMenuItems(Resource):
         data = Parsers().item.parse_args()
         data.update({'owner': user_details['id']})
 
+        # now append the image url to list for database storage
+        data['image'] = Utils.upload_image(data['image'])
+
         try:
             MenuItems().schema().load(data)
         except ValidationError as error:
             DB.logger.error(str(error))
             return {'message': str(error)}, getattr(error, 'code', 401)
         item = MenuItems().create_menu_item(data)
+
+        # Now add the image to the database
+        image = MenuItems().add_menuitem_image(item['id'], data['image'])
+        item.update({'image': image['image']})
 
         return MenuItems().schema().dump(item)
 

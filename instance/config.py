@@ -26,6 +26,7 @@ class Config(object):
     JWT_ACCESS_COOKIE_PATH = '/api/'
     JWT_REFRESH_COOKIE_PATH = '/token/refresh'
     JWT_ACCESS_TOKEN_EXPIRES = False
+    UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
 
 
 class DevelopmentConfig(Config):

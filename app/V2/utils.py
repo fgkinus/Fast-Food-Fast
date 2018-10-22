@@ -1,16 +1,10 @@
 import os
 
 from flask_restplus import abort
-import cloudinary as Cloud
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
 
 from app.V2 import DB
-
-# configure image storage
-Cloud.config.update = ({
-    'cloud_name': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'api_key': os.environ.get('CLOUDINARY_API_KEY'),
-    'api_secret': os.environ.get('CLOUDINARY_API_SECRET')
-})
 
 
 class Utils:
@@ -31,8 +25,11 @@ class Utils:
             abort(400, "The parameter was not  a valid number")
 
     @staticmethod
-    def upload_image():
+    def upload_image(image):
         """
         upload images
-        :return:
+        :return url:
         """
+        upload_result = upload(file=image)
+        url, options = cloudinary_url(upload_result['public_id'])
+        return url

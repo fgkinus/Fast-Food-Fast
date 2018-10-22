@@ -552,3 +552,24 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION add_menu_item_image(
+  item_id  varchar,
+  image_url varchar
+)
+  RETURNS setof tbl_menuitem_images AS $$
+DECLARE
+  rReturn tbl_menuitem_images;
+BEGIN
+  for rReturn in
+
+  INSERT INTO tbl_menuitem_images (image,item_id) VALUES (image_url,item_id)
+  RETURNING *
+
+  loop
+    return next rReturn;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;

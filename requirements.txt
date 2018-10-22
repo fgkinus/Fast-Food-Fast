@@ -19,6 +19,7 @@ flask-restplus==0.11.0
 flask-restplus-patched==0.1.4
 gunicorn==19.9.0
 humanfriendly==4.16.1
+cloudinary
 idna==2.7
 itsdangerous==0.24
 Jinja2==2.10
