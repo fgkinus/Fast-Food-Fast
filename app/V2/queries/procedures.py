@@ -493,6 +493,30 @@ END;
 $$
 LANGUAGE plpgsql;
     """,
+    """CREATE OR REPLACE FUNCTION get_order_status(
+o_id int
+)
+  RETURNS TABLE (
+  order_id int ,
+  description varchar
+  )
+AS $$
+DECLARE
+  var_r record;
+BEGIN
+  FOR var_r IN (SELECT st."order",ref.description from tbl_order_status st
+  inner join tbl_ref_status ref on st.status  = ref.id
+  where "order" = o_id)
+    loop
+    order_id := var_r."order";
+    description := var_r.description;
+    RETURN NEXT ;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+    """
+    ,
     """
     insert into tbl_users (username, email, firstname, secondname, surname, password, isadmin)
 VALUES ('admin',

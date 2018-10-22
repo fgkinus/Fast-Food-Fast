@@ -252,6 +252,12 @@ header nav li {
     opacity: 1;
 }
 
+/*style aler boxes in the content*/
+.tabcontent .alert_box {
+    color: white;
+    background-color: red;
+}
+
 /* Go from zero to full opacity */
 @keyframes fadeEffect {
     from {
@@ -489,6 +495,7 @@ th {
     width: 80%; /* Could be more or less, depending on screen size */
     opacity: 1;
 }
+
 .modal-content2 {
     /*background-color: #fefefe;*/
     margin: 25% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
@@ -593,6 +600,7 @@ th {
 .closebtn:hover {
     color: red;
 }
+
 /*courtesy of w3 schools*/
 .loader {
     border-radius: 50%;
@@ -624,3 +632,15 @@ th {
     }
 }
 
+.btn1 {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}

@@ -82,28 +82,36 @@ create unique index if not exists tbl_ref_status_id_uindex
 
 create table if not exists tbl_order_status
 (
-  id       serial  not null
-    constraint tbl_order_status_pkey
-    primary key,
-  "order"  integer not null
-    constraint tbl_order_status_tbl_orders_id_fk
-    references tbl_orders
-    on update cascade on delete cascade,
-  status   integer
-    constraint tbl_order_status_tbl_ref_status_id_fk
-    references tbl_ref_status
-    on update cascade on delete cascade,
-  created  timestamp default now(),
-  modified timestamp,
-  owner    integer not null
-    constraint tbl_order_status_tbl_users_id_fk
-    references tbl_users
-    on update cascade on delete cascade
-);
+	id serial not null
+		constraint tbl_order_status_pkey
+			primary key,
+	"order" integer not null
+		constraint tbl_order_status_tbl_orders_id_fk
+			references tbl_orders
+				on update cascade on delete cascade,
+	status integer
+		constraint tbl_order_status_tbl_ref_status_id_fk
+			references tbl_ref_status
+				on update cascade on delete cascade,
+	created timestamp default now(),
+	modified timestamp,
+	owner integer not null
+		constraint tbl_order_status_tbl_users_id_fk
+			references tbl_users
+				on update cascade on delete cascade
+)
+;
 
 
 create unique index if not exists tbl_order_status_id_uindex
-  on tbl_order_status (id);
+	on tbl_order_status (id)
+;
+
+create unique index if not exists tbl_order_status_order_uindex
+	on tbl_order_status ("order")
+;
+
+
 
 create table if not exists tbl_user_images
 (

@@ -36,12 +36,18 @@ class Order(Base):
             order = DB.execute_procedures('get_order_item_by_id', (order_id,))
             DB.logger.debug(order)
             self.details = order[0]
+            # now update the order status
+            st = dict(
+                status=self.get_order_status(self.details['id'])
+            )
+            self.details.update(st)
+
+            # return the response
             return self.details
         else:
             return self.details
 
-    @staticmethod
-    def get_all_orders():
+    def get_all_orders(self):
         """
         returns a list of all orders in the DB
         :return:
@@ -49,6 +55,14 @@ class Order(Base):
         orders = DB.execute_procedures('get_order_items', ())
         if len(orders) == 0:
             abort(400, "There are no orders to display")
+
+        # set order status
+        for order in orders:
+            st = dict(
+                status=self.get_order_status(order_id=order['id'])
+            )
+            order.update(st)
+
         return orders
 
     def delete_order(self, order_id):
@@ -133,7 +147,7 @@ class Order(Base):
         #     "SELECT * from set_order_status({0},{1},{2})".format(order, response, owner))
         response = DB.execute_procedures('set_order_status', (order, response, owner))
         self.status = response[0]
-        self.details['status'] = response
+        self.details['status'] = self.status['status']
         return self.details
 
     def edit_order_status(self, order, response, owner):
@@ -148,5 +162,17 @@ class Order(Base):
         #     "SELECT * from set_order_status({0},{1},{2})".format(order, response, owner))
         response = DB.execute_procedures('edit_order_status', (order, response, owner))
         self.status = response[0]
-        self.details['status'] = response
+        self.details['status'] = response[0]['status']
         return self.details
+
+    def get_order_status(self, order_id):
+        """
+        get the order status for a specific order
+        :param order_id:
+        :return:
+        """
+        response = DB.execute_procedures('get_order_status', (order_id,))
+        if len(response) == 0:
+            return 'New'
+        self.status = response[0]['description']
+        return self.status

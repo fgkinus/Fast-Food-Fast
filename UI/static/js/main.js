@@ -69,6 +69,12 @@ function showContent(destination) {
 }
 
 async function showFoodlist(destination) {
+    // empty the destination
+    let tb = document.getElementById(destination);
+    let temp_name;
+    while (tb.rows.length > 1) {
+        tb.deleteRow(1);
+    }
     //get the template element:
     let temp = document.querySelector("#MenuItem");
 
@@ -151,9 +157,9 @@ function ShowOrders(destination) {
         cols[4].textContent = order.location;
         cols[5].textContent = order.time;
 
-        btn = document.createElement('button');
-        btn.setAttribute("class", "btn");
-        cols[6].appendChild(btn);
+        btn1 = document.createElement('button');
+        btn1.setAttribute("class", "btn");
+        cols[6].appendChild(btn1);
 
         add_to_table(destination, clone, 'order-' + i);
     }
@@ -231,6 +237,13 @@ function create_items(items_list) {
 
 // add orders to the Orders array
 function AddOrder(Id) {
+    // Verify a user iis authenticated to login
+    let token = getCookie('auth');
+    if (token === null || token === "") {
+        alert("Please login to proceed");
+        return
+    }
+
     let location;
     // prompt for location
     let quantity = prompt("Please enter your order quantity", '1');

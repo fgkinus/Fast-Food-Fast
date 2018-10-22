@@ -11,10 +11,15 @@ let urls = {
     "signup": domain + "/API/v2/auth/signup",
     'signup_admin': domain + "/API/v2/auth/register-admin",
     'add_order': domain + "/API/v2/orders/",
+    'edit_order': domain + "/API/v2/orders/",
     'delete_order': domain + "/API/v2/orders/",
-    'history': domain + "/API/v2/orders/history"
+    'history': domain + "/API/v2/orders/history",
+    'get_all_statuses': "/API/v2/orders/response"
 };
 
+let status_key;
+
+let order_responses;
 
 // declare the Objects here with their attributes
 // food items object
@@ -464,14 +469,14 @@ function ShowOrdersHistory(destination, History) {
 
         // add buttons
         let btn1 = document.createElement('button');
-        btn1.setAttribute("class", "btn");
+        btn1.setAttribute("class", "btn1");
         btn1.setAttribute("id", "his" + history.id);
         btn1.setAttribute("onclick", 'cancelOrder2(this.id);');
         btn1.textContent = 'delete';
 
         //
         let btn2 = document.createElement('button');
-        btn2.setAttribute("class", "btn");
+        btn2.setAttribute("class", "btn1");
         btn2.textContent = 'edit';
 
         // apdend buttons to span
@@ -540,11 +545,9 @@ function fetch_orders() {
     pop_up('popup-loader');
     // make the request to the sever
     fetch_function_v2(urls.add_order, request_body, "history_alerts").then(request_response => {
-        console.log(request_response);
-        console.log(request_response);
         let Orders = request_response.orders;
-
-        ShowOrders('List-prev-orders', Orders);
+        console.log(Orders);
+        ShowAllOrders('orders_list', Orders);
 
     }).finally(function () {
         close_pop_up('popup-loader');
@@ -565,6 +568,7 @@ function ShowOrders(destination, orders = Orders) {
     // items
     for (let i = 0; i < orders.length; i++) {
         let history = orders[i];
+        console.log(history);
 
         // now check that object has attribute
         if (history.hasOwnProperty('item')) {
@@ -594,12 +598,89 @@ function ShowOrders(destination, orders = Orders) {
         cols[6].textContent = history.created;
         cols[7].textContent = '';
 
-        btn = document.createElement('button');
-        btn.setAttribute("class", "btn");
-        btn.setAttribute("id", "btn" + history.id);
-        btn.setAttribute("onclick", 'cancelOrder(this.id);');
-        btn.textContent = 'cancel';
-        cols[7].appendChild(btn);
+        btn1 = document.createElement('button');
+        btn1.setAttribute("class", "btn");
+        btn1.setAttribute("id", "btn" + history.id);
+        btn1.setAttribute("onclick", 'cancelOrder(this.id);');
+        btn1.textContent = 'cancel';
+        cols[7].appendChild(btn1);
+
+        add_to_table(destination, clone, 'order-' + i);
+    }
+
+}
+
+function ShowAllOrders(destination, orders = Orders) {
+    // empty the destination
+    let tb = document.getElementById(destination);
+    let temp_name;
+    while (tb.rows.length > 1) {
+        tb.deleteRow(1);
+    }
+
+    let temp = document.querySelector("#order");
+    let item_id_sub = 'item-';
+
+    // items
+    for (let i = 0; i < orders.length; i++) {
+        let history = orders[i];
+        // console.log(history);
+
+        // now check that object has attribute
+        if (history.hasOwnProperty('item')) {
+            // console.log(item_id_sub + history.item);
+            temp_name = item_id_sub + history.item;
+        } else if (history.hasOwnProperty('item_id')) {
+            temp_name = history.item_id;
+            console.log(temp_name);
+        }
+        if (history.hasOwnProperty('time')) {
+            history.created = history.time;
+        }
+
+        //get the element from the template:
+        let clone = document.importNode(temp.content, true);
+        // get all table columns
+        let cols = clone.querySelectorAll("td");
+
+
+        // assign value
+        cols[0].textContent = history.id;
+        cols[1].textContent = temp_name;
+        cols[2].textContent = get_item_by_id(temp_name).name;
+        cols[3].textContent = history.quantity;
+        cols[4].textContent = history.location;
+        cols[5].textContent = history.status;
+        cols[6].textContent = history.created;
+        cols[7].textContent = '';
+
+        let sp = document.createElement('span');
+        sp.setAttribute("class", "three_buttons");
+
+        let btn1 = document.createElement('button');
+        btn1.setAttribute("class", "btn1");
+        btn1.setAttribute("id", "pro" + history.id);
+        btn1.setAttribute("onclick", 'submit_response(this.id);');
+        btn1.textContent = 'processing';
+
+        let btn2 = document.createElement('button');
+        btn2.setAttribute("class", "btn1");
+        btn2.setAttribute("id", "can" + history.id);
+        btn2.setAttribute("onclick", 'submit_response(this.id);');
+        btn2.textContent = 'cancel';
+
+        let btn3 = document.createElement('button');
+        btn3.setAttribute("class", "btn1");
+        btn3.setAttribute("id", "app" + history.id);
+        btn3.setAttribute("onclick", 'submit_response(this.id);');
+        btn3.textContent = 'approve';
+
+        cols[7].appendChild(btn1);
+        cols[7].appendChild(btn2);
+        cols[7].appendChild(btn3);
+
+
+        // cols[7].appendChild(sp);
 
         add_to_table(destination, clone, 'order-' + i);
     }
@@ -670,6 +751,7 @@ function cancelOrder2(btn_id) {
 
 }
 
+
 // log out the authenticated user
 function logOut() {
     let token = getCookie('auth');
@@ -677,6 +759,90 @@ function logOut() {
     alert("Good bye . Thank you for choosing us")
 }
 
+// fetch all order responses
+async function get_all_status() {
+    let request_body = {
+        method: 'GET',
+        headers: new Headers(
+            {
+                "Content-Type": "application/json",
+                "Authorization": 'Bearer ' + getCookie('auth'),
+            }
+        ),
+    };
+
+    // get urls
+    await fetch_function_v3(urls.get_all_statuses, request_body, "page_alerts").then(request_response => {
+        // console.log(request_response);
+        order_responses = request_response.responses;
+        // console.log(order_responses);
+    }).finally(function () {
+        console.log("all order status fetched!!!")
+    })
+}
+
+// get order_status by id
+function get_order_status_id(id) {
+    let response;
+    order_responses.forEach(function (res) {
+        if (res.id === id) {
+            response = res;
+        }
+    });
+    return response;
+}
+
+function get_order_status_desc(desc) {
+    let response;
+    order_responses.forEach(function (res) {
+        if (res.description === desc) {
+            response = res;
+        }
+    });
+    return response;
+}
+
+//submit response
+async function submit_response(btn_id) {
+    let button = document.getElementById(btn_id);
+    let cell = button.parentNode;
+    let row = cell.parentNode;
+
+    let order_id, cells;
+    cells = row.children;
+    order_id = cells[0].textContent;
+    order_id = parseInt(order_id);
+
+    // the request payload
+    let status = status_key[btn_id.substring(0, 3)];
+    let data = {
+        response: status,
+        order_id: order_id
+    };
+    console.log(data);
+
+    let request_body = {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: new Headers(
+            {
+                "Content-Type": "application/json",
+                "Authorization": 'Bearer ' + getCookie('auth'),
+            }
+        ),
+    };
+
+    pop_up('popup-loader');
+    await fetch_function_v3(urls.edit_order + data.order_id, request_body, "page_alerts").then(request_response => {
+        console.log(request_response);
+
+    }).finally(function () {
+        //close modal
+        close_pop_up('popup-loader');
+        fetch_orders()
+    });
+
+}
 
 // call onsubmit event handlers scripts
 try {
@@ -738,5 +904,19 @@ try {
     };
 }
 catch (e) {
+    console.log()
+}
+
+try {
+    window.onload = function () {
+        get_all_status().then(function () {
+            status_key = {
+                'pro': get_order_status_desc('Processing').id,
+                'app': get_order_status_desc("Approved").id,
+                'can': get_order_status_desc("Cancelled").id
+            };
+        });
+    }
+} catch (e) {
     console.log()
 }
