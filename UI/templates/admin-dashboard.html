@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
-<body>
+<body onload="status();">
 
 <div class="bg2">
     <header class="heading">
@@ -39,7 +39,7 @@
         <div id="food-items-list" class="tabcontent">
             <div>
                 <h3>Menu</h3>
-                <button class="btn tooltip" aria-label="control_point"
+                <button class="btn1 tooltip" aria-label="control_point"
                         onclick="pop_up('popup')">
                     <span class="material-icons">add</span>
                     <span class="tooltiptext">add new item</span>
@@ -53,7 +53,7 @@
                     <th>image</th>
                     <th>name</th>
                     <th>price</th>
-                    <th>edit</th>
+                    <th>Action</th>
                     </thead>
                     <tbody>
 
@@ -103,7 +103,7 @@
         <div id="add_item_alerts">
             <!--display error messages fro API here-->
         </div>
-        <form action="#" id="add_menuitem_form">
+        <form action="#" id="add_menuitem_form" accept="image/jpeg">
             <div class="input">
                 <div class="input-addon">
                     <i class="material-icons">input</i>
@@ -125,14 +125,14 @@
                 </div>
                 <div class="upload-btn-wrapper">
                     <a class="btn">Upload an image file</a>
-                    <input type="file" name="myfile"/>
+                    <input type="file" id="menu_item_image_upload" required name="myfile"/>
                 </div>
             </div>
             <div class="clearfix"></div>
             <div class="remember-me"></div>
             <div class="remember-me"></div>
             <div class="remember-me"></div>
-            <input type="submit" value="Add"/>
+            <input type="button" class="btn1" value="Add" id="submit_item"/>
         </form>
     </div>
 </div>
@@ -169,7 +169,7 @@
                 </div>
                 <div class="upload-btn-wrapper">
                     <a class="btn">Upload an image file</a>
-                    <input type="file" name="myfile"/>
+                    <input type="file" name="myfile" id="menu_item_image_upload2"/>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -190,13 +190,17 @@
 <div>
     <template id="MenuItem">
         <td>item_id</td>
-        <td>image</td>
+        <td></td>
         <td>name</td>
         <td>price</td>
         <td>
-            <button class="btn tooltip" aria-label="control_point" onclick="pop_up('popup2')">
-                <span class="mdc-button__icon material-icons">edit</span>
+            <button class="btn1 tooltip" aria-label="control_point" onclick="pop_up('popup2')">
+                <span class="material-icons">edit</span>
                 <span class="tooltiptext">edit</span>
+            </button>
+            <button class="btn1 tooltip" aria-label="control_point">
+                <span class="material-icons">delete</span>
+                <span class="tooltiptext">delete Menu Item</span>
             </button>
         </td>
     </template>

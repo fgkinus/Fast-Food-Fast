@@ -96,8 +96,10 @@ async function showFoodlist(destination) {
                 let clone = document.importNode(temp.content, true);
                 // create a new node based on the item
                 let cols = clone.querySelectorAll("td");
+                let btns = clone.querySelectorAll("button");
 
-                cols[0].textContent = i;
+
+                cols[0].textContent = i.toString();
 
                 let image = document.createElement('img');
                 image.src = items[keys[i]].image;
@@ -109,10 +111,14 @@ async function showFoodlist(destination) {
                 let cost = cols[3];
                 cost.textContent = items[keys[i]].price;
 
-                let button = document.createElement("button");
-                button.setAttribute("id", 'item-' + i);
-                button.setAttribute('onClick', 'pop_up("popup2")');
-                cols[4].appendChild(button);
+                // let button = document.createElement("button");
+                // button.setAttribute("id", 'item-' + i);
+                // button.setAttribute('onClick', 'pop_up("popup2")');
+                // cols[4].appendChild(button);
+                btns[0].setAttribute('id', 'edi' + items[keys[i]].id);
+                btns[1].setAttribute('id', 'dit' + items[keys[i]].id);
+                btns[1].setAttribute('onclick', 'call_deletemenuitem(this.id)');
+
                 //append item to list
                 add_to_table(destination, clone, 'item-' + i);
 
@@ -163,7 +169,6 @@ function ShowOrders(destination) {
 
         add_to_table(destination, clone, 'order-' + i);
     }
-
 }
 
 // append items to list

@@ -136,7 +136,7 @@ create table if not exists tbl_menuitem_images
   id      serial  not null
     constraint tbl_menuitem_images_pkey
     primary key,
-  image   bytea   not null,
+  image   varchar   not null,
   item_id integer not null
     constraint tbl_menuitem_images_tbl_menuitems_id_fk
     references tbl_menuitems

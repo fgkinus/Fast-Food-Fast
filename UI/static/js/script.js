@@ -14,7 +14,8 @@ let urls = {
     'edit_order': domain + "/API/v2/orders/",
     'delete_order': domain + "/API/v2/orders/",
     'history': domain + "/API/v2/orders/history",
-    'get_all_statuses': "/API/v2/orders/response"
+    'get_all_statuses': domain + "/API/v2/orders/response",
+    'delete_menuitem': domain + "/API/v2/menu/",
 };
 
 let status_key;
@@ -180,10 +181,13 @@ async function showMenuList(destination, alerts_destination) {
     await fetch_function_v2(urls.menulist, request_body, alerts_destination).then((data) => {
         // items
         let items = create_items(data.items);
+        console.log(items);
         foodItems = data.items;
         // console.log(foodItems);
         let keys = Object.keys(items);
         console.log(items);
+        console.log(keys);
+
 
         //for each item in image folder
         for (let i = 0; i < keys.length; i++) {
@@ -221,12 +225,17 @@ function create_items(items_list) {
     items_list.forEach(item => {
         let name = item.name;
         let price = item.price;
-        let url = "../static/img/" + name + ".jpg";
+        let url;
+        if (item.hasOwnProperty('image')) {
+            url = item.image;
+        } else {
+            url = "../static/img/" + name + ".jpg";
+        }
+
         let new_item = new FoodItem(item.id, name, price, url);
         items.push(new_item)
     });
     return items;
-
 }
 
 // authenticate and register new users
@@ -494,28 +503,37 @@ function ShowOrdersHistory(destination, History) {
 
 //add new menu item
 async function add_menu_item() {
+    let formData = new FormData();
 
     let name = document.getElementById('item-name');
     let price = document.getElementById('price');
+    let image = document.getElementById('menu_item_image_upload');
+    // image.enctype = "multipart/form-data";
 
     let data = {
         name: name.value,
-        price: price.value
+        price: price.value,
+        image: image.files[0]
     };
+
+    formData.append('name', data.name);
+    formData.append('price', data.price);
+    formData.append('image', data.image);
+
+    console.log(formData);
 
     let request_body = {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: formData,
         headers: new Headers(
             {
-                "Content-Type": "application/json",
+                // "accept ": "application/json",
+                // "Content-Type": "application/x-www-form-urlencoded",
                 "Authorization": 'Bearer ' + getCookie('auth'),
             }
         ),
     };
     // create an acess token cookie
-    console.log(data);
-    console.log(request_body);
 
     pop_up('popup-loader');
     await fetch_function_v3(urls.menulist, request_body, "add_item_alerts").then(request_response => {
@@ -778,6 +796,8 @@ async function get_all_status() {
         // console.log(order_responses);
     }).finally(function () {
         console.log("all order status fetched!!!")
+    }).catch(function (response) {
+        console.log(response)
     })
 }
 
@@ -893,10 +913,14 @@ catch (e) {
 }
 
 try {
-    document.querySelector('#add_menuitem_form').onsubmit = function () {
+    document.querySelector('#submit_item').onclick = function () {
         try {
             console.log("attempting to add menuitem");
-            add_menu_item();
+
+            add_menu_item().then(function () {
+                alerter("New item Added", "add_item_alerts")
+            });
+
         } catch (e) {
             // just trying again for the sake of it
             add_menu_item();
@@ -907,8 +931,8 @@ catch (e) {
     console.log()
 }
 
-try {
-    window.onload = function () {
+function status() {
+    try {
         get_all_status().then(function () {
             status_key = {
                 'pro': get_order_status_desc('Processing').id,
@@ -916,7 +940,100 @@ try {
                 'can': get_order_status_desc("Cancelled").id
             };
         });
+    } catch (e) {
+        console.log()
     }
-} catch (e) {
-    console.log()
+}
+
+// delete menu item
+// delete the order
+function call_deletemenuitem(btn_id) {
+    let button = document.getElementById(btn_id);
+    let cell = button.parentNode;
+    let row = cell.parentNode;
+
+    let order_id, cells;
+    cells = row.children;
+    order_id = btn_id.substring(3);
+    order_id = parseInt(order_id);
+
+    deleteMeniItem(order_id).then(function () {
+        row.remove()
+    })
+
+};
+
+async function deleteMeniItem(order_id) {
+    let data = {
+        item_id: order_id
+    };
+    let request_body = {
+        method: 'DELETE',
+        body: JSON.stringify(data),
+        headers: new Headers(
+            {
+                "Content-Type": "application/json",
+                "Authorization": 'Bearer ' + getCookie('auth'),
+            }
+        ),
+    };
+
+    let res = prompt("are you sure you want to delete the menu Item \n enter Yes to delete", "Yes");
+    if (res === "Yes") {
+        // make the request
+        await fetch_function_v3(urls.delete_menuitem + data.item_id, request_body, "page_alerts").then(request_response => {
+            console.log(request_response);
+        }).finally(function () {
+            console.log("item deleted");
+            alerter("item deleted.", "page_alerts");
+        })
+    } else {
+        throw new Error("Order Not deleted!!!");
+    }
+}
+
+//edit meu items
+async function editMenuItems() {
+    let formData = new FormData();
+
+    let name = document.getElementById('item-name2');
+    let price = document.getElementById('price2');
+    let image = document.getElementById('menu_item_image_upload2');
+    // image.enctype = "multipart/form-data";
+
+    let data = {
+        name: name.value,
+        price: price.value,
+        image: image.files[0]
+    };
+
+    formData.append('name', data.name);
+    formData.append('price', data.price);
+    formData.append('image', data.image);
+
+    console.log(formData);
+
+    let request_body = {
+        method: 'PUT',
+        body: formData,
+        headers: new Headers(
+            {
+                // "accept ": "application/json",
+                // "Content-Type": "application/x-www-form-urlencoded",
+                "Authorization": 'Bearer ' + getCookie('auth'),
+            }
+        ),
+    };
+    // create an acess token cookie
+
+    pop_up('popup-loader');
+    await fetch_function_v3(urls.menulist, request_body, "add_item_alerts").then(request_response => {
+        console.log(request_response);
+
+    }).finally(function () {
+        //close modal
+        close_pop_up('popup-loader');
+    });
+
+    
 }

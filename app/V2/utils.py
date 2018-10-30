@@ -30,6 +30,10 @@ class Utils:
         upload images
         :return url:
         """
-        upload_result = upload(file=image)
-        url, options = cloudinary_url(upload_result['public_id'])
-        return url
+
+        try:
+            upload_result = upload(file=image)
+            url, options = cloudinary_url(upload_result['public_id'])
+            return url
+        except:
+            abort(503, "The cloud image server storage is not available ")

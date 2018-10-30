@@ -23,8 +23,7 @@ class MenuItems(Base):
         self.item = item[0]
         return self.item
 
-    @staticmethod
-    def get_specific_menu_item(id_no):
+    def get_specific_menu_item(self, id_no):
         """
         accept id_o return item
         :param id_no:
@@ -34,15 +33,16 @@ class MenuItems(Base):
         if len(item) == 0:
             abort(400, "The Menu Item was not found")
         else:
+            item = self.get_menu_item_image(item)
             return item[0]
 
-    @staticmethod
-    def get_all_menu_items():
+    def get_all_menu_items(self):
         """Get all menu items"""
         item = DB.execute_procedures('get_menu_items')
         if len(item) == 0:
             abort(400, "There are no menu items to display!!!")
         else:
+            item = self.get_menu_item_image(item)
             return item
 
     @staticmethod
@@ -88,3 +88,33 @@ class MenuItems(Base):
         new_image = DB.execute_procedures('add_menu_item_image', (item_id, image_url))
         self.image = new_image[0]
         return self.image
+
+    @staticmethod
+    def fetch_image(item_id):
+        """
+        fetch menu item image if exist
+        :param item_id:
+        :return image_url:
+        """
+        image = DB.execute_procedures("get_menuitem_image", (item_id,))
+        DB.logger.debug("image {0}".format(image))
+        if len(image) > 0:
+            return image[0]
+        else:
+            return False
+
+    def get_menu_item_image(self, items):
+        """
+        fetch the image url fom the database and append o return object
+        :param items:
+        :return items:
+        """
+
+        for item in items:
+            image = self.fetch_image(item['id'])
+            if image is not False:
+                item.update(dict(
+                    image=image['image_url']
+                ))
+
+        return items

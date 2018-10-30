@@ -516,8 +516,9 @@ END;
 $$
 LANGUAGE plpgsql;
     """,
-    """CREATE OR REPLACE FUNCTION add_menu_item_image(
-  item_id  varchar,
+    """
+    CREATE OR REPLACE FUNCTION add_menu_item_image(
+  item_id  int,
   image_url varchar
 )
   RETURNS setof tbl_menuitem_images AS $$
@@ -535,7 +536,31 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-    """    ,
+    """,
+    """
+    CREATE OR REPLACE FUNCTION get_menuitem_image(
+i_id int
+)
+  RETURNS TABLE (
+  item int ,
+  image_url varchar
+  )
+AS $$
+DECLARE
+  var_r record;
+BEGIN
+  FOR var_r IN (
+  SELECT item_id,image FROM tbl_menuitem_images where item_id = i_id
+  )
+    loop
+    item := var_r.item_id;
+    image_url := var_r.image;
+    RETURN NEXT ;
+  end loop;
+END;
+$$
+LANGUAGE plpgsql;
+    """
     """
     insert into tbl_users (username, email, firstname, secondname, surname, password, isadmin)
 VALUES ('admin',
