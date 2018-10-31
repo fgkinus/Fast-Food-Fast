@@ -1,0 +1,15 @@
+{
+  "name": "Fast-Food-Fast",
+  "version": "1.0.0",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "mocha": "*"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}

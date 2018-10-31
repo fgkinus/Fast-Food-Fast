@@ -138,6 +138,7 @@ function setCookie(cname, cvalue, exdays) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
+
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -963,6 +964,22 @@ function call_deletemenuitem(btn_id) {
 
 };
 
+function call_editmenuitem(btn_id) {
+    let button = document.getElementById(btn_id);
+    let cell = button.parentNode;
+    let row = cell.parentNode;
+
+    let item_id, cells;
+    cells = row.children;
+    item_id = btn_id.substring(3);
+    item_id = parseInt(item_id);
+
+    editMenuItems(item_id).then(function () {
+        alerter("Menu Item Modified",'page_alerts')
+    })
+
+};
+
 async function deleteMeniItem(order_id) {
     let data = {
         item_id: order_id
@@ -993,7 +1010,7 @@ async function deleteMeniItem(order_id) {
 }
 
 //edit meu items
-async function editMenuItems() {
+async function editMenuItems(item) {
     let formData = new FormData();
 
     let name = document.getElementById('item-name2');
@@ -1002,11 +1019,13 @@ async function editMenuItems() {
     // image.enctype = "multipart/form-data";
 
     let data = {
+        item_id: item,
         name: name.value,
         price: price.value,
         image: image.files[0]
     };
 
+    formData.append('item_id', data.item_id);
     formData.append('name', data.name);
     formData.append('price', data.price);
     formData.append('image', data.image);
@@ -1024,7 +1043,7 @@ async function editMenuItems() {
             }
         ),
     };
-    // create an acess token cookie
+    // create an access token cookie
 
     pop_up('popup-loader');
     await fetch_function_v3(urls.menulist, request_body, "add_item_alerts").then(request_response => {
@@ -1035,5 +1054,14 @@ async function editMenuItems() {
         close_pop_up('popup-loader');
     });
 
-    
 }
+
+function sum(a, b) {
+    return a+b;
+};
+
+// export functions
+module.exports = {
+    sum,
+    getCookie
+};
