@@ -2,14 +2,17 @@
   "name": "Fast-Food-Fast",
   "version": "1.0.0",
   "dependencies": {
-    "chai": "^4.2.0",
+    "lodash": "^4.17.11",
+    "puppeteer": "^1.10.0",
     "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "devDependencies": {
-    "chai": "*",
-    "mocha": "*"
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "nyc mocha --recursive test",
+    "server": "http-server src"
   }
 }

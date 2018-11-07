@@ -1063,5 +1063,7 @@ function sum(a, b) {
 // export functions
 module.exports = {
     sum,
-    getCookie
+    getCookie,
+    urls,
+    setCookie
 };
